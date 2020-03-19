@@ -5,11 +5,13 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Login</title>
+<title>Register</title>
 </head>
 <body>
-<h3>Login page</h3>
-	<sf:form action="login" method="post" modelAttribute="user">
+
+<h3>Register Page</h3>
+
+	<sf:form action="register" method="post" modelAttribute="user">
 		<sf:input path="username" placeholder="Username"/>
 		<sf:input path="password" type="password" placeholder="Password"/>
 		<input type="submit" value="login"/>	
