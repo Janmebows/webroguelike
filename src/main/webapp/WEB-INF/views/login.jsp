@@ -3,11 +3,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Index page</title>
-
+<meta charset="ISO-8859-1">
+<title>Login</title>
 </head>
 <body>
-<h1>Howdy</h1>
 
 </body>
 </html>
