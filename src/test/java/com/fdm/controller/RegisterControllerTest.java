@@ -9,7 +9,7 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
 import org.springframework.ui.Model;
 
-import com.fdm.model.User;
+import com.fdm.model.Account;
 
 public class RegisterControllerTest {
 	
@@ -30,7 +30,7 @@ public class RegisterControllerTest {
 	@Test
 	public void when_getRequestForRegister_withActiveSession_thenReturnHome() {
 		
-		when(mockSession.getAttribute("activeUser")).thenReturn(new User());
+		when(mockSession.getAttribute("activeUser")).thenReturn(new Account());
 
 		String nextPage = controller.getRegister(mockSession,mockModel);
 		verify(mockSession,times(1)).getAttribute("activeUser");
