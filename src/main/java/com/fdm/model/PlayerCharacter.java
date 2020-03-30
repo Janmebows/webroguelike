@@ -39,7 +39,14 @@ public class PlayerCharacter {
 	public String toString() {
 		return "PlayerCharacter [characterName=" + characterName + ", x=" + x + ", y=" + y + "]";
 	}
-
+	
+	public void UpdatePosition(int x, int y) {
+		this.x = x;
+		this.y = y;
+	}
+	public boolean isAtPosition(int x, int y) {
+		return (this.x ==x) && (this.y==y);
+	}
 	// position
 	int x;
 	int y;
