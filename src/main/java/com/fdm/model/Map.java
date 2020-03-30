@@ -1,6 +1,9 @@
 package com.fdm.model;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.Table;
 
 import org.springframework.stereotype.Component;
@@ -9,15 +12,19 @@ import org.springframework.stereotype.Component;
 @Entity
 @Table(name = "MAPS")
 public class Map {
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private int id;
 	// The map is defined such that 0,0 is the TOP LEFT CORNER
-	public static final int XMAX = 50;
-	public static final int YMAX = 20;
+	public static final int XMAX = 20;
+	public static final int YMAX = 10;
 
 	// its will correspond to cell types for now - we may move this to a class
 	// 1 . walls
 	// 0 . passable
 	int[][] map = new int[XMAX][YMAX];
-	PlayerCharacter character = new PlayerCharacter("Janme", 10, 10);
+	//PlayerCharacter character = new PlayerCharacter("Janme", 6, 2, new Account());
 
 	Map() {
 		makeMap();
@@ -32,7 +39,7 @@ public class Map {
 		}
 	}
 
-	public int getCell(int x, int y) {
+	public int get(int x, int y) {
 		return map[x][y];
 	}
 
@@ -47,10 +54,19 @@ public class Map {
 	}
 
 	public void print(int x, int y) {
-		if (character.isAtPosition(x, y))
+		Enemy enemy = new Enemy("WALT",3,3);
+		if (enemy.isAtPosition(x, y))
 			System.out.print(MapDrawingConstants.PLAYER_SYMBOL);
 		else {
 			System.out.print(MapDrawingConstants.charFromValue(map[x][y]));
 		}
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void getId(int id) {
+		this.id = id;
 	}
 }

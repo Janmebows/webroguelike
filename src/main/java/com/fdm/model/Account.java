@@ -1,13 +1,6 @@
 package com.fdm.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-import javax.persistence.Transient;
+import javax.persistence.*;
 
 import org.springframework.stereotype.Component;
 
@@ -29,9 +22,16 @@ public class Account {
 		this.confirmPassword = confirmPassword;
 	}
 
-	@OneToOne
-	@JoinColumn(name = "CHARACTERID")
+	@OneToOne//(mappedBy="owner")
 	PlayerCharacter playerCharacter;
+
+	public PlayerCharacter getPlayerCharacter() {
+		return playerCharacter;
+	}
+
+	public void setPlayerCharacter(PlayerCharacter playerCharacter) {
+		this.playerCharacter = playerCharacter;
+	}
 
 	public Account() {
 		super();

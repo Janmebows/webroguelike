@@ -1,55 +1,36 @@
 package com.fdm.model;
 
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import org.springframework.stereotype.Component;
 
 @Component
 @Entity
-@Table(name = "CHARACTERS")
-public class PlayerCharacter {
-	@OneToOne
-	@JoinColumn(name = "ACCOUNTID")
+public class PlayerCharacter extends Actor {
+
+	@OneToOne(mappedBy="playerCharacter")
 	Account owner;
-	String characterName;
 
 	public PlayerCharacter() {
 		super();
 	}
 
-
-
-	public PlayerCharacter(String characterName, int x, int y) {
+	public PlayerCharacter(String characterName, int x, int y, Account owner) {
 		super();
 		this.characterName = characterName;
 		this.x = x;
 		this.y = y;
+		this.owner = owner;
 	}
 
-
-
-	public PlayerCharacter(String name) {
-		this(name, 0, 0);
+	public PlayerCharacter(String name, Account owner) {
+		this(name, 0, 0, owner);
 	}
 
 	@Override
 	public String toString() {
 		return "PlayerCharacter [characterName=" + characterName + ", x=" + x + ", y=" + y + "]";
 	}
-	
-	public void UpdatePosition(int x, int y) {
-		this.x = x;
-		this.y = y;
-	}
-	public boolean isAtPosition(int x, int y) {
-		return (this.x ==x) && (this.y==y);
-	}
-	// position
-	int x;
-	int y;
 
 	public Account getOwner() {
 		return owner;
@@ -65,21 +46,5 @@ public class PlayerCharacter {
 
 	public void setCharacterName(String characterName) {
 		this.characterName = characterName;
-	}
-
-	public int getX() {
-		return x;
-	}
-
-	public void setX(int x) {
-		this.x = x;
-	}
-
-	public int getY() {
-		return y;
-	}
-
-	public void setY(int y) {
-		this.y = y;
 	}
 }
