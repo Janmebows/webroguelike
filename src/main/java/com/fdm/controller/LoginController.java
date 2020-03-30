@@ -24,7 +24,7 @@ public class LoginController {
 
 	@GetMapping("/login")
 	public String getLogin(HttpSession session, Model model) {
-		if (session.getAttribute("user") != null)
+		if (session.getAttribute("account") != null)
 			return "home";
 		model.addAttribute("account", new Account());
 		return "login";
@@ -33,14 +33,14 @@ public class LoginController {
 	@PostMapping("/login")
 	public String processLogin(HttpSession session, @ModelAttribute Account account) {
 		System.out.println("account=" + account);
-		List<Account> users = accountRepository.findByUsernameAndPassword(account.getUsername(), account.getPassword());
-		if (users.isEmpty())
+		List<Account> accounts = accountRepository.findByUsernameAndPassword(account.getUsername(), account.getPassword());
+		if (accounts.isEmpty())
 			return "loginFailed";
 		else {
-			if (users.size() > 1)
+			if (accounts.size() > 1)
 				return "loginFailed";
 			else {
-				Account currentAccount = users.get(0);
+				Account currentAccount = accounts.get(0);
 
 				session.setAttribute("account", currentAccount);
 				return "home";
