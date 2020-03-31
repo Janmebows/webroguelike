@@ -1,6 +1,6 @@
 package com.fdm.model;
 
-import org.junit.Test;
+import static org.junit.Test;
 
 public class MapTest {
 	
