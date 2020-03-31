@@ -1,11 +1,6 @@
 package com.fdm.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
-import com.fdm.dal.ActorRepository;
-import com.fdm.model.Actor;
 import com.fdm.model.Direction;
-import com.fdm.model.Enemy;
 import com.fdm.model.Map;
 import com.fdm.model.MapDrawingConstants;
 import com.fdm.model.PlayerCharacter;
@@ -47,6 +42,7 @@ public class PlayerMovementController {
 	}
 	
 	public Direction processInput(String input) {
+		//currently using wasd.
 		switch (input) {
 		case "w":
 			return Direction.UP;

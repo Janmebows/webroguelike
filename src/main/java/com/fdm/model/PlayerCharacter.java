@@ -36,31 +36,30 @@ public class PlayerCharacter extends Actor {
 		
 		switch (direction) {
 		case DOWN:
-			if(map.map[x][y + 1] == 0) {
+			if(map.get(x, y + 1) == 0) {
 				this.UpdatePosition(x, y + 1);
 				return true;
 			}
 			break;
 		case UP:
-			if(map.map[x][y - 1] == 0) {
+			if(map.get(x, y - 1) == 0) {
 				this.UpdatePosition(x, y - 1);
 				return true;
 			}
 			break;
 		case LEFT:
-			if(map.map[x - 1][y] == 0) {
+			if(map.get(x - 1, y) == 0) {
 				this.UpdatePosition(x - 1, y);
 				return true;
 			}	
 			break;
 		case RIGHT:
-			if(map.map[x + 1][y] == 0) {
+			if(map.get(x + 1, y) == 0) {
 				this.UpdatePosition(x + 1, y);
 				return true;
 			}
 			break;
 		}
-
 		return false;
 	}
 

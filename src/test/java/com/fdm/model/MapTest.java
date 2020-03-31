@@ -22,9 +22,9 @@ public class MapTest {
 	
 	@Test
 	public void test_map_is_right_size() {
-		assertEquals(map.XMAX, map.map.length);
+		assertEquals(map.XMAX, map.getMap().length);
 		for(int i = 0; i < map.XMAX; i ++) {
-			assertEquals(map.YMAX, map.map[i].length);
+			assertEquals(map.YMAX, map.getMap()[i].length);
 		}
 	}
 	
