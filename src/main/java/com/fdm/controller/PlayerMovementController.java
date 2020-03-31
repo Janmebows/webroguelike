@@ -1,6 +1,12 @@
 package com.fdm.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import com.fdm.model.Actor;
 import com.fdm.model.Direction;
+import com.fdm.model.Enemy;
 import com.fdm.model.Map;
 import com.fdm.model.MapDrawingConstants;
 import com.fdm.model.PlayerCharacter;
@@ -11,6 +17,7 @@ public class PlayerMovementController {
 	
 	Map map;
 	PlayerCharacter playerCharacter;
+	List<Actor> enemyList;
 	private IView iView;
 	boolean isRunning = true;
 	
@@ -20,6 +27,9 @@ public class PlayerMovementController {
 		this.map = map;
 		this.playerCharacter = playerCharacter;
 		this.iView = iView;
+		this.enemyList = new ArrayList<Actor>();
+		Actor enemy = new Enemy("hi", 2, 4);
+		enemyList.add(enemy);
 	}
 
 	public void handle() {
@@ -66,8 +76,11 @@ public class PlayerMovementController {
 	}
 
 	public void print(int x, int y) {
+		boolean enemyNotAtPosition = enemyList.stream().filter(enemy -> enemy.isAtPosition(x, y)).collect(Collectors.toList()).isEmpty();
 		if (playerCharacter.isAtPosition(x, y)) {
 			System.out.print(MapDrawingConstants.PLAYER_SYMBOL);
+		} else if (!enemyNotAtPosition){
+			System.out.print(MapDrawingConstants.ENEMY_SYMBOL);
 		} else {
 			System.out.print(MapDrawingConstants.charFromValue(map.get(x,y)));
 		}
