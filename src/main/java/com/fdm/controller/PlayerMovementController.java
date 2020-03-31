@@ -46,10 +46,9 @@ public class PlayerMovementController {
 		}
 	}
 	
-	private Direction processInput(String input) {
+	public Direction processInput(String input) {
 		switch (input) {
 		case "w":
-			System.out.println("w");
 			return Direction.UP;
 		case "s":
 			return Direction.DOWN;
@@ -65,17 +64,16 @@ public class PlayerMovementController {
 		for (int j = 0; j < map.YMAX; ++j) {
 			for (int i = 0; i < map.XMAX; ++i) {
 				print(i, j);
-
 			}
 			System.out.println();
 		}
 	}
 
 	public void print(int x, int y) {
-		if (playerCharacter.isAtPosition(x, y))
+		if (playerCharacter.isAtPosition(x, y)) {
 			System.out.print(MapDrawingConstants.PLAYER_SYMBOL);
-		else {
-			System.out.print(MapDrawingConstants.charFromValue(map.map[x][y]));
+		} else {
+			System.out.print(MapDrawingConstants.charFromValue(map.get(x,y)));
 		}
 	}
 }

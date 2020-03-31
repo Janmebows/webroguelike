@@ -29,36 +29,33 @@ public class PlayerCharacter extends Actor {
 	}
 
 	public PlayerCharacter(String name, Account owner) {
-		this(name, 0, 0, owner);
+		this(name, 1, 1, owner);
 	}
 
 	public boolean moveChar(Direction direction) {
-
-		int xPos = this.getX();
-		int yPos = this.getY();
 		
 		switch (direction) {
 		case DOWN:
-			if(map.map[xPos][yPos + 1] == 0) {
-				this.UpdatePosition(xPos, yPos + 1);
+			if(map.map[x][y + 1] == 0) {
+				this.UpdatePosition(x, y + 1);
 				return true;
 			}
 			break;
 		case UP:
-			if(map.map[xPos][yPos - 1] == 0) {
-				this.UpdatePosition(xPos, yPos - 1);
+			if(map.map[x][y - 1] == 0) {
+				this.UpdatePosition(x, y - 1);
 				return true;
 			}
 			break;
 		case LEFT:
-			if(map.map[xPos - 1][yPos] == 0) {
-				this.UpdatePosition(xPos - 1, yPos);
+			if(map.map[x - 1][y] == 0) {
+				this.UpdatePosition(x - 1, y);
 				return true;
 			}	
 			break;
 		case RIGHT:
-			if(map.map[xPos + 1][yPos] == 0) {
-				this.UpdatePosition(xPos + 1, yPos);
+			if(map.map[x + 1][y] == 0) {
+				this.UpdatePosition(x + 1, y);
 				return true;
 			}
 			break;
