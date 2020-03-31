@@ -4,6 +4,7 @@ public final class MapDrawingConstants {
 	public final static char PLAYER_SYMBOL = '@';
 	public final static char EMPTY_SYMBOL = '.';
 	public final static char WALL_SYMBOL = '|';
+	public static final char ENEMY_SYMBOL = '#';
 	
 	
 	

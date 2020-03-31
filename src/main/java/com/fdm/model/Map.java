@@ -23,10 +23,10 @@ public class Map {
 	// its will correspond to cell types for now - we may move this to a class
 	// 1 . walls
 	// 0 . passable
-	int[][] map = new int[XMAX][YMAX];
+	private int[][] map = new int[XMAX][YMAX];
 	//PlayerCharacter character = new PlayerCharacter("Janme", 6, 2, new Account());
 
-	Map() {
+	public Map() {
 		makeMap();
 
 	}
@@ -34,32 +34,13 @@ public class Map {
 	private void makeMap() {
 		for (int j = 0; j < YMAX; ++j) {
 			for (int i = 0; i < XMAX; ++i) {
-				map[i][j] = j == 0 || j == YMAX - 1 || i == 0 || i == XMAX - 1 ? 1 : 0;
+				getMap()[i][j] = j == 0 || j == YMAX - 1 || i == 0 || i == XMAX - 1 ? 1 : 0;
 			}
 		}
 	}
 
 	public int get(int x, int y) {
-		return map[x][y];
-	}
-
-	public void printMap() {
-		for (int j = 0; j < YMAX; ++j) {
-			for (int i = 0; i < XMAX; ++i) {
-				print(i, j);
-
-			}
-			System.out.println();
-		}
-	}
-
-	public void print(int x, int y) {
-		Enemy enemy = new Enemy("WALT",3,3);
-		if (enemy.isAtPosition(x, y))
-			System.out.print(MapDrawingConstants.PLAYER_SYMBOL);
-		else {
-			System.out.print(MapDrawingConstants.charFromValue(map[x][y]));
-		}
+		return getMap()[x][y];
 	}
 
 	public int getId() {
@@ -68,5 +49,9 @@ public class Map {
 
 	public void getId(int id) {
 		this.id = id;
+	}
+
+	public int[][] getMap() {
+		return map;
 	}
 }
