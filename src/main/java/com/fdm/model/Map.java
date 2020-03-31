@@ -23,10 +23,10 @@ public class Map {
 	// its will correspond to cell types for now - we may move this to a class
 	// 1 . walls
 	// 0 . passable
-	int[][] map = new int[XMAX][YMAX];
+	public int[][] map = new int[XMAX][YMAX];
 	//PlayerCharacter character = new PlayerCharacter("Janme", 6, 2, new Account());
 
-	Map() {
+	public Map() {
 		makeMap();
 
 	}
@@ -43,24 +43,24 @@ public class Map {
 		return map[x][y];
 	}
 
-	public void printMap() {
-		for (int j = 0; j < YMAX; ++j) {
-			for (int i = 0; i < XMAX; ++i) {
-				print(i, j);
-
-			}
-			System.out.println();
-		}
-	}
-
-	public void print(int x, int y) {
-		Enemy enemy = new Enemy("WALT",3,3);
-		if (enemy.isAtPosition(x, y))
-			System.out.print(MapDrawingConstants.PLAYER_SYMBOL);
-		else {
-			System.out.print(MapDrawingConstants.charFromValue(map[x][y]));
-		}
-	}
+//	public void printMap() {
+//		for (int j = 0; j < YMAX; ++j) {
+//			for (int i = 0; i < XMAX; ++i) {
+//				print(i, j);
+//
+//			}
+//			System.out.println();
+//		}
+//	}
+//
+//	public void print(int x, int y) {
+//		Enemy enemy = new Enemy("WALT",3,3);
+//		if (enemy.isAtPosition(x, y))
+//			System.out.print(MapDrawingConstants.PLAYER_SYMBOL);
+//		else {
+//			System.out.print(MapDrawingConstants.charFromValue(map[x][y]));
+//		}
+//	}
 
 	public int getId() {
 		return id;
