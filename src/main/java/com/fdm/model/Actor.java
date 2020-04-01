@@ -29,9 +29,91 @@ public abstract class Actor {
 	int colorblue;
 	transient Color color = new Color(colorred,colorgreen,colorblue);
 	
+	boolean alive = true;
 	@ManyToOne
 	@JoinColumn(name = "mapid")
 	Map map;
+	//Stats
+	int maxHP = 10;
+	int currentHP = maxHP;
+	int attack = 10;
+	int level = 1;
+	int exp = 0;
+	
+	public void takeDamage(int damage) {
+		currentHP = currentHP - damage;
+		if (currentHP <= 0) {
+			alive = false;
+		}
+	}
+	
+	public void heal(int amount) {
+		currentHP = currentHP + amount;
+		if(currentHP > maxHP) {
+			currentHP = maxHP;
+		}
+	}
+	
+	public void gainExp(int amount) {
+		exp = exp + amount;
+		if(exp >= 100) {
+			levelup();
+		}
+	}
+	
+	public void levelup() {
+		maxHP = maxHP + 10;
+		currentHP = maxHP;
+		attack = attack + 5;
+		level = level + 1;
+		System.out.println("You've leveled up!");
+		System.out.println("You're level is now " + level);
+	}
+	
+	public void attack(Enemy target) {
+		target.takeDamage(attack);
+		if(!target.isAlive()) {
+			gainExp(100);
+		}
+				
+	}
+
+	public int getColorred() {
+		return colorred;
+	}
+
+	public int getColorgreen() {
+		return colorgreen;
+	}
+
+	public int getColorblue() {
+		return colorblue;
+	}
+
+	public boolean isAlive() {
+		return alive;
+	}
+
+	public int getMaxHP() {
+		return maxHP;
+	}
+
+	public int getCurrentHP() {
+		return currentHP;
+	}
+
+	public int getAttack() {
+		return attack;
+	}
+
+	public int getLevel() {
+		return level;
+	}
+
+	public int getExp() {
+		return exp;
+	}
+
 	public int getId() {
 		return id;
 	}
