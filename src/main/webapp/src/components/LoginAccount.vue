@@ -10,10 +10,6 @@
     <div class="btn-group">
       <button v-on:click="loginUser" class="btn btn-success">Login</button>
     </div>
-
-  <div v-if="this.account">
-    It worked.
-  </div>
     
   </div>
 </template>
@@ -25,17 +21,31 @@ export default {
   name: "login-account",
   data() {
     return {
-      account: Object
+      account: {
+        id: 0,
+        username: "",
+        password: ""
+      },
     };
   },
   methods: {
     /* eslint-disable no-console */
     loginUser() {
+      var data = {
+        username: this.account.username,
+        password: this.account.password
+      }
       http
         .post("/login")
         .then(response => {
-          this.account = response.data; // JSON are parsed automatically.
-          console.log(response.data);
+          if (response.data == null) {
+            console.log("its null!");
+            console.log(response.data);
+          } else {
+             console.log("its an account!");
+             this.account = response.data; // JSON are parsed automatically.
+
+          }
         })
         .catch(e => {
           console.log(e);
