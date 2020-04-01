@@ -12,7 +12,7 @@ public class PlayerCharacter extends Actor {
 	Account owner;
 	
 	@ManyToOne
-	@JoinColumn(name = "id")
+	@JoinColumn(name = "mapid")
 	Map map;
 	
 
@@ -32,36 +32,36 @@ public class PlayerCharacter extends Actor {
 		this(name, 1, 1, owner);
 	}
 
-	public boolean moveChar(Direction direction) {
-		
-		switch (direction) {
-		case DOWN:
-			if(map.get(x, y + 1) == 0) {
-				this.UpdatePosition(x, y + 1);
-				return true;
-			}
-			break;
-		case UP:
-			if(map.get(x, y - 1) == 0) {
-				this.UpdatePosition(x, y - 1);
-				return true;
-			}
-			break;
-		case LEFT:
-			if(map.get(x - 1, y) == 0) {
-				this.UpdatePosition(x - 1, y);
-				return true;
-			}	
-			break;
-		case RIGHT:
-			if(map.get(x + 1, y) == 0) {
-				this.UpdatePosition(x + 1, y);
-				return true;
-			}
-			break;
-		}
-		return false;
-	}
+//	public boolean moveChar(Direction direction) {
+//		
+//		switch (direction) {
+//		case DOWN:
+//			if(map.get(x, y + 1) == 0) {
+//				this.UpdatePosition(x, y + 1);
+//				return true;
+//			}
+//			break;
+//		case UP:
+//			if(map.get(x, y - 1) == 0) {
+//				this.UpdatePosition(x, y - 1);
+//				return true;
+//			}
+//			break;
+//		case LEFT:
+//			if(map.get(x - 1, y) == 0) {
+//				this.UpdatePosition(x - 1, y);
+//				return true;
+//			}	
+//			break;
+//		case RIGHT:
+//			if(map.get(x + 1, y) == 0) {
+//				this.UpdatePosition(x + 1, y);
+//				return true;
+//			}
+//			break;
+//		}
+//		return false;
+//	}
 
 	@Override
 	public String toString() {
