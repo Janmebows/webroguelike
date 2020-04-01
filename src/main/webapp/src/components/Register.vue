@@ -4,11 +4,11 @@
           <h4>Register</h4>
 
         <div class="form-group">
-          <input type="text" placeholder="Username" class="form-control" id="username" required v-model="customer.name" name="username">
+          <input type="text" placeholder="Username" class="form-control" id="username" required v-model="account.username" name="username">
         </div>
     
         <div class="form-group">
-          <input type="password" placeholder="Password" class="form-control" id="password" required v-model="customer.age" name="password">
+          <input type="password" placeholder="Password" class="form-control" id="password" required v-model="account.password" name="password">
         </div>
     
         <button v-on:click="saveAccount" class="btn btn-success">Register</button>
@@ -28,10 +28,10 @@ export default {
   name: "add-customer",
   data() {
     return {
-      customer: {
+      account: {
         id: 0,
-        name: "",
-        age: 0,
+        username: "",
+        password: "",
         active: false
       },
       submitted: false
