@@ -25,7 +25,7 @@
 import http from "../http-common";
 
 export default {
-  name: "add-customer",
+  name: "add-account",
   data() {
     return {
       account: {

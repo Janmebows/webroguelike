@@ -8,11 +8,11 @@
       <label>Password: </label> {{this.account.password}}
     </div>
   
-    <span class="button is-small btn-danger" v-on:click="deleteCustomer()">Delete</span>
+    <span class="button is-small btn-danger" v-on:click="deleteAccount()">Delete</span>
   </div>
   <div v-else>
     <br/>
-    <p>Please click on a Customer...</p>
+    <p>Please click on a Account...</p>
   </div>
 </template>
 
@@ -42,7 +42,7 @@ export default {
           console.log(e);
         });
     },
-    deleteCustomer() {
+    deleteAccount() {
       http
         .delete("/account/" + this.account.id)
         .then(response => {
