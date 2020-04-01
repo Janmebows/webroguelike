@@ -99,7 +99,8 @@ public class Map {
 		try (BufferedReader reader = new BufferedReader(new FileReader(fileLoc, StandardCharsets.UTF_8));) {
 			String line = reader.readLine();
 			// drop the leading BOM character
-			//line = line.substring(1);
+			if(!Character.isDigit(line.charAt(0)))
+				line = line.substring(1);
 			String[] xAndy = line.split(",");
 			char[] x = xAndy[0].toCharArray();
 			xMax = Integer.parseInt(xAndy[0]);

@@ -38,7 +38,7 @@ public class PlayerMovementController {
 		while (isRunning) {
 			
 			String input = iView.getUserInput();
-			if(input.contentEquals("Q")) {
+			if(input.equalsIgnoreCase("Q")) {
 				System.out.println("Quitting");
 				isRunning = false;
 			} else {
