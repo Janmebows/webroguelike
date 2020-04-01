@@ -29,7 +29,7 @@ public class LoginController {
 
 	@PostMapping("/login")
 	public Account postLogin(@RequestBody Account account) {
-		
+		System.out.println("/login called with account:" +account);
 		Account _account = accountRepository.findByUsernameAndPassword(account.getUsername(), account.getPassword()).get(0);
 		return _account;
 	}

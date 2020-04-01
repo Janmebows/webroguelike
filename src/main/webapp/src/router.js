@@ -2,11 +2,12 @@ import Vue from "vue";
 import Router from "vue-router";
 import CustomersList from "./components/CustomersList.vue";
 import AddCustomer from "./components/AddCustomer.vue";
-import SearchCustomers from "./components/SearchCustomers.vue";
+import LoginAccount from "./components/LoginAccount.vue";
 import Customer from "./components/Customer.vue";
 
 Vue.use(Router);
 
+// All restful controllers need components connected here
 export default new Router({
   mode: "history",
   routes: [
@@ -30,9 +31,9 @@ export default new Router({
       component: AddCustomer
     },
     {
-      path: "/search",
-      name: "search",
-      component: SearchCustomers
+      path: "/login",
+      name: "login",
+      component: LoginAccount
     }
   ]
 });
