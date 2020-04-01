@@ -67,8 +67,8 @@ public class PlayerMovementController {
 	}	
 	
 	public void printMap() {
-		for (int j = 0; j < map.YMAX; ++j) {
-			for (int i = 0; i < map.XMAX; ++i) {
+		for (int j = 0; j < map.getyMax(); ++j) {
+			for (int i = 0; i < map.getxMax(); ++i) {
 				print(i, j);
 			}
 			System.out.println();
@@ -78,11 +78,11 @@ public class PlayerMovementController {
 	public void print(int x, int y) {
 		boolean enemyNotAtPosition = enemyList.stream().filter(enemy -> enemy.isAtPosition(x, y)).collect(Collectors.toList()).isEmpty();
 		if (playerCharacter.isAtPosition(x, y)) {
-			System.out.print(MapDrawingConstants.PLAYER_SYMBOL);
+			System.out.print(playerCharacter.getCharacterSymbol());
 		} else if (!enemyNotAtPosition){
 			System.out.print(MapDrawingConstants.ENEMY_SYMBOL);
 		} else {
-			System.out.print(MapDrawingConstants.charFromValue(map.get(x,y)));
+			System.out.print(map.get(x,y).theChar());
 		}
 	}
 }

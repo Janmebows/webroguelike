@@ -33,25 +33,25 @@ public class PlayerCharacter extends Actor {
 		
 		switch (direction) {
 		case DOWN:
-			if(map.get(x, y + 1) == 0) {
+			if(map.get(x, y + 1).isBlocking()) {
 				this.UpdatePosition(x, y + 1);
 				return true;
 			}
 			break;
 		case UP:
-			if(map.get(x, y - 1) == 0) {
+			if(map.get(x, y - 1).isBlocking()) {
 				this.UpdatePosition(x, y - 1);
 				return true;
 			}
 			break;
 		case LEFT:
-			if(map.get(x - 1, y) == 0) {
+			if(map.get(x - 1, y).isBlocking()) {
 				this.UpdatePosition(x - 1, y);
 				return true;
 			}	
 			break;
 		case RIGHT:
-			if(map.get(x + 1, y) == 0) {
+			if(map.get(x + 1, y).isBlocking()) {
 				this.UpdatePosition(x + 1, y);
 				return true;
 			}
