@@ -2,6 +2,7 @@ import Vue from "vue";
 import Router from "vue-router";
 import CustomersList from "./components/CustomersList.vue";
 import AddCustomer from "./components/AddCustomer.vue";
+import Register from "./components/Register.vue";
 import LoginAccount from "./components/LoginAccount.vue";
 import Customer from "./components/Customer.vue";
 
@@ -29,6 +30,11 @@ export default new Router({
       path: "/add",
       name: "add",
       component: AddCustomer
+    },
+       {
+      path: "/register",
+      name: "register",
+      component: Register
     },
     {
       path: "/login",

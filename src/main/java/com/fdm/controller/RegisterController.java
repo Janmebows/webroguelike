@@ -71,6 +71,7 @@ public class RegisterController {
 		} else {
 			account = accountRepository.save(account);
 			session.setAttribute("user", account);
+			System.out.println(account);
 			return "home";
 		}
 	}
