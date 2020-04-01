@@ -1,16 +1,22 @@
 <template>
-  <div class="loginform">
-    <h4>Login</h4>
+  <div class="submitform">
+    <div v-if="!authenticated">
+          <h4>Login</h4>
 
-    <div class="form-group">
-      <input type="text" class="form-control" id="user" required v-model="account.username" name="username">
-      <input type="password" class="form-control" id="pass" required v-model="account.password" name="password">
-        
-    </div>
-    <div class="btn-group">
-      <button v-on:click="loginUser" class="btn btn-success">Login</button>
+        <div class="form-group">
+          <input type="text" placeholder="Username" class="form-control" id="username" required v-model="account.username" name="username">
+        </div>
+    
+        <div class="form-group">
+          <input type="password" placeholder="Password" class="form-control" id="password" required v-model="account.password" name="password">
+        </div>
+    
+        <button v-on:click="loginAccount" class="btn btn-success">Login</button>
     </div>
     
+    <div v-else>
+      <h4>You Logged in successfully!</h4>
+    </div>
   </div>
 </template>
 
@@ -24,32 +30,37 @@ export default {
       account: {
         id: 0,
         username: "",
-        password: ""
+        password: "",
+        active: false
       },
+      authenticated: false
     };
   },
   methods: {
     /* eslint-disable no-console */
-    loginUser() {
+    loginAccount() {
       var data = {
         username: this.account.username,
         password: this.account.password
-      }
-      http
-        .post("/login")
-        .then(response => {
-          if (response.data == null) {
-            console.log("its null!");
-            console.log(response.data);
-          } else {
-             console.log("its an account!");
-             this.account = response.data; // JSON are parsed automatically.
+      };
 
-          }
+      http
+        .post("/login", data)
+        .then(response => {
+          this.account = response.data; // JSON automagically reads data
+          console.log(response.data);
+          this.authenticated = true; 
+          // TODO do proper authentication by checking session data
         })
         .catch(e => {
           console.log(e);
         });
+
+      
+    },
+    logoutAccount() {
+      this.authenticated = false;
+      this.account = {};
     }
     /* eslint-enable no-console */
   }
@@ -57,7 +68,7 @@ export default {
 </script>
 
 <style>
-.loginform {
+.submitform {
   max-width: 300px;
   margin: auto;
 }

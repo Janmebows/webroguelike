@@ -21,19 +21,33 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fdm.dal.*;
 import com.fdm.model.*;
 
-@CrossOrigin(origins = "http://localhost:8080")
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/api")
 public class LoginController {
 
 	@Autowired
 	AccountRepository accountRepository;
+	
+	
+	@GetMapping("/login")
+	public String getLogin(HttpSession session, Model model) {
+
+		model.addAttribute("account", new Account());
+		return "login";
+	}
 
 	@PostMapping("/login")
-	public Account postLogin(@RequestBody Account account) {
-		System.out.println("/login called with account:" +account);
+	public String postLogin(HttpSession session, @RequestBody Account account) {
+		System.out.println("Testing");
 		Account _account = accountRepository.findByUsernameAndPassword(account.getUsername(), account.getPassword()).get(0);
-		return _account;
+		System.out.println("/login called with account:" + _account);
+		if (_account.equals(null)) {
+			return "register";
+		} else {
+			session.setAttribute("activeUser", _account);
+			return "/";
+		}
 	}
 	/*@GetMapping("/login")
 	 * public String getLogin(HttpSession session, Model model) { if

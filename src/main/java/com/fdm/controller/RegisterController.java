@@ -30,7 +30,7 @@ public class RegisterController {
 
 	@GetMapping("/register")
 	public String getRegister(HttpSession session, Model model) {
-
+		System.out.println("GET REGISTER");
 		model.addAttribute("account", new Account());
 		return "register";
 	}
