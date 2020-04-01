@@ -12,7 +12,7 @@ public class PlayerCharacter extends Actor {
 	Account owner;
 	
 	@ManyToOne
-	@JoinColumn(name = "id")
+	@JoinColumn(name = "mapid")
 	Map map;
 	
 
