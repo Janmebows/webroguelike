@@ -8,6 +8,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 import org.springframework.stereotype.Component;
 
@@ -27,6 +29,9 @@ public abstract class Actor {
 	int colorblue;
 	transient Color color = new Color(colorred,colorgreen,colorblue);
 	
+	@ManyToOne
+	@JoinColumn(name = "mapid")
+	Map map;
 	public int getId() {
 		return id;
 	}

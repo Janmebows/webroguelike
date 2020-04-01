@@ -10,10 +10,7 @@ public class PlayerCharacter extends Actor {
 
 	@OneToOne(mappedBy = "playerCharacter")
 	Account owner;
-	
-	@ManyToOne
-	@JoinColumn(name = "mapid")
-	Map map;
+
 	
 
 	public PlayerCharacter() {
