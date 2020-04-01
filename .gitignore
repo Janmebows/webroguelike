@@ -29,7 +29,5 @@ build/
 
 ### VS Code ###
 .vscode/
+src/main/webapp/node_modules
 
-
-pom.xml
-/src/main/webapp/node_modules/

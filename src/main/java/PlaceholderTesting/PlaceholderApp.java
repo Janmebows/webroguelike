@@ -9,9 +9,10 @@ public class PlaceholderApp {
 
 	public static void main(String[] args) {
 		IView iView = new View();
-		Map map = new Map();
+		Map map = new Map("20x20test");
 		Account account = new Account();
 		PlayerCharacter playerCharacter = new PlayerCharacter("jim", 5, 5, account);
+		playerCharacter.setCharacterSymbol('µ');
 		playerCharacter.setMap(map);
 		
 		PlayerMovementController controller = new PlayerMovementController(map, playerCharacter, iView);

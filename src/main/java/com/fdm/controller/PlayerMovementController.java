@@ -42,7 +42,7 @@ public class PlayerMovementController {
 		while (isRunning) {
 
 			String input = iView.getUserInput();
-			if (input.contentEquals("Q")) {
+			if (input.equalsIgnoreCase("Q")) {
 				System.out.println("Quitting");
 				isRunning = false;
 			} else {
@@ -63,7 +63,7 @@ public class PlayerMovementController {
 		int y = playerChar.getY();
 		switch (direction) {
 		case DOWN:
-			if (map.get(x, y + 1) == 0) {
+			if (map.isBlocked(x, y + 1)) {
 				List<Actor> enemiesAtPosition = enemyList.stream()
 						.filter(enemy -> enemy.isAtPosition(x, y + 1) && enemy.isAlive()).collect(Collectors.toList());
 				if (!enemiesAtPosition.isEmpty()) {
@@ -75,7 +75,7 @@ public class PlayerMovementController {
 			}
 			break;
 		case UP:
-			if (map.get(x, y - 1) == 0) {
+			if (map.isBlocked(x, y - 1)) {
 				List<Actor> enemiesAtPosition = enemyList.stream()
 						.filter(enemy -> enemy.isAtPosition(x, y - 1) && enemy.isAlive()).collect(Collectors.toList());
 				if (!enemiesAtPosition.isEmpty()) {
@@ -87,7 +87,7 @@ public class PlayerMovementController {
 			}
 			break;
 		case LEFT:
-			if (map.get(x - 1, y) == 0) {
+			if (map.isBlocked(x - 1, y)) {
 				List<Actor> enemiesAtPosition = enemyList.stream()
 						.filter(enemy -> enemy.isAtPosition(x - 1, y) && enemy.isAlive()).collect(Collectors.toList());
 				if (!enemiesAtPosition.isEmpty()) {
@@ -99,7 +99,7 @@ public class PlayerMovementController {
 			}
 			break;
 		case RIGHT:
-			if (map.get(x + 1, y) == 0) {
+			if (map.isBlocked(x + 1, y)) {
 				List<Actor> enemiesAtPosition = enemyList.stream()
 						.filter(enemy -> enemy.isAtPosition(x + 1, y) && enemy.isAlive()).collect(Collectors.toList());
 				if (!enemiesAtPosition.isEmpty()) {
@@ -161,8 +161,8 @@ public class PlayerMovementController {
 	}
 
 	public void printMap() {
-		for (int j = 0; j < map.YMAX; ++j) {
-			for (int i = 0; i < map.XMAX; ++i) {
+		for (int j = 0; j < map.getyMax(); ++j) {
+			for (int i = 0; i < map.getxMax(); ++i) {
 				print(i, j);
 			}
 			System.out.println();
@@ -172,11 +172,12 @@ public class PlayerMovementController {
 	public void print(int x, int y) {
 		boolean enemyAtPosition = enemyList.stream().anyMatch(enemy -> enemy.isAtPosition(x, y) && enemy.isAlive());
 		if (playerCharacter.isAtPosition(x, y)) {
-			System.out.print(MapDrawingConstants.PLAYER_SYMBOL);
+
+			System.out.print(playerCharacter.getCharacterSymbol());
 		} else if (enemyAtPosition) {
 			System.out.print(MapDrawingConstants.ENEMY_SYMBOL);
 		} else {
-			System.out.print(MapDrawingConstants.charFromValue(map.get(x, y)));
+			System.out.print(map.get(x, y).theChar());
 		}
 	}
 }

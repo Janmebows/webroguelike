@@ -10,11 +10,7 @@ public class PlayerCharacter extends Actor {
 
 	@OneToOne(mappedBy = "playerCharacter")
 	Account owner;
-	
-	@ManyToOne
-	@JoinColumn(name = "mapid")
-	Map map;
-	
+
 
 	public PlayerCharacter() {
 		super();
@@ -32,36 +28,6 @@ public class PlayerCharacter extends Actor {
 		this(name, 1, 1, owner);
 	}
 
-//	public boolean moveChar(Direction direction) {
-//		
-//		switch (direction) {
-//		case DOWN:
-//			if(map.get(x, y + 1) == 0) {
-//				this.UpdatePosition(x, y + 1);
-//				return true;
-//			}
-//			break;
-//		case UP:
-//			if(map.get(x, y - 1) == 0) {
-//				this.UpdatePosition(x, y - 1);
-//				return true;
-//			}
-//			break;
-//		case LEFT:
-//			if(map.get(x - 1, y) == 0) {
-//				this.UpdatePosition(x - 1, y);
-//				return true;
-//			}	
-//			break;
-//		case RIGHT:
-//			if(map.get(x + 1, y) == 0) {
-//				this.UpdatePosition(x + 1, y);
-//				return true;
-//			}
-//			break;
-//		}
-//		return false;
-//	}
 
 	@Override
 	public String toString() {
