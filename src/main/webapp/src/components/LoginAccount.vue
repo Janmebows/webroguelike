@@ -33,7 +33,7 @@ export default {
         username: "",
         password: "",
         active: false,
-        playerCharacter: 0,
+        playerCharacter: [],
       },
       authenticated: false
     };
