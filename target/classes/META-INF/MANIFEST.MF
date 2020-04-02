@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Build-Jdk-Spec: 11
+Build-Jdk-Spec: 13
 Implementation-Title: Web Roguelike
 Implementation-Version: 1.0
 Created-By: Maven Integration for Eclipse

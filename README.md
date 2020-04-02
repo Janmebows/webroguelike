@@ -3,7 +3,8 @@
 A roguelike but its on the web.
 
 On first run
-cd src/main/webapp/ && npm install -g npm@latest && npm i core-util-is && npm install && npm install -g @vue/cli && npm install vue-router && npm install axios && npm install eslint && npm install eslint-plugin-vue@next && npm install babel-eslint
+cd src/main/webapp/ && npm install -g npm@latest
+npm i core-util-is && npm install && npm install -g @vue/cli && npm install vue-router && npm install axiom && npm install axios && npm install eslint && npm install eslint-plugin-vue@next && npm install babel-eslint
 Otherwise from webapp run
 npm run serve
 

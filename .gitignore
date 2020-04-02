@@ -30,6 +30,7 @@ build/
 ### VS Code ###
 .vscode/
 src/main/webapp/node_modules
+<<<<<<< HEAD
 
 
 src/main/webapp/node_modules
@@ -37,3 +38,6 @@ src/main/webapp/package-lock.json
 src/main/webapp/package.json
 /node_modules/
 package-lock.json
+=======
+src/main/webapp/package-lock.json
+>>>>>>> development

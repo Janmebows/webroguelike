@@ -1,5 +1,7 @@
 package com.fdm.controller;
 
+import java.util.ArrayList;
+
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -12,11 +14,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fdm.dal.AccountRepository;
 import com.fdm.dal.MapRepository;
 import com.fdm.model.Account;
+import com.fdm.model.Actor;
 import com.fdm.model.Map;
 import com.fdm.model.PlayerCharacter;
 
-import PlaceholderTesting.IView;
-import PlaceholderTesting.View;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
@@ -41,15 +42,14 @@ public class HomeController {
 	public Map postGame() {
 		System.out.println("Testing0");
 
-		IView iView = new View();
 		Map map = new Map("20x20test");
 		Account account = new Account();
-		PlayerCharacter playerCharacter = new PlayerCharacter("jim", 5, 5, account);
+		PlayerCharacter playerCharacter = new PlayerCharacter("jim", map, 5, 5, account, new Object());
 		System.out.println(playerCharacter);
 		playerCharacter.setCharacterSymbol('µ');
 		playerCharacter.setMap(map);
 
-		PlayerMovementController controller = new PlayerMovementController(map, playerCharacter, iView);
+		MapAndActorThreadController controller = new MapAndActorThreadController(map, new PlayerCharacterInputController(playerCharacter), playerCharacter, new ArrayList<Actor>() );
 		// controller.handle();
 //		String[][] a = new String[][]();
 //		Map m = controller.map;
