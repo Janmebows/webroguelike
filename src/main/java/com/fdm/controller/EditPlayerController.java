@@ -23,10 +23,10 @@ public class EditPlayerController {
 	
 	
 
-	@PostMapping("/editAccount")
+	@PostMapping("/edit")
 	public PlayerCharacter postLogin(@RequestBody PlayerCharacter pc ) {
 		
-		System.out.println("/editAccount called with player character:" + pc);
+		System.out.println("/edit called with player character:" + pc);
 		if (pc.equals(null)) {
 			return null;
 		} else {
