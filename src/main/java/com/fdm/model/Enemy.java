@@ -36,9 +36,9 @@ public class Enemy extends Actor {
 	Random rnd = RandomHolder.getInstance().random;
 
 	@Override
-	public boolean move(Direction dir) {
+	public boolean move(Direction dir) { 
 		
-		int next = rnd.nextInt(4);
+		int next = rnd.nextInt(9);
 		switch (next) {
 		case 0:
 			dir = Direction.LEFT;

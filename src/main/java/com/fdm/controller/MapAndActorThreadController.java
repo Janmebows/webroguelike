@@ -47,7 +47,6 @@ public class MapAndActorThreadController {
 			try {
 				Thread.sleep(SERVER_TICK);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}

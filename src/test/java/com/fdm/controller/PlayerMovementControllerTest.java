@@ -12,13 +12,11 @@ import static org.mockito.Mockito.*;
 import com.fdm.model.Direction;
 import com.fdm.model.Map;
 import com.fdm.model.PlayerCharacter;
+import com.fdm.model.Tile;
 
-import PlaceholderTesting.IView;
 
 public class PlayerMovementControllerTest {
 	
-	@Mock
-	IView mockView;
 	
 	@Mock 
 	PlayerCharacter mockChar;
@@ -27,7 +25,7 @@ public class PlayerMovementControllerTest {
 	Map mockMap;
 
 	@InjectMocks
-	PlayerMovementController controller = new PlayerMovementController(mockMap, mockChar, mockView);
+	PlayerCharacterInputController controller = new PlayerCharacterInputController(mockChar);
 	
 	@Before
 	public void init() {
@@ -43,39 +41,4 @@ public class PlayerMovementControllerTest {
 		assertEquals(Direction.NONE, controller.processInput("sadg"));
 	}
 	
-	@Test
-	public void test_controller_starts_and_quits() {
-		when(mockChar.isAtPosition(anyInt(), anyInt())).thenReturn(false);
-		when(mockMap.get(anyInt(), anyInt())).thenReturn(0);
-		when(mockView.getUserInput()).thenReturn("Q");
-		
-		controller.handle();
-		
-		verify(mockView).getUserInput();
-	}
-	
-	@Test
-	public void test_controller_starts_movesup_and_quits() {
-		when(mockChar.isAtPosition(anyInt(), anyInt())).thenReturn(false);
-		when(mockMap.get(anyInt(), anyInt())).thenReturn(0);
-		when(mockView.getUserInput()).thenReturn("w","Q");
-		
-		controller.handle();
-		
-		verify(mockView, times(2)).getUserInput();
-		verify(mockChar).moveChar(Direction.UP);
-	}
-	
-	@Test
-	public void test_controller_shows_playerChar() {
-		when(mockChar.isAtPosition(anyInt(), anyInt())).thenReturn(false);
-		when(mockChar.isAtPosition(2, 5)).thenReturn(true);
-		when(mockMap.get(anyInt(), anyInt())).thenReturn(0);
-		when(mockView.getUserInput()).thenReturn("Q");
-		
-		controller.handle();
-		
-		verify(mockView, times(1)).getUserInput();
-	}
-
 }

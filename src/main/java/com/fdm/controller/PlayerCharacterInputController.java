@@ -18,24 +18,12 @@ public class PlayerCharacterInputController implements Runnable {
 		super();
 		this.playerCharacter = playerCharacter;
 		isRunning = true;
-	}
+	} 
 
 	@Override
 	public void run() {
 		while (isRunning) {
-			String input = scanner.nextLine();
-			if (input == null || input.equals("")){
-				continue;
-			}
-			System.out.println(input);
-			if (input.equalsIgnoreCase("Q")) {
-				System.out.println("Quitting");
-				isRunning = false;
-			} 
-			Direction inputDirection = processInput(input);
-			if(inputDirection!= Direction.NONE)
-				playerCharacter.nextInput = inputDirection;
-			System.out.println("Inputted "+input);
+			handleInput();
 		}
 	}
 //	public String getUserInput() {
@@ -46,6 +34,26 @@ public class PlayerCharacterInputController implements Runnable {
 //	public void setInput() {
 //		bufferInput = scanner.nextLine();
 //	}
+
+	String getInput() {
+		return scanner.nextLine();
+	}
+	private void handleInput() {
+		String input = getInput();
+		if (input == null || input.equals("")){
+			return;
+		}
+		System.out.println(input);
+		if (input.equalsIgnoreCase("Q")) {
+			System.out.println("Quitting");
+			isRunning = false;
+		} 
+		Direction inputDirection = processInput(input);
+		if(inputDirection!= Direction.NONE)
+			playerCharacter.nextInput = inputDirection;
+		System.out.println("Inputted "+input);
+		return;
+	}
 	
 	public Direction processInput(String input) {
 		// currently using wasd.

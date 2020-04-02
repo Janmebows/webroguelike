@@ -17,18 +17,18 @@ public class PlaceholderApp {
 		Object key = new Object();
 		Account account = new Account();
 		Map map = new Map("20x20test");
-		PlayerCharacter playerCharacter = new PlayerCharacter("jim",map, 5, 5, account,key);
+		PlayerCharacter playerCharacter = new PlayerCharacter("jim", map, 5, 5, account, key);
 		PlayerCharacterInputController pci = new PlayerCharacterInputController(playerCharacter);
 		playerCharacter.setCharacterSymbol('µ');
-		Actor enemy = new Enemy("hi",map, 2, 4,key);
-		Actor enemy2 = new Enemy("bye",map, 5, 8,key);
-		Actor enemy3 = new Enemy("running out of things",map, 2, 4,key);
+		Actor enemy = new Enemy("hi", map, 2, 4, key);
+		Actor enemy2 = new Enemy("bye", map, 5, 8, key);
+		Actor enemy3 = new Enemy("running out of things", map, 2, 4, key);
 		List<Actor> actorList = new ArrayList<Actor>();
 		actorList.add(enemy);
 		actorList.add(enemy2);
 		actorList.add(enemy3);
 		actorList.add(playerCharacter);
-		MapAndActorThreadController controller = new MapAndActorThreadController(map, pci,key,actorList);
+		MapAndActorThreadController controller = new MapAndActorThreadController(map, pci, key, actorList);
 		controller.handle();
 
 	}

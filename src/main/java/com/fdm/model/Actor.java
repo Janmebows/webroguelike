@@ -91,7 +91,6 @@ public abstract class Actor implements Runnable {
 					this.nextInput = Direction.NONE;
 				}
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}

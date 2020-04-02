@@ -13,7 +13,7 @@ public enum Tile {
 	
 	
 	
-	public char theChar() {
+	public char getChar() {
         return asChar;
     }
 	public boolean isBlocking() {

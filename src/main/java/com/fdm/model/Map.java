@@ -72,8 +72,8 @@ public class Map {
 				StandardCharsets.UTF_8)) {
 			writer.append(xMax + "," + yMax + "\n");
 
-			for (int xIndex = 0; xIndex < xMax; ++xIndex) {
-				for (int yIndex = 0; yIndex < yMax; ++yIndex) {
+			for (int yIndex = 0; yIndex < yMax; ++yIndex) {
+				for (int xIndex = 0; xIndex < xMax; ++xIndex) {
 					writer.append(".");
 				}
 				writer.append("\n");
@@ -97,7 +97,6 @@ public class Map {
 		try {
 			yMax = (int) Files.lines(path).count();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		try (BufferedReader reader = new BufferedReader(new FileReader(fileLoc));) {
@@ -130,26 +129,9 @@ public class Map {
 	public void printMap() {
 		for (int j = 0; j < yMax; ++j) {
 			for (int i = 0; i < xMax; ++i) {
-				print(i, j);
+				System.out.print(getSymbol(i, j));
 			}
 			System.out.println();
-		}
-	}
-
-	public void print(int x, int y) {
-		Optional<Actor> playerAt = actorList.parallelStream()
-				.filter(player -> player instanceof PlayerCharacter && player.isAtPosition(x, y)).findAny();
-		if (playerAt.isPresent())
-			System.out.print(playerAt.get().characterSymbol);
-		else {
-			Optional<Actor> enemyAt = actorList.parallelStream()
-					.filter(enemy -> enemy instanceof Enemy && enemy.isAtPosition(x, y)).findAny();
-			if (enemyAt.isPresent()) {
-				System.out.print(enemyAt.get().characterSymbol);
-
-			} else {
-				System.out.print(map[x][y].theChar());
-			}
 		}
 	}
 
@@ -189,8 +171,39 @@ public class Map {
 		return map;
 	}
 
+	public char[] mapAsCharArray() {
+		char[] out = new char[(xMax + 1) * yMax];
+		for (int y = 0; y < yMax; ++y) {
+			for (int x = 0; x < xMax; ++x) {
+				out[y * (xMax + 1) + x] = getSymbol(x, y);
+
+			}
+			out[y*(xMax+1) + xMax] = '\n';
+
+		}
+		return out;
+
+	}
+
+	private char getSymbol(int x, int y) {
+		Optional<Actor> playerAt = actorList.parallelStream()
+				.filter(player -> player instanceof PlayerCharacter && player.isAtPosition(x, y)).findAny();
+		if (playerAt.isPresent())
+			return playerAt.get().characterSymbol;
+		else {
+			Optional<Actor> enemyAt = actorList.parallelStream()
+					.filter(enemy -> enemy instanceof Enemy && enemy.isAtPosition(x, y)).findAny();
+			if (enemyAt.isPresent()) {
+				return enemyAt.get().characterSymbol;
+
+			} else {
+				return map[x][y].getChar();
+			}
+		}
+	}
+
 	public boolean isBlocked(int x, int y) {
-		if (x < 0 || y < 0 || x >= xMax || y >= xMax)
+		if (x < 0 || y < 0 || x >= xMax || y >= yMax)
 			return true;
 		else
 			return map[x][y].isBlocking();
@@ -253,6 +266,6 @@ public class Map {
 			return false;
 		}
 		return false;
-		
+
 	}
 }
