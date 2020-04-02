@@ -45,7 +45,7 @@ public class Map {
 	}
 
 	public static void generateMapFile(int xMax, int yMax, String title) {
-		String fileLoc = System.getProperty("user.dir") + "\\" + title +".txt";
+		String fileLoc = System.getProperty("user.dir") + "/" + title +".txt";
 		try (OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(fileLoc),
 				StandardCharsets.UTF_8)) {
 			writer.append(xMax + "," + yMax + "\n");
@@ -88,7 +88,7 @@ public class Map {
 	}
 	
 	public void readMapFromFile(String mapName){
-		String fileLoc = System.getProperty("user.dir") + "\\" + mapName + ".txt";
+		String fileLoc = System.getProperty("user.dir") + "/" + mapName + ".txt";
 		Path path = Paths.get(fileLoc);
 		try {
 			yMax = (int) Files.lines(path).count();

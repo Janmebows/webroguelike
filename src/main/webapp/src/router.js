@@ -5,6 +5,8 @@ import AddCustomer from "./components/AddCustomer.vue";
 import Register from "./components/Register.vue";
 import LoginAccount from "./components/LoginAccount.vue";
 import Customer from "./components/Customer.vue";
+import Home from "./components/Home.vue";
+
 
 Vue.use(Router);
 
@@ -13,7 +15,7 @@ export default new Router({
   mode: "history",
   routes: [
     {
-      path: "/",
+      path: "/Customers",
       name: "customers",
       alias: "/customer",
       component: CustomersList,
@@ -40,6 +42,11 @@ export default new Router({
       path: "/login",
       name: "login",
       component: LoginAccount
+    },
+        {
+      path: "/home",
+      name: "home",
+      component: Home
     }
   ]
 });
