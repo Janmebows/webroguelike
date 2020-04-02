@@ -53,7 +53,7 @@ export default {
           console.log(response.data);
         })
         .catch(e => {
-          this.error = "Oops something went wrong! Please contact the admin.";
+          this.error = "Oops something went wrong! Please contact the admin."
           console.log(e);
         });
 
