@@ -16,66 +16,90 @@ import org.springframework.stereotype.Component;
 @Component
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-public abstract class Actor {
+public abstract class Actor implements Runnable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	int id;
-
+	public volatile transient Object key;
 	String characterName;
 
 	char characterSymbol;
 	int colorred;
 	int colorgreen;
 	int colorblue;
-	transient Color color = new Color(colorred,colorgreen,colorblue);
-	
+	transient Color color = new Color(colorred, colorgreen, colorblue);
+	public transient volatile Direction nextInput = Direction.NONE;
 	boolean alive = true;
 	@ManyToOne
 	@JoinColumn(name = "mapid")
 	Map map;
-	//Stats
+	// Stats
 	int maxHP = 10;
 	int currentHP = maxHP;
 	int attack = 10;
 	int level = 1;
 	int exp = 0;
-	
+
 	public void takeDamage(int damage) {
 		currentHP = currentHP - damage;
 		if (currentHP <= 0) {
 			alive = false;
+			System.out.println(characterName + " died");
+			map.updateActors();
 		}
 	}
-	
+
 	public void heal(int amount) {
 		currentHP = currentHP + amount;
-		if(currentHP > maxHP) {
+		if (currentHP > maxHP) {
 			currentHP = maxHP;
 		}
 	}
-	
+
 	public void gainExp(int amount) {
 		exp = exp + amount;
-		if(exp >= 100) {
+		if (exp >= 100) {
 			levelup();
 		}
 	}
-	
+
 	public void levelup() {
 		maxHP = maxHP + 10;
 		currentHP = maxHP;
 		attack = attack + 5;
 		level = level + 1;
-		System.out.println("You've leveled up!");
-		System.out.println("You're level is now " + level);
+		System.out.println(characterName + " leveled up!");
+		System.out.println(characterName + "'s level is now " + level);
 	}
-	
+
 	public void attack(Enemy target) {
 		target.takeDamage(attack);
-		if(!target.isAlive()) {
+		if (!target.isAlive()) {
 			gainExp(100);
 		}
-				
+
+	}
+
+	@Override
+	public void run() {
+		while (alive) {
+			try {
+				synchronized (key) {
+					key.wait();
+				}
+				if (this.move(nextInput)) {
+					this.nextInput = Direction.NONE;
+				}
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	public boolean move(Direction dir) {
+		if (dir != Direction.NONE)
+			return map.tryMoveActor(this, dir);
+		return false;
 	}
 
 	public int getColorred() {
@@ -134,17 +158,20 @@ public abstract class Actor {
 		return color;
 	}
 
+	public void setColor(int red, int green, int blue) {
+		this.color = new Color(red, green, blue);
+	}
+
 	public void setColor(Color color) {
 		this.color = color;
 	}
-
 
 	@Override
 	public String toString() {
 		return "Actor [characterName=" + characterName + ", x=" + x + ", y=" + y + "]";
 	}
 
-	public void UpdatePosition(int x, int y) {
+	public void updatePosition(int x, int y) {
 		this.x = x;
 		this.y = y;
 	}
@@ -179,5 +206,13 @@ public abstract class Actor {
 
 	public void setY(int y) {
 		this.y = y;
+	}
+
+	public Map getMap() {
+		return map;
+	}
+
+	public void setMap(Map map) {
+		this.map = map;
 	}
 }

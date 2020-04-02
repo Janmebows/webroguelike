@@ -1,44 +1,80 @@
 package com.fdm.model;
 
-
-import static org.junit.Assert.assertEquals;
-
+import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
 import org.junit.Before;
 import org.junit.Test;
 
 public class MapTest {
-	
+
 	Map map;
-	
+
 	@Before
 	public void init() {
-		map = new Map();
+		map = new Map("TestingMap");
 	}
-	
+
 	@Test
 	public void test_map_is_made_properly_and_can_get_elements() {
-		assertEquals(1, map.get(0,0));
-		assertEquals(0, map.get(1, 1));
+		assertEquals(Tile.FULL_BLOCK, map.get(0, 0));
+		assertEquals(Tile.PERIOD, map.get(1, 0));
+		assertEquals(Tile.COMMA, map.get(2, 0));
 	}
-	
+
+	@Test
+	public void tile_getChar_method_works() {
+		assertEquals(',', Tile.COMMA.getChar());
+		assertEquals('█', Tile.FULL_BLOCK.getChar());
+	}
+
+	@Test
+	public void tile_isblocking_method_works() {
+		assertEquals(true, Tile.FULL_BLOCK.isBlocking());
+		assertEquals(false, Tile.SPACE.isBlocking());
+	}
+
+	@Test
+	public void test_tile_fallback() {
+		assertEquals(Tile.FULL_BLOCK, Tile.tileFromChar('⏰'));
+	}
+
 	@Test
 	public void test_map_is_right_size() {
-		assertEquals(map.XMAX, map.getMap().length);
-		for(int i = 0; i < map.XMAX; i ++) {
-			assertEquals(map.YMAX, map.getMap()[i].length);
+		assertEquals(map.getxMax(), map.getMap().length);
+		for (int i = 0; i < map.getxMax(); i++) {
+			assertEquals(map.getyMax(), map.getMap()[i].length);
 		}
 	}
-	
-	@Test 
-	public void test_map_constants_correct() {
-		assertEquals(MapDrawingConstants.WALL_SYMBOL, MapDrawingConstants.charFromValue(map.get(0,0)));
-		assertEquals(MapDrawingConstants.EMPTY_SYMBOL, MapDrawingConstants.charFromValue(map.get(1,1)));
+
+	@Test
+	public void bad_tiles_are_blocked() {
+		assertTrue(map.isBlocked(-1, 0));
+		assertTrue(map.isBlocked(0, -1));
+		assertTrue(map.isBlocked(-1, -1));
+		assertTrue(map.isBlocked(map.getxMax(), 0));
+		assertTrue(map.isBlocked(0, map.getyMax()));
+		assertTrue(map.isBlocked(map.getxMax(), map.getyMax()));
+	}
+
+	@Test
+	public void zerozero_is_blocked_since_it_is_a_wall() {
+		assertTrue(map.isBlocked(0, 0));
+	}
+
+	@Test
+	public void test_actor_moving() {
+		Actor mockActor = mock(Actor.class);
+		map.tryMoveActor(mockActor, Direction.NONE);
 	}
 	
 	@Test
-	public void test_map_constants_returns_empty_when_nonbinary_input() {
-		assertEquals(' ', MapDrawingConstants.charFromValue(2));
+	public void map_as_char_array_works() {
+		char[] compare = new char[] {'█','.',',','\n',' ','.','.','\n'};
+		char[] result = map.mapAsCharArray();
+		assertEquals(compare.length,result.length);
+		for(int i=0; i<compare.length; i++) {
+		assertEquals(compare[i],result[i]);
+		}
 	}
-	
-	
+
 }

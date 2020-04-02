@@ -14,16 +14,16 @@ public class PlayerCharacterTest {
 	@Before
 	public void init() {
 		account = new Account("testAccount", "testPass");
-		playerChar = new PlayerCharacter("testChar", account);
-		map = new Map();
+		playerChar = new PlayerCharacter("testChar", map, account, new Object());
+		map = new Map("MovementTestingMap");
 		playerChar.setMap(map);
 	}
 
 	@Test
 	public void test_can_update_position() {
-		playerChar.UpdatePosition(2, 5);
-		assertEquals(2, playerChar.getX());
-		assertEquals(5, playerChar.getY());
+		playerChar.updatePosition(3, 2);
+		assertEquals(3, playerChar.getX());
+		assertEquals(2, playerChar.getY());
 	}
 
 	@Test
@@ -33,49 +33,50 @@ public class PlayerCharacterTest {
 
 	@Test
 	public void test_can_move_up() {
-		playerChar.UpdatePosition(2, 5);
-		playerChar.moveChar(Direction.UP);
-		assert (playerChar.isAtPosition(2, 4));
+		playerChar.updatePosition(1, 2);
+		map.tryMoveActor(playerChar,Direction.UP);
+		assert (playerChar.isAtPosition(1,1));
 	}
 
 	@Test
 	public void test_can_move_multiple_directions() {
-		playerChar.UpdatePosition(2, 5);
-		playerChar.moveChar(Direction.UP);
-		playerChar.moveChar(Direction.RIGHT);
-		playerChar.moveChar(Direction.RIGHT);
-		playerChar.moveChar(Direction.RIGHT);
-		playerChar.moveChar(Direction.DOWN);
-		playerChar.moveChar(Direction.LEFT);
+		playerChar.updatePosition(2,1);
+		map.tryMoveActor(playerChar,Direction.UP);
+		map.tryMoveActor(playerChar,Direction.RIGHT);
+		map.tryMoveActor(playerChar,Direction.RIGHT);
+		map.tryMoveActor(playerChar,Direction.RIGHT);
+		map.tryMoveActor(playerChar,Direction.DOWN);
+		map.tryMoveActor(playerChar,Direction.LEFT);
+		map.tryMoveActor(playerChar,Direction.LEFT);
 
-		assert (playerChar.isAtPosition(4, 5));
+		assert (playerChar.isAtPosition(1,2));
 	}
 
 	@Test
 	public void test_char_doesnt_move_if_wall_up() {
-		playerChar.moveChar(Direction.UP);
+		map.tryMoveActor(playerChar,Direction.UP);
 		assert (playerChar.isAtPosition(1, 1));
 	}
 
 	@Test
 	public void test_char_doesnt_move_if_wall_down_left() {
-		playerChar.UpdatePosition(1, 8);
-		playerChar.moveChar(Direction.LEFT);
-		playerChar.moveChar(Direction.DOWN);
+		playerChar.updatePosition(1, 8);
+		map.tryMoveActor(playerChar,Direction.LEFT);
+		map.tryMoveActor(playerChar,Direction.DOWN);
 		assert (playerChar.isAtPosition(1, 8));
 	}
 
 	@Test
-	public void test_char_doesnt_move_if_wall_right_and_moves_fine_after() {
-		playerChar.UpdatePosition(18, 5);
-		playerChar.moveChar(Direction.RIGHT);
-		playerChar.moveChar(Direction.DOWN);
-		assert (playerChar.isAtPosition(18, 6));
+	public void test_char_doesnt_move_into_wall_and_moves_fine_after() {
+		playerChar.updatePosition(3, 2);
+		map.tryMoveActor(playerChar,Direction.RIGHT);
+		map.tryMoveActor(playerChar,Direction.UP);
+		assert (playerChar.isAtPosition(3,1));
 	}
 
 	@Test
 	public void test_char_wont_move_if_no_direction() {
-		playerChar.moveChar(Direction.NONE);
+		map.tryMoveActor(playerChar,Direction.NONE);
 		assert (playerChar.isAtPosition(1, 1));
 	}
 

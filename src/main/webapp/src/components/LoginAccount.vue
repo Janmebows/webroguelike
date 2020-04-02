@@ -34,7 +34,7 @@ export default {
         username: "",
         password: "",
         active: false,
-        playerCharacter: [],
+        playerCharacter: 0,
       },
       authenticated: false,
       message:"",
