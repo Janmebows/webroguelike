@@ -30,23 +30,24 @@ public class LoginController {
 	AccountRepository accountRepository;
 	
 	
-	@GetMapping("/login")
-	public String getLogin(HttpSession session, Model model) {
-
-		model.addAttribute("account", new Account());
-		return "login";
-	}
+//	@GetMapping("/login")
+//	public String getLogin(HttpSession session, Model model) {
+//
+//		model.addAttribute("account", new Account());
+//		return "login";
+//	}
 
 	@PostMapping("/login")
-	public String postLogin(HttpSession session, @RequestBody Account account) {
+	public Account postLogin(HttpSession session, @RequestBody Account account) {
 		System.out.println("Testing");
 		Account _account = accountRepository.findByUsernameAndPassword(account.getUsername(), account.getPassword()).get(0);
 		System.out.println("/login called with account:" + _account);
 		if (_account.equals(null)) {
-			return "register";
+			return null;
 		} else {
 			session.setAttribute("activeUser", _account);
-			return "/";
+			System.out.println(session.getAttribute("activeUser"));
+			return _account;
 		}
 	}
 	/*@GetMapping("/login")

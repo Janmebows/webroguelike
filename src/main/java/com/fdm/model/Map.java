@@ -96,7 +96,7 @@ public class Map {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		try (BufferedReader reader = new BufferedReader(new FileReader(fileLoc, StandardCharsets.UTF_8));) {
+		try (BufferedReader reader = new BufferedReader(new FileReader(fileLoc));) {
 			String line = reader.readLine();
 			// drop the leading BOM character
 			if(!Character.isDigit(line.charAt(0)))

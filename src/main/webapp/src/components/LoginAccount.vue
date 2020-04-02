@@ -16,6 +16,7 @@
     
     <div v-else>
       <h4>You Logged in successfully!</h4>
+      <p>{{account.username}}</p>
     </div>
   </div>
 </template>
@@ -31,7 +32,8 @@ export default {
         id: 0,
         username: "",
         password: "",
-        active: false
+        active: false,
+        playerCharacter: 0,
       },
       authenticated: false
     };
@@ -41,16 +43,20 @@ export default {
     loginAccount() {
       var data = {
         username: this.account.username,
-        password: this.account.password
+        password: this.account.password,
+        
       };
-
       http
         .post("/login", data)
         .then(response => {
-          this.account = response.data; // JSON automagically reads data
-          console.log(response.data);
-          this.authenticated = true; 
-          // TODO do proper authentication by checking session data
+          if (response.data === null) {
+            this.authenticated = false;
+          }
+          else {
+            this.authenticated = true;
+            this.account = response.data; // JSON automagically reads data
+            console.log(response.data);
+          }
         })
         .catch(e => {
           console.log(e);
