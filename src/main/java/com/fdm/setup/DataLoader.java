@@ -32,7 +32,6 @@ public class DataLoader implements ApplicationRunner {
 		PlayerCharacter plc = actorRepo.save(new PlayerCharacter("player1", 1, 1));
 		acc.setPlayerCharacter(plc);
 		accountRepo.save(acc);
-
 		System.out.println("Finished populating");
 
 	}
