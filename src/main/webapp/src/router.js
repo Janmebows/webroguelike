@@ -51,8 +51,8 @@ export default new Router({
       component: Home
     },
     {
-     path: "/edit-character",
-      name: "edit-character",
+     path: "/edit-account",
+      name: "edit-account",
       component: EditAccount
     },
   ]

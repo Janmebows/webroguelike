@@ -3,12 +3,13 @@
     <a class="navbar-item" href="/">
       <strong class="is-size-4">Office Heroes RPG</strong>
     </a>
-    <div>
+    <div v-if="this.$session.exists()">
       <router-link class="btn btn-secondary" to="/home">Home</router-link>
       <router-link class="btn btn-secondary" to="/Customers">Customers</router-link>
       <router-link class="btn btn-secondary" to="/add">Add</router-link>
+      <router-link class="btn btn-secondary" to="/edit-account">Edit Account</router-link>
     </div>
-    <div>
+    <div v-else>
       <router-link class="btn btn-primary" to="/login">Login</router-link>
       <router-link class="btn btn-primary" to="/register">Register</router-link>
     </div>

@@ -7,6 +7,8 @@
         </div> -->
         <br/>
         <router-view/>
+         <button v-on:click="checkSession" class="btn btn-success">checkSession</button>
+         <p>{{message}}</p>
     </div>
 </template>
 <script>
@@ -16,7 +18,18 @@ export default {
   name: "app",
     components: {
     Nav
-  }
+  },
+  data() {
+    return {
+      message:"",
+    };
+  },
+  methods: {
+    checkSession() {
+      console.log(this.$session.exists());
+      this.message = this.$session.getAll();
+    }
+  },
 };
 </script>
 
