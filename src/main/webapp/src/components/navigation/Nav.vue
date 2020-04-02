@@ -3,7 +3,7 @@
     <a class="navbar-item" href="/">
       <strong class="is-size-4">Office Heroes RPG</strong>
     </a>
-    <div v-if="this.$session.exists()">
+    <div v-if="authenticated">
       <router-link class="btn btn-secondary" to="/home">Home</router-link>
       <router-link class="btn btn-secondary" to="/Customers">Customers</router-link>
       <router-link class="btn btn-secondary" to="/add">Add</router-link>

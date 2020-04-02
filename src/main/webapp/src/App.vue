@@ -7,7 +7,12 @@
         </div> -->
         <br/>
         <router-view/>
-         <button v-on:click="checkSession" class="btn btn-success">checkSession</button>
+        <h3>Session controls</h3>
+        <div>
+          <button v-on:click="createSession" class="btn btn-success">create Session</button>
+          <button v-on:click="checkSession" class="btn btn-success">check Session</button>
+          <button v-on:click="destroySession" class="btn btn-success">destroy Session</button>
+         </div>
          <p>{{message}}</p>
     </div>
 </template>
@@ -25,10 +30,20 @@ export default {
     };
   },
   methods: {
+    createSession() {
+      console.log(this.$session.exists());
+      this.$session.start();
+      this.message = this.$session.getAll();
+    },
     checkSession() {
       console.log(this.$session.exists());
       this.message = this.$session.getAll();
-    }
+    },
+    destroySession() {
+      this.$session.destroy();
+      console.log(this.$session.exists());
+      this.message = this.$session.getAll();
+    },
   },
 };
 </script>
@@ -38,6 +53,9 @@ export default {
   color: blue;
   margin-bottom: 20px;
 } */
+.btn-success{
+  margin-right: 1em;
+}
 .container-fluid {
   text-align: center;
 }
