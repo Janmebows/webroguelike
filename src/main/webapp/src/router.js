@@ -6,8 +6,9 @@ import Register from "./components/Register.vue";
 import LoginAccount from "./components/LoginAccount.vue";
 import Customer from "./components/Customer.vue";
 import Home from "./components/Home.vue";
+import VueSession from 'vue-session';
 
-
+Vue.use(VueSession, { persist: true });
 Vue.use(Router);
 
 // All restful controllers need components connected here

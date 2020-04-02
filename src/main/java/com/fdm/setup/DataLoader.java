@@ -28,12 +28,10 @@ public class DataLoader implements ApplicationRunner {
 		actorRepo.save(new Enemy("enemy41", 1, 1));
 		actorRepo.save(new Enemy("enemy51", 10, -1));
 		Account acc = new Account("uname", "pword");
-		accountRepo.save(acc);
-		PlayerCharacter plc = actorRepo.save(new PlayerCharacter("player1", 1, 1,acc));
+	//	accountRepo.save(acc);
+		PlayerCharacter plc = actorRepo.save(new PlayerCharacter("player1", 1, 1));
 		acc.setPlayerCharacter(plc);
 		accountRepo.save(acc);
-		
-		
 
 		System.out.println("Finished populating");
 

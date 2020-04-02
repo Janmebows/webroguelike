@@ -8,24 +8,24 @@ import org.springframework.stereotype.Component;
 @Entity
 public class PlayerCharacter extends Actor {
 
-	@OneToOne(mappedBy = "playerCharacter")
-	Account owner;
+//	@OneToOne(mappedBy = "playerCharacter")
+	//Account owner;
 
 
 	public PlayerCharacter() {
 		super();
 	}
 
-	public PlayerCharacter(String characterName, int x, int y, Account owner) {
+	public PlayerCharacter(String characterName, int x, int y) {
 		super();
 		this.characterName = characterName;
 		this.x = x;
 		this.y = y;
-		this.owner = owner;
+	//	this.owner = owner;
 	}
 
-	public PlayerCharacter(String name, Account owner) {
-		this(name, 1, 1, owner);
+	public PlayerCharacter(String name) {
+		this(name, 1, 1);
 	}
 
 
@@ -34,13 +34,13 @@ public class PlayerCharacter extends Actor {
 		return "PlayerCharacter [characterName=" + characterName + ", x=" + x + ", y=" + y + "]";
 	}
 
-	public Account getOwner() {
-		return owner;
-	}
-
-	public void setOwner(Account owner) {
-		this.owner = owner;
-	}
+//	public Account getOwner() {
+//		return owner;
+//	}
+//
+//	public void setOwner(Account owner) {
+//		this.owner = owner;
+//	}
 
 	public String getCharacterName() {
 		return characterName;

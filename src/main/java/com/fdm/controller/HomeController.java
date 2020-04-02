@@ -46,7 +46,7 @@ public class HomeController {
 		
 		System.out.println(map);
 		Account account = new Account();
-		PlayerCharacter playerCharacter = new PlayerCharacter("jim", 5, 5, account);
+		PlayerCharacter playerCharacter = new PlayerCharacter("jim", 5, 5);
 		System.out.println(playerCharacter);
 		playerCharacter.setCharacterSymbol('µ');
 		playerCharacter.setMap(map);

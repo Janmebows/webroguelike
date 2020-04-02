@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.fdm.dal.AccountRepository;
+import com.fdm.dal.PlayerCharacterRepository;
 import com.fdm.model.Account;
+import com.fdm.model.PlayerCharacter;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
@@ -27,6 +29,8 @@ public class RegisterController {
 
 	@Autowired
 	AccountRepository accountRepository;
+	@Autowired
+	PlayerCharacterRepository pCharRepo;
 
 	@GetMapping("/register")
 	public String getRegister(HttpSession session, Model model) {
@@ -37,8 +41,13 @@ public class RegisterController {
 	
 	@PostMapping("/account")
 	public Account postAccount(@RequestBody Account account) {
-
-		Account _account = accountRepository.save(new Account(account.getUsername(), account.getPassword()));
+		
+		Account _account = new Account(account.getUsername(), account.getPassword());
+		accountRepository.save(_account);
+		PlayerCharacter plc = new PlayerCharacter(_account.getUsername());
+		pCharRepo.save(plc);
+		_account.setPlayerCharacter(plc);
+		
 		return _account;
 	}
 

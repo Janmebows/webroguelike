@@ -17,6 +17,7 @@
     <div v-else>
       <h4>You submitted successfully!</h4>
       <button class="btn btn-success" v-on:click="newAccount">Continue</button>
+      <p>{{account}}</p>
     </div>
   </div>
 </template>
@@ -48,7 +49,7 @@ export default {
       http
         .post("/account", data)
         .then(response => {
-          this.account.id = response.data.id;
+          this.account = response.data;
           console.log(response.data);
         })
         .catch(e => {

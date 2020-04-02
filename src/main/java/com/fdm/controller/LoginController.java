@@ -29,9 +29,9 @@ public class LoginController {
 //	}
 
 	@PostMapping("/login")
-	public Account postLogin(HttpSession session, @RequestBody Account account) {
+	public Account postLogin(HttpSession session,@RequestBody String username, @RequestBody String password ) {
 		System.out.println("Testing");
-		Account _account = accountRepository.findByUsernameAndPassword(account.getUsername(), account.getPassword()).get(0);
+		Account _account = accountRepository.findByUsernameAndPassword(username, password).get(0);
 		System.out.println("/login called with account:" + _account);
 		if (_account.equals(null)) {
 			return null;
