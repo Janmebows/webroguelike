@@ -1,17 +1,19 @@
 package com.fdm.model;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -29,12 +31,32 @@ public class Map {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
-	// The map is defined such that 0,0 is the TOP LEFT CORNER
-//	public static final int XMAX = 5;
-//	public static final int YMAX = 5;
+
 	String mapName = "map";
+
+	transient volatile List<Actor> actorList;
+
+	// The map is defined such that 0,0 is the TOP LEFT CORNER
 	private int xMax;
 	private int yMax;
+	private transient Tile[][] map;
+
+	public Map() {
+		this("map");
+
+	}
+
+	public Map(String mapName) {
+		this.mapName = mapName;
+		readMapFromFile(mapName);
+		actorList = new ArrayList<Actor>();
+	}
+
+	public Map(String mapName, List<Actor> actors) {
+		this.mapName = mapName;
+		this.actorList = actors;
+		readMapFromFile(mapName);
+	}
 
 	public int getxMax() {
 		return xMax;
@@ -45,64 +67,47 @@ public class Map {
 	}
 
 	public static void generateMapFile(int xMax, int yMax, String title) {
+
 		String fileLoc = System.getProperty("user.dir") + "/" + title +".txt";
+
 		try (OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(fileLoc),
 				StandardCharsets.UTF_8)) {
 			writer.append(xMax + "," + yMax + "\n");
 
-			for (int xIndex = 0; xIndex < xMax; ++xIndex) {
-				for (int yIndex = 0; yIndex < yMax; ++yIndex) {
-				writer.append(".");
+			for (int yIndex = 0; yIndex < yMax; ++yIndex) {
+				for (int xIndex = 0; xIndex < xMax; ++xIndex) {
+					writer.append(".");
 				}
 				writer.append("\n");
 
 			}
-			// do stuff
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		System.out.println(fileLoc);
 	}
 
-	// its will correspond to cell types for now - we may move this to a class
-	// 1 . walls
-	// 0 . passable
-	private Tile[][] map;
-	// PlayerCharacter character = new PlayerCharacter("Janme", 6, 2, new
-	// Account());
-
-	public Map() {
-		this("map");
-//		makeMap();
-
+	public void readMapFromFile() {
+		readMapFromFile("map");
 	}
-	public Map(String mapName) {
-		this.mapName=mapName;
-		readMapFromFile(mapName);
-//		makeMap();
 
-	}
-	
-	public void readMapFromFile(String mapName){
+	public void readMapFromFile(String mapName) {
+
 		String fileLoc = System.getProperty("user.dir") + "/" + mapName + ".txt";
 		Path path = Paths.get(fileLoc);
 		try {
 			yMax = (int) Files.lines(path).count();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		try (BufferedReader reader = new BufferedReader(new FileReader(fileLoc));) {
 			String line = reader.readLine();
 			// drop the leading BOM character
-			if(!Character.isDigit(line.charAt(0)))
+			if (!Character.isDigit(line.charAt(0)))
 				line = line.substring(1);
 			String[] xAndy = line.split(",");
-			char[] x = xAndy[0].toCharArray();
 			xMax = Integer.parseInt(xAndy[0]);
 			yMax = Integer.parseInt(xAndy[1]);
 			map = new Tile[xMax][yMax];
@@ -124,17 +129,34 @@ public class Map {
 
 	}
 
-	public void readMapFromFile() {
-		readMapFromFile("map");
+	public void printMap() {
+		for (int j = 0; j < yMax; ++j) {
+			for (int i = 0; i < xMax; ++i) {
+				System.out.print(getSymbol(i, j));
+			}
+			System.out.println();
+		}
 	}
 
-//	private void makeMap() {
-//		for (int j = 0; j < yMax; ++j) {
-//			for (int i = 0; i < xMax; ++i) {
-//				getMap()[i][j] = j == 0 || j == yMax - 1 || i == 0 || i == xMax- 1 ? 1 : 0;
-//			}
-//		}
-//	}
+	public void addActor(Actor actor) {
+		actorList.add(actor);
+	}
+
+	public void addActors(List<Actor> actors) {
+		this.actorList.addAll(actors);
+	}
+
+	public List<Actor> getActors() {
+		return actorList;
+	}
+
+	public void updateActors() {
+		actorList = actorList.stream().filter(x -> x.isAlive()).collect(Collectors.toList());
+	}
+
+	public List<Actor> getEnemies() {
+		return actorList.stream().filter(x -> x instanceof Enemy).collect(Collectors.toList());
+	}
 
 	public Tile get(int x, int y) {
 		return getMap()[x][y];
@@ -152,10 +174,101 @@ public class Map {
 		return map;
 	}
 
-	public boolean isBlocked(int x, int y) 
-	{
-		if(x < 0 || y < 0 || x >= xMax || y >= xMax)
+	public char[] mapAsCharArray() {
+		char[] out = new char[(xMax + 1) * yMax];
+		for (int y = 0; y < yMax; ++y) {
+			for (int x = 0; x < xMax; ++x) {
+				out[y * (xMax + 1) + x] = getSymbol(x, y);
+
+			}
+			out[y*(xMax+1) + xMax] = '\n';
+
+		}
+		return out;
+
+	}
+
+	private char getSymbol(int x, int y) {
+		Optional<Actor> playerAt = actorList.parallelStream()
+				.filter(player -> player instanceof PlayerCharacter && player.isAtPosition(x, y)).findAny();
+		if (playerAt.isPresent())
+			return playerAt.get().characterSymbol;
+		else {
+			Optional<Actor> enemyAt = actorList.parallelStream()
+					.filter(enemy -> enemy instanceof Enemy && enemy.isAtPosition(x, y)).findAny();
+			if (enemyAt.isPresent()) {
+				return enemyAt.get().characterSymbol;
+
+			} else {
+				return map[x][y].getChar();
+			}
+		}
+	}
+
+	public boolean isBlocked(int x, int y) {
+		if (x < 0 || y < 0 || x >= xMax || y >= yMax)
 			return true;
-		else return map[x][y].isBlocking();
+		else
+			return map[x][y].isBlocking();
+	}
+
+	public boolean tryMoveActor(Actor actor, Direction dir) {
+		int x = actor.getX();
+		int y = actor.getY();
+		List<Actor> enemyList = getEnemies();
+		switch (dir) {
+		case DOWN:
+			if (!isBlocked(x, y + 1)) {
+				List<Actor> enemiesAtPosition = enemyList.stream()
+						.filter(enemy -> enemy.isAtPosition(x, y + 1) && enemy.isAlive()).collect(Collectors.toList());
+				if (!enemiesAtPosition.isEmpty()) {
+					actor.attack((Enemy) enemiesAtPosition.get(0));
+				} else {
+					actor.updatePosition(x, y + 1);
+				}
+				return true;
+			}
+			break;
+		case UP:
+			if (!isBlocked(x, y - 1)) {
+				List<Actor> enemiesAtPosition = enemyList.stream()
+						.filter(enemy -> enemy.isAtPosition(x, y - 1) && enemy.isAlive()).collect(Collectors.toList());
+				if (!enemiesAtPosition.isEmpty()) {
+					actor.attack((Enemy) enemiesAtPosition.get(0));
+				} else {
+					actor.updatePosition(x, y - 1);
+				}
+				return true;
+			}
+			break;
+		case LEFT:
+			if (!isBlocked(x - 1, y)) {
+				List<Actor> enemiesAtPosition = enemyList.stream()
+						.filter(enemy -> enemy.isAtPosition(x - 1, y) && enemy.isAlive()).collect(Collectors.toList());
+				if (!enemiesAtPosition.isEmpty()) {
+					actor.attack((Enemy) enemiesAtPosition.get(0));
+				} else {
+					actor.updatePosition(x - 1, y);
+				}
+				return true;
+			}
+			break;
+		case RIGHT:
+			if (!isBlocked(x + 1, y)) {
+				List<Actor> enemiesAtPosition = enemyList.stream()
+						.filter(enemy -> enemy.isAtPosition(x + 1, y) && enemy.isAlive()).collect(Collectors.toList());
+				if (!enemiesAtPosition.isEmpty()) {
+					actor.attack((Enemy) enemiesAtPosition.get(0));
+				} else {
+					actor.updatePosition(x + 1, y);
+				}
+				return true;
+			}
+			break;
+		case NONE:
+			return false;
+		}
+		return false;
+
 	}
 }

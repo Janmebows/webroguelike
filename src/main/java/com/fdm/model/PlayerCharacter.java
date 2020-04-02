@@ -11,23 +11,35 @@ public class PlayerCharacter extends Actor {
 //	@OneToOne(mappedBy = "playerCharacter")
 	//Account owner;
 
-
 	public PlayerCharacter() {
 		super();
 	}
 
-	public PlayerCharacter(String characterName, int x, int y) {
+	public PlayerCharacter(String characterName, int x, int y,  Object key) {
+
 		super();
 		this.characterName = characterName;
 		this.x = x;
 		this.y = y;
-	//	this.owner = owner;
+		this.key = key;
 	}
+	public PlayerCharacter(String characterName, int x, int y) {
+
+		super();
+		this.characterName = characterName;
+		this.x = x;
+		this.y = y;
+	}
+
+
+	public PlayerCharacter(String name, Object key) {
+		this(name, 1, 1, key);
+	}
+
 
 	public PlayerCharacter(String name) {
 		this(name, 1, 1);
 	}
-
 
 	@Override
 	public String toString() {
