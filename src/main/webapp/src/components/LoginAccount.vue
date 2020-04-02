@@ -50,6 +50,7 @@ export default {
           this.account = response.data; // JSON automagically reads data
           console.log(response.data);
           this.authenticated = true; 
+          this.$router.replace(this.$route.query.redirect || '/home')
           // TODO do proper authentication by checking session data
         })
         .catch(e => {
