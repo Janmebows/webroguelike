@@ -14,7 +14,6 @@ public class PlaceholderApp {
 		PlayerCharacter playerCharacter = new PlayerCharacter("jim", 5, 5, account);
 		playerCharacter.setCharacterSymbol('µ');
 		playerCharacter.setMap(map);
-		
 		PlayerMovementController controller = new PlayerMovementController(map, playerCharacter, iView);
 		controller.handle();
 

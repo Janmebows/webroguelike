@@ -22,39 +22,44 @@ import PlaceholderTesting.View;
 @RestController
 @RequestMapping("/api")
 public class HomeController {
-	
+
 	@Autowired
 	AccountRepository accountRepository;
-	
+
 	@Autowired
 	MapRepository mapRepository;
-	
+
 	@GetMapping({ "/home" })
 	public String getIndex(HttpSession session) {
 		if (session.getAttribute("user") != null) {
 			return "home";
 		}
-		return "index";
+		return "/home";
 	}
-	
+
 	@PostMapping("/home")
-	public String postLogin(HttpSession session, @RequestBody Account account1) {
+	public Map postGame() {
 		System.out.println("Testing0");
 
 		IView iView = new View();
 		Map map = new Map("20x20test");
-		
-		System.out.println(map);
 		Account account = new Account();
 		PlayerCharacter playerCharacter = new PlayerCharacter("jim", 5, 5, account);
 		System.out.println(playerCharacter);
 		playerCharacter.setCharacterSymbol('µ');
 		playerCharacter.setMap(map);
-		
+
 		PlayerMovementController controller = new PlayerMovementController(map, playerCharacter, iView);
-		controller.handle();
-		System.out.println("Testing1");
-		
-		return "/";
+		// controller.handle();
+//		String[][] a = new String[][]();
+//		Map m = controller.map;
+//		for (int j = 0; j < m.getyMax(); ++j) {
+//			for (int i = 0; i < m.getxMax(); ++i) {
+//				a[i][j] = "";//(i, j);
+//			}
+//			System.out.println();
+//		}
+
+		return controller.map;
 	}
 }

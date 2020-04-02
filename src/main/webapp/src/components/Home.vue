@@ -1,41 +1,41 @@
 <template>
-    <div class="list row">
-        <div class="col-md-6">
-            <h4>Start New Game ${ this.account }</h4>
-            <ul>
-                <li v-for="(customer, index) in customers" :key="index">
-                    <router-link :to="{
-                            name: 'customer-details',
-                            params: { customer: customer, id: customer.id }
-                        }">
-                            {{customer.name}}
-                    </router-link>
-                </li>
-            </ul>
-        </div>
-        <div class="col-md-6">
-            <router-view @refreshData="refreshList"></router-view>
-        </div>
+  <div class="list row">
+    <div class="col-md-6">
+      <h4>Game Map</h4>
+      <ul>
+        <li v-for="(map, index) in maps" :key="index">
+          <router-link
+            :to="{
+                            name: 'map-details',
+                            params: { map: map, id: map.id }
+                        }"
+          >{{map.mapName}}</router-link>
+        </li>
+      </ul>
     </div>
+    <div class="col-md-6">
+      <router-view @refreshData="refreshList"></router-view>
+    </div>
+  </div>
 </template>
 
 <script>
 import http from "../http-common";
 
 export default {
-  name: "customers-list",
+  name: "maps-list",
   data() {
     return {
-      customers: []
+      maps: []
     };
   },
   methods: {
     /* eslint-disable no-console */
-    retrieveCustomers() {
+    retrieveMaps() {
       http
-        .get("/home")
+        .post("/home")
         .then(response => {
-          this.customers = response.data; // JSON are parsed automatically.
+          this.maps = response.data; // JSON are parsed automatically.
           console.log(response.data);
         })
         .catch(e => {
@@ -43,12 +43,12 @@ export default {
         });
     },
     refreshList() {
-      this.retrieveCustomers();
+      this.retrieveMaps();
     }
     /* eslint-enable no-console */
   },
   mounted() {
-    this.retrieveCustomers();
+    this.retrieveMaps();
   }
 };
 </script>
