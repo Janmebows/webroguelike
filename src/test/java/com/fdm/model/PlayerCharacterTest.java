@@ -21,7 +21,7 @@ public class PlayerCharacterTest {
 
 	@Test
 	public void test_can_update_position() {
-		playerChar.UpdatePosition(2, 5);
+		playerChar.updatePosition(2, 5);
 		assertEquals(2, playerChar.getX());
 		assertEquals(5, playerChar.getY());
 	}
@@ -33,14 +33,14 @@ public class PlayerCharacterTest {
 
 	@Test
 	public void test_can_move_up() {
-		playerChar.UpdatePosition(2, 5);
+		playerChar.updatePosition(2, 5);
 		playerChar.moveChar(Direction.UP);
 		assert (playerChar.isAtPosition(2, 4));
 	}
 
 	@Test
 	public void test_can_move_multiple_directions() {
-		playerChar.UpdatePosition(2, 5);
+		playerChar.updatePosition(2, 5);
 		playerChar.moveChar(Direction.UP);
 		playerChar.moveChar(Direction.RIGHT);
 		playerChar.moveChar(Direction.RIGHT);
@@ -59,7 +59,7 @@ public class PlayerCharacterTest {
 
 	@Test
 	public void test_char_doesnt_move_if_wall_down_left() {
-		playerChar.UpdatePosition(1, 8);
+		playerChar.updatePosition(1, 8);
 		playerChar.moveChar(Direction.LEFT);
 		playerChar.moveChar(Direction.DOWN);
 		assert (playerChar.isAtPosition(1, 8));
@@ -67,7 +67,7 @@ public class PlayerCharacterTest {
 
 	@Test
 	public void test_char_doesnt_move_if_wall_right_and_moves_fine_after() {
-		playerChar.UpdatePosition(18, 5);
+		playerChar.updatePosition(18, 5);
 		playerChar.moveChar(Direction.RIGHT);
 		playerChar.moveChar(Direction.DOWN);
 		assert (playerChar.isAtPosition(18, 6));
