@@ -1,11 +1,8 @@
 <template>
   <div class="list row">
-    <div class="col-md-6">
+    <div>
       <h4>Game Map</h4>
       <div id="map"></div>
-    </div>
-    <div class="col-md-6">
-      <router-view @refreshData="refreshList"></router-view>
     </div>
   </div>
 </template>
@@ -14,12 +11,6 @@
 import http from "../http-common";
 
 export default {
-  name: "maps-list",
-  data() {
-    return {
-      maps: []
-    };
-  },
   methods: {
     retrieveMaps() {
       http
@@ -54,11 +45,3 @@ export default {
   }
 };
 </script>
-
-<style>
-.list {
-  text-align: left;
-  max-width: 450px;
-  margin: auto;
-}
-</style>
