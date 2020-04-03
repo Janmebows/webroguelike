@@ -102,7 +102,7 @@ export default {
           console.log(frame);
           this.stompClient.subscribe("/topic/chat", tick => {
             console.log(tick);
-            this.received_messages.push(JSON.parse(messageOutput.body));
+            this.received_messages.push(JSON.parse(tick.body));
           });
         },
         error => {
