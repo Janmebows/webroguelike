@@ -14,7 +14,7 @@ public class PlayerCharacterTest {
 	@Before
 	public void init() {
 		account = new Account("testAccount", "testPass");
-		playerChar = new PlayerCharacter("testChar", map, account, new Object());
+		playerChar = new PlayerCharacter("testChar", new Object());
 		map = new Map("MovementTestingMap");
 		playerChar.setMap(map);
 	}

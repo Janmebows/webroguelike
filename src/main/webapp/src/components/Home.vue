@@ -2,16 +2,7 @@
   <div class="list row">
     <div class="col-md-6">
       <h4>Game Map</h4>
-      <ul>
-        <li v-for="(map, index) in maps" :key="index">
-          <router-link
-            :to="{
-                            name: 'map-details',
-                            params: { map: map, id: map.id }
-                        }"
-          >{{map.mapName}}</router-link>
-        </li>
-      </ul>
+      <div id="map"></div>
     </div>
     <div class="col-md-6">
       <router-view @refreshData="refreshList"></router-view>
@@ -31,20 +22,42 @@ export default {
   },
   methods: {
     /* eslint-disable no-console */
+
     retrieveMaps() {
       http
         .post("/home")
         .then(response => {
           this.maps = response.data; // JSON are parsed automatically.
-          console.log(response.data);
+          console.log(this.maps);
+
+          const ROWS = 20;
+          const COLS = 20;
+          var map = document.getElementById("map");
+          var table = document.createElement(
+            "table"
+          ); /*Create `table` element*/
+          for (var i = 0; i < ROWS; i++) {
+            var tr = document.createElement("tr"); /*Create `tr` element*/
+            for (var j = 0; j < COLS; j++) {
+              var td = document.createElement("td"); /*Create `td` element*/
+              var cellText = document.createTextNode(
+                this.maps[i][j]
+              ); /*Create text for `td` element*/
+              td.appendChild(cellText); /*Append text to `td` element*/
+              tr.appendChild(td); /*Append `td` to `tr` element*/
+            }
+            table.appendChild(tr); /*Append `tr` to `table` element*/
+          }
+          map.appendChild(table);
         })
         .catch(e => {
-          console.log(e);
+          console.log("Post /home Error" + e);
         });
     },
     refreshList() {
       this.retrieveMaps();
     }
+
     /* eslint-enable no-console */
   },
   mounted() {

@@ -173,6 +173,17 @@ public class Map {
 	public Tile[][] getMap() {
 		return map;
 	}
+	
+    public char[][] getMapCharacters() {
+        char[][] out = new char[xMax][yMax];
+
+        for (int y = 0; y < yMax; ++y) {
+            for (int x = 0; x < xMax; ++x) {
+                out[x][y] = getSymbol(x, y);
+            }
+        }
+        return out;
+    }
 
 	public char[] mapAsCharArray() {
 		char[] out = new char[(xMax + 1) * yMax];
