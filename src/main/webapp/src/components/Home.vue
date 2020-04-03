@@ -21,8 +21,6 @@ export default {
     };
   },
   methods: {
-    /* eslint-disable no-console */
-
     retrieveMaps() {
       http
         .post("/home")
