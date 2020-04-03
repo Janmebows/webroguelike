@@ -53,13 +53,12 @@ export default {
         .then(response => {
           // https://www.npmjs.com/package/vue-session
           console.log(response);
-          if (response.status === 200 && 'token' in response.body) {
+          if (response.status === 200 && response.data != null) {
             this.authenticated = true;
             this.account = response.data; // JSON automagically reads data
             console.log(response.data);
           }
           else {
-
             this.authenticated = false;
           }
         })
