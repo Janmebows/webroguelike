@@ -53,11 +53,7 @@ export default {
         .catch(e => {
           console.log("Post /home Error" + e);
         });
-    },
-    refreshList() {
-      this.retrieveMaps();
     }
-
     /* eslint-enable no-console */
   },
   mounted() {

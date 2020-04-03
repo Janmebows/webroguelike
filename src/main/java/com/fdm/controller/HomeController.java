@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.fdm.dal.AccountRepository;
 import com.fdm.dal.MapRepository;
-import com.fdm.model.Account;
 import com.fdm.model.Actor;
 import com.fdm.model.Enemy;
 import com.fdm.model.Map;
@@ -37,16 +36,12 @@ public class HomeController {
 		return "/home";
 	}
 
-
 	@PostMapping("/home")
 	public char[][] postGame() {
-		System.out.println("Testing0");
-
 		Map map = new Map("20x20test");
-		Account account = new Account();
 		Object key = new Object();
+		
 		PlayerCharacter playerCharacter = new PlayerCharacter("jim", 5, 5, key);
-		System.out.println(playerCharacter);
 		playerCharacter.setCharacterSymbol('µ');
 		playerCharacter.setMap(map);
 		Actor enemy = new Enemy("hi", 2, 4, key);
@@ -57,18 +52,9 @@ public class HomeController {
 		actorList.add(enemy2);
 		actorList.add(enemy3);
 		actorList.add(playerCharacter);
+		
 		PlayerCharacterInputController pci = new PlayerCharacterInputController(playerCharacter);
 		MapAndActorThreadController controller = new MapAndActorThreadController(map, pci, key, actorList);
-		// controller.handle();
-//		String[][] a = new String[][]();
-//		Map m = controller.map;
-//		for (int j = 0; j < m.getyMax(); ++j) {
-//			for (int i = 0; i < m.getxMax(); ++i) {
-//				a[i][j] = "";//(i, j);
-//			}
-//			System.out.println();
-//		}
 		return controller.map.getMapCharacters();
-		//return controller.map;
 	}
 }
