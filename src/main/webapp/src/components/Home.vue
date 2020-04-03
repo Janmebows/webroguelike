@@ -1,18 +1,25 @@
 <template>
-  <div class="list row">
-    <div>
-      <h4>Game Map</h4>
+<body bgcolor="#ff0000">
+  <div>
+    <div class="col-md-5" style="float:left">
+      <Chat />
+    </div>
+    <div class="col-md-5" style="float:right">
       <div id="map"></div>
     </div>
   </div>
+</body>
 </template>
 
 <script>
 import http from "../http-common";
+import Chat from "./Chat.vue";
 
 export default {
   name: "home",
-  components: {},
+  components: {
+    Chat
+  },
   methods: {
     retrieveMaps() {
       http

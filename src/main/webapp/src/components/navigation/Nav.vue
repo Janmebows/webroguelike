@@ -1,16 +1,23 @@
 <template>
-  <nav class="navbar container" role="navigation">
+  <nav class="navbar bg-secondary text-uppercase fixed-top" role="navigation">
     <a class="navbar-item" href="/">
-      <strong class="is-size-4">Office Heroes RPG</strong>
+      <strong class="is-size-4">
+        <img
+          class="TechBay Logo"
+          src="../../assets/logo.png"
+          alt="TechBay Logo"
+          style="width:120px;height:75px;"
+        />
+        Office Heroes RPG
+      </strong>
     </a>
+    <div>
+      <!-- <router-link class="btn btn-secondary" to="/Customers">Customers</router-link>
+      <router-link class="btn btn-secondary" to="/add">Add</router-link>-->
+    </div>
     <div>
       <router-link class="btn btn-secondary" to="/home">Home</router-link>
       <router-link class="btn btn-secondary" to="/chat">Chat</router-link>
-
-      <router-link class="btn btn-secondary" to="/Customers">Customers</router-link>
-      <router-link class="btn btn-secondary" to="/add">Add</router-link>
-    </div>
-    <div>
       <router-link class="btn btn-primary" to="/login">Login</router-link>
       <router-link class="btn btn-primary" to="/register">Register</router-link>
     </div>
@@ -24,7 +31,7 @@ export default {
 <style>
 nav {
   margin-bottom: 2em;
-  background: lightgray;
+  background: darkgrey;
 }
 
 nav > a {

@@ -29,9 +29,8 @@ function connect() {
     //input to SockJS is endpoint from WebSocketConfig
     var socket = new SockJS('/chat');
     stompClient = Stomp.over(socket);
-    stompClient.connect({}, function (frame) {
+    stompClient.connect({}, function () {
         setConnected(true);
-        console.log('Connected: ' + frame);
         stompClient.subscribe('/topic/chat', function (messageOutput) {
             showMessageOutput(JSON.parse(messageOutput.body));
         });

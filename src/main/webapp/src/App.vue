@@ -1,20 +1,20 @@
 <template>
-    <div id="app" class="container-fluid">
-      <Nav/>
-        <!-- <div class="site-info">
+  <div id="app" class="container">
+    <Nav />
+    <!-- <div class="site-info">
             <h1>Office Heroes RPG</h1>
             <h3>Gamified remote office relationships</h3>
-        </div> -->
-        <br/>
-        <router-view/>
-    </div>
+    </div>-->
+    <br />
+    <router-view />
+  </div>
 </template>
 <script>
-// navigitagion from https://auth0.com/blog/beginner-vuejs-tutorial-with-user-login/
-import Nav from './components/navigation/Nav.vue';
+// navigation from https://auth0.com/blog/beginner-vuejs-tutorial-with-user-login/
+import Nav from "./components/navigation/Nav.vue";
 export default {
   name: "app",
-    components: {
+  components: {
     Nav
   }
 };
