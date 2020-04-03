@@ -11,6 +11,8 @@
 import http from "../http-common";
 
 export default {
+  name: "home",
+  components: {},
   methods: {
     retrieveMaps() {
       http

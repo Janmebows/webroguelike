@@ -6,7 +6,7 @@ import Register from "./components/Register.vue";
 import LoginAccount from "./components/LoginAccount.vue";
 import Customer from "./components/Customer.vue";
 import Home from "./components/Home.vue";
-import Chat from "./components/Chat.vue";
+import EditAccount from "./components/EditAccount.vue";
 import VueSession from 'vue-session';
 
 Vue.use(VueSession, { persist: true });
@@ -35,7 +35,7 @@ export default new Router({
       name: "add",
       component: AddCustomer
     },
-    {
+       {
       path: "/register",
       name: "register",
       component: Register
@@ -45,15 +45,15 @@ export default new Router({
       name: "login",
       component: LoginAccount
     },
-    {
+   {
       path: "/home",
       name: "map-details",
       component: Home
     },
     {
-      path: "/chat",
-      name: "chat",
-      component: Chat
-    }
+     path: "/edit-account",
+      name: "edit-account",
+      component: EditAccount
+    },
   ]
 });
