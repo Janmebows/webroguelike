@@ -1,10 +1,12 @@
 import Vue from "vue";
 import App from "./App.vue";
 import router from './router';
-import VueSession from 'vue-session';
-
-Vue.use(VueSession, { persist: true });
+// import VueSession from 'vue-session';
+// Vue.use(VueSession, { persist: true });
 Vue.config.productionTip = false;
+
+//export const eventBus = new Vue();
+// Holds account data
 
 // Home page, 
 new Vue({

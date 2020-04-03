@@ -42,6 +42,7 @@
 
 <script>
 import http from "../http-common";
+//import {eventBus} from "../main";
 
 export default {
   name: "add-account",
@@ -71,8 +72,8 @@ export default {
             console.log(response.data);
             this.$emit("auth");
             this.$emit("accountdata", response.data);
-            this.$session.set("account", this.account);
             this.authenticated = true;
+ //           eventBus.$emit('responseData', response.data);
           } else {
             this.error = "Oops looks like the username is already taken or what you entered is invalid";
           }
@@ -95,5 +96,8 @@ export default {
 .submitform {
   max-width: 300px;
   margin: auto;
+}
+.form-group {
+  text-align: left;
 }
 </style>

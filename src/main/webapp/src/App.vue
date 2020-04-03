@@ -23,11 +23,11 @@
             <h3>Gamified remote office relationships</h3>
     </div>-->
     <br />
-    <router-view @auth="createSession" @accountdata="saveData($event)"/>
+    <router-view @auth="authUser" @accountdata="saveData($event)"/>
 
     <!-- <h3 class="">Session controls</h3>
     <div class="">
-      <button v-on:click="createSession" class="btn btn-success">create Session</button>
+      <button v-on:click="authUser" class="btn btn-success">create Session</button>
       <button v-on:click="checkSession" class="btn btn-success">check Session</button>
       <button v-on:click="logout" class="btn btn-success">destroy Session</button>
     </div>
@@ -44,7 +44,6 @@ export default {
   },
   data() {
     return {
-      message: "",
       authenticated: false, 
       account: {
         id: 0,
@@ -54,25 +53,14 @@ export default {
     };
   },
   methods: {
-    createSession() {
-      // console.log(this.$session.exists());
+    authUser() {
       this.authenticated = true;
-      this.$session.start();
-      this.message = this.$session.getAll();
       },
     saveData(accountData) {
-      // console.log(this.$session.exists());
       console.log(accountData);
       this.account = accountData;
       },
-    checkSession() {
-      // console.log(this.$session.exists());
-      this.message = this.$session.getAll();
-    },
     logout() {
-      this.$session.destroy();
-      // console.log(this.$session.exists());
-      this.message = this.$session.getAll();
       this.accountData = {};
       this.authenticated = false;
       this.$router.push('/');

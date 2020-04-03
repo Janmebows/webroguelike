@@ -22,17 +22,16 @@ public class EditPlayerController {
 	ActorRepository aRepo;
 
 	@PostMapping("/edit")
-	public PlayerCharacter postLogin(@RequestBody PlayerCharacter pc ) {
-		
+	public PlayerCharacter postLogin(@RequestBody PlayerCharacter pc) {
+
 		System.out.println("/edit called with player character:" + pc);
 		if (pc.equals(null)) {
 			return null;
 		} else {
 			pc = aRepo.save(pc);
-			
+
 			return pc;
 		}
 	}
-	
-	
+
 }
