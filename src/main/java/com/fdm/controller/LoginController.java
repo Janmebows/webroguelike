@@ -29,15 +29,26 @@ public class LoginController {
 //	}
 
 	@PostMapping("/login")
-	public Account postLogin(HttpSession session,@RequestBody String username, @RequestBody String password ) {
+	public Account postLogin(@RequestBody Account account) {
+		if (account == null) {
+            return null;
+        }
+        // EMPTY FIELDS
+        if (account.getUsername() == null || account.getUsername().equals("")) {
+            return null;
+
+        } else if (account.getPassword() == null || account.getPassword().equals("")) {
+            return null;
+        }
+		
 		System.out.println("Testing");
-		Account _account = accountRepository.findByUsernameAndPassword(username, password).get(0);
+		Account _account = accountRepository.findByUsernameAndPassword(account.getUsername(), account.getPassword());
 		System.out.println("/login called with account:" + _account);
 		if (_account.equals(null)) {
 			return null;
 		} else {
-			session.setAttribute("activeUser", _account);
-			System.out.println(session.getAttribute("activeUser"));
+//			session.setAttribute("activeUser", _account);
+//			System.out.println(session.getAttribute("activeUser"));
 			return _account;
 		}
 	}

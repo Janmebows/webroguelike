@@ -12,7 +12,8 @@
         </div>
     
         <button v-on:click="loginAccount" class="btn btn-success">Login</button>
-
+        <br/>
+        <p>{{error}}</p>
     </div>
     <div v-else>
       <h4>You Logged in successfully!</h4>
@@ -33,8 +34,6 @@ export default {
         id: 0,
         username: "",
         password: "",
-        active: false,
-        playerCharacter: 0,
       },
       authenticated: false,
       message:"",
@@ -51,26 +50,23 @@ export default {
       http
         .post("/login", data)
         .then(response => {
-          // https://www.npmjs.com/package/vue-session
-          console.log(response);
-          if (response.status === 200 && response.data != null) {
-            this.authenticated = true;
+        
+          if (response.status === 200 && response.data != "") {
             this.account = response.data; // JSON automagically reads data
             console.log(response.data);
+            this.$emit("auth");
+            this.$emit("accountdata", response.data);
+            this.authenticated = true;
           }
           else {
+            this.error = "Oops looks like the you entered invalid info, please try again.";
             this.authenticated = false;
           }
         })
         .catch(e => {
+          this.error = "Oops something went wrong! Please contact the admin.";
           console.log(e);
         });
-
-      
-    },
-    logoutAccount() {
-      this.authenticated = false;
-      this.account = {};
     },
     /* eslint-enable no-console */
   }
