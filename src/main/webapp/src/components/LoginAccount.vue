@@ -6,11 +6,9 @@
         <div class="form-group">
           <input type="text" placeholder="Username" class="form-control" id="username" required v-model="account.username" name="username">
         </div>
-    
         <div class="form-group">
           <input type="password" placeholder="Password" class="form-control" id="password" required v-model="account.password" name="password">
         </div>
-    
         <button v-on:click="loginAccount" class="btn btn-success">Login</button>
         <br/>
         <p>{{error}}</p>
@@ -29,6 +27,7 @@ import http from "../http-common";
 export default {
   name: "login-account",
   data() {
+   
     return {
       account: {
         id: 0,
@@ -37,6 +36,7 @@ export default {
       },
       authenticated: false,
       message:"",
+      error: "",
     };
   },
   methods: {

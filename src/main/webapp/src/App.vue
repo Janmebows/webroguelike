@@ -9,7 +9,7 @@
         <router-link class="btn btn-secondary" to="/home">Home</router-link>
         <router-link class="btn btn-secondary" to="/Customers">Customers</router-link>
         <router-link class="btn btn-secondary" to="/add">Add</router-link>
-        <router-link class="btn btn-secondary" to="/edit-account">Edit Account</router-link>
+        <router-link class="btn btn-secondary" to="/edit-account">Edit Character</router-link>
         <button v-on:click="logout" class="btn btn-secondary">Logout</button>
       </div>
       <div v-else>
@@ -62,6 +62,7 @@ export default {
       },
     logout() {
       this.accountData = {};
+      this.account = {};
       this.authenticated = false;
       this.$router.push('/');
     }

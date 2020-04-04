@@ -28,7 +28,7 @@
       </div>
 
       <button @click="saveAccount" class="btn btn-success">Register</button>
-
+      <br/>
       <p>{{error}}</p>
     </div>
 

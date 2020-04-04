@@ -1,5 +1,8 @@
 package com.fdm.controller;
 
+import java.util.List;
+import java.util.Optional;
+
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
@@ -42,14 +45,14 @@ public class LoginController {
         }
 		
 		System.out.println("Testing");
-		Account _account = accountRepository.findByUsernameAndPassword(account.getUsername(), account.getPassword());
+		List<Account> _account = accountRepository.findByUsernameAndPassword(account.getUsername(), account.getPassword());
 		System.out.println("/login called with account:" + _account);
-		if (_account.equals(null)) {
+		if (_account.isEmpty()) {
 			return null;
 		} else {
 //			session.setAttribute("activeUser", _account);
 //			System.out.println(session.getAttribute("activeUser"));
-			return _account;
+			return _account.get(0);
 		}
 	}
 	/*@GetMapping("/login")
