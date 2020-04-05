@@ -64,11 +64,10 @@ public class RegisterController {
             return null;
         } else {
             Account _account = new Account(account.getUsername(), account.getPassword());
-            accountRepository.save(_account);
             PlayerCharacter plc = new PlayerCharacter(_account.getUsername());
-            pCharRepo.save(plc);
             _account.setPlayerCharacter(plc);
-
+            pCharRepo.save(plc);
+            accountRepository.save(_account);
             return _account;
         }
 

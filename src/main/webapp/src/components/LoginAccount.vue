@@ -57,6 +57,7 @@ export default {
             this.$emit("auth");
             this.$emit("accountdata", response.data);
             this.authenticated = true;
+            this.$router.push('/home');
           }
           else {
             this.error = "Oops looks like the you entered invalid info, please try again.";
