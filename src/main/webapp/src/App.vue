@@ -7,8 +7,8 @@
        <transition name="fade">
       <div v-if="authenticated">
         <router-link class="btn btn-secondary" to="/home">Home</router-link>
-        <router-link class="btn btn-secondary" to="/Customers">Customers</router-link>
-        <router-link class="btn btn-secondary" to="/add">Add</router-link>
+        <!-- <router-link class="btn btn-secondary" to="/Customers">Customers</router-link>
+        <router-link class="btn btn-secondary" to="/add">Add</router-link> -->
         <router-link class="btn btn-secondary" to="/edit-account">Edit Character</router-link>
         <button v-on:click="logout" class="btn btn-secondary">Logout</button>
       </div>
