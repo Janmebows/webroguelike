@@ -18,11 +18,18 @@
       </div>
       </transition>
     </nav>
+
     <!-- <div class="site-info">
             <h1>Office Heroes RPG</h1>
             <h3>Gamified remote office relationships</h3>
     </div>-->
     <br />
+
+
+
+
+
+<!-- <<<<<<< HEAD -->
     <router-view @auth="authUser" @accountdata="saveData($event)"/>
 
     <!-- <h3 class="">Session controls</h3>
@@ -41,6 +48,27 @@ export default {
   name: "app",
   components: {
    // Register
+
+// =======
+   
+//     <router-view />
+//   </div>
+
+// </template>
+// <script>
+// // navigation from https://auth0.com/blog/beginner-vuejs-tutorial-with-user-login/
+// import Nav from "./components/navigation/Nav.vue";
+// export default {
+//   name: "app",
+//   components: {
+//     Nav
+// >>>>>>> VueJSVer2
+
+
+
+
+
+
   },
   data() {
     return {

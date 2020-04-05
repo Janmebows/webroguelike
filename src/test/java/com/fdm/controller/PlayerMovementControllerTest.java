@@ -7,12 +7,9 @@ import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import static org.mockito.Mockito.*;
-
 import com.fdm.model.Direction;
 import com.fdm.model.Map;
 import com.fdm.model.PlayerCharacter;
-import com.fdm.model.Tile;
 
 
 public class PlayerMovementControllerTest {
