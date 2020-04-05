@@ -39,3 +39,11 @@ src/main/webapp/package.json
 package-lock.json
 
 target/
+
+
+.classpath
+.project
+.settings/org.eclipse.core.resources.prefs
+.settings/org.eclipse.jdt.core.prefs
+tmp/
+bin/
