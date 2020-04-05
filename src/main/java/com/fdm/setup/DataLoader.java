@@ -34,19 +34,6 @@ public class DataLoader implements ApplicationRunner {
 		PlayerCharacter plc = actorRepo.save(new PlayerCharacter("player1", 1, 1));
 		acc.setPlayerCharacter(plc);
 		accountRepo.save(acc);
-//		Map map = mapRepo.save(new Map());
-//		actorRepo.save(new Enemy("enemy1",map, 1, 1));
-//		actorRepo.save(new Enemy("enemy2", 2, 1));
-//		actorRepo.save(new Enemy("enemy3", 1, 3));
-//		actorRepo.save(new Enemy("enemy41", 1, 1));
-//		actorRepo.save(new Enemy("enemy51", 10, -1));
-//		Account acc = new Account("uname", "pword");
-//		accountRepo.save(acc);
-//		PlayerCharacter plc = actorRepo.save(new PlayerCharacter("player1", 1, 1,acc));
-//		acc.setPlayerCharacter(plc);
-//		accountRepo.save(acc);
-//		
-		
 
 		System.out.println("Finished populating");
 

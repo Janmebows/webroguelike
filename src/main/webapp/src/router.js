@@ -46,6 +46,7 @@ export default new Router({
       component: LoginAccount
     },
     {
+
       path: "/home",
       name: "map-details",
       component: Home

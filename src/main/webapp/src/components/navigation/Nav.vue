@@ -18,6 +18,7 @@
     <div>
       <router-link class="btn btn-secondary" to="/home">Home</router-link>
       <router-link class="btn btn-secondary" to="/chat">Chat</router-link>
+
       <router-link class="btn btn-primary" to="/login">Login</router-link>
       <router-link class="btn btn-primary" to="/register">Register</router-link>
     </div>

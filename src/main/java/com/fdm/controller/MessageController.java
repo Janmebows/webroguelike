@@ -16,6 +16,9 @@ public class MessageController {
 	@MessageMapping("/chat")
 	@SendTo("/topic/chat")
 	public OutputMessage send(Message message) throws Exception {
+
+		System.out.println("hi");
+
 		  String time = new SimpleDateFormat("HH:mm").format(new Date());
 		  return new OutputMessage(message.getFrom(), message.getText(), time);
 	}

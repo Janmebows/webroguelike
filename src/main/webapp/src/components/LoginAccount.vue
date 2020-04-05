@@ -12,13 +12,13 @@
         </div>
     
         <button v-on:click="loginAccount" class="btn btn-success">Login</button>
-         <button v-on:click="checkSession" class="btn btn-success">checkSession</button>
+
     </div>
     <div v-else>
       <h4>You Logged in successfully!</h4>
       <p>{{account.username}}</p>
     </div>
-    <p>{{message}}</p>
+
   </div>
 </template>
 
@@ -73,15 +73,6 @@ export default {
       this.authenticated = false;
       this.account = {};
     },
-
-    checkSession() {
-       this.$session.start();
-        this.$session.set("key","value");
-      
-      console.log("checking session...");
-       console.log(this.$session.exists());
-       this.message = this.$session.getAll();
-    }
     /* eslint-enable no-console */
   }
 };

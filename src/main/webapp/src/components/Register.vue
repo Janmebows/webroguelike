@@ -1,6 +1,6 @@
 <template>
   <div class="submitform">
-    <div v-if="!submitted">
+    <div v-if="!authenticated">
           <h4>Register</h4>
 
         <div class="form-group">
@@ -12,12 +12,12 @@
         </div>
     
         <button v-on:click="saveAccount" class="btn btn-success">Register</button>
+        <p>{{error}}</p>
     </div>
     
     <div v-else>
-      <h4>You submitted successfully!</h4>
+      <h4>You registered in successfully!</h4>
       <button class="btn btn-success" v-on:click="newAccount">Continue</button>
-      <p>{{account}}</p>
     </div>
   </div>
 </template>
@@ -33,9 +33,9 @@ export default {
         id: 0,
         username: "",
         password: "",
-        active: false
       },
-      submitted: false
+      authenticated: false,
+      error:"",
     };
   },
   methods: {
@@ -53,13 +53,14 @@ export default {
           console.log(response.data);
         })
         .catch(e => {
+          this.error = "Oops something went wrong! Please contact the admin."
           console.log(e);
         });
 
-      this.submitted = true;
+      this.authenticated = true;
     },
     newAccount() {
-      this.submitted = false;
+      this.authenticated = false;
       this.account = {};
     }
     /* eslint-enable no-console */
