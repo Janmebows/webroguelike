@@ -1,14 +1,29 @@
 <template>
-<body bgcolor="#ff0000">
+<div class="container">
   <div>
+    <h2>Game</h2>
+    </div>
+  <div class="row">
     <div class="col-md-5" style="float:left">
+      <div id="map" align="center"></div>
+      <div class="" align="center">
+      <button type="button" class="btn btn-outline-info">Up</button>
+      <button type="button" class="btn btn-outline-info">Down</button>
+      <button type="button" class="btn btn-outline-info">Left</button>
+      <button type="button" class="btn btn-outline-info">Right</button>
+      </div>
+    </div>
+     <div class="col-md-7" style="float:right">
       <Chat />
     </div>
-    <div class="col-md-5" style="float:right">
-      <div id="map"></div>
-    </div>
   </div>
-</body>
+</div>
+
+<!-- <body bgcolor="#ff0000">
+  <div>
+   
+  </div>
+</body> -->
 </template>
 
 <script>

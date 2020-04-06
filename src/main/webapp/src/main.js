@@ -4,9 +4,9 @@ import router from './router';
 
 import $ from "jquery";
 window.jQuery = window.$ = $;
-require("bootstrap/dist/css/bootstrap.min.css");
-require("bootstrap/dist/js/bootstrap.min.js");
-
+// require("bootstrap/dist/css/bootstrap.min.css");
+// require("bootstrap/dist/js/bootstrap.min.js");
+require('../styles/Darkly-bootstrap.css');
 Vue.config.productionTip = false;
 
 //export const eventBus = new Vue();

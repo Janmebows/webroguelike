@@ -1,9 +1,11 @@
-
-
 <template>
-  <div id="main-content" class="container" align="center">
-    <div class="col-md-10">
-      <div class="form-group" align="left">
+  <div id="main-content" class="container" align="">
+    <div class="row">
+      <h4>Chat</h4>
+      </div>
+    <div class="row">
+    <div class="col-md-12">
+      <div class="form-group" align="">
         <label for="connect">WebSocket connection:</label>
         <button
           id="connect"
@@ -20,7 +22,7 @@
           @click.prevent="disconnect"
         >Disconnect</button>
       </div>
-      <form class="col-md-6" align="center">
+      <form class="col-md-6" align="">
         <div class="form-group">
           <label for="from">
             <br />Write your Message:
@@ -40,8 +42,7 @@
           </div>
         </div>
       </form>
-    </div>
-    <div class="col-md-5">
+        <div class="col-md-12">
       <table id="conversation" class="table table-striped">
         <thead>
           <tr>
@@ -54,6 +55,11 @@
           </tr>
         </tbody>
       </table>
+    </div>
+    </div>
+
+
+
     </div>
   </div>
 </template>

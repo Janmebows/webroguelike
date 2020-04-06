@@ -61,12 +61,15 @@
 			<groupId>javax.servlet</groupId>
 			<artifactId>jstl</artifactId>
 		</dependency>
-	</dependencies>
-	
+		
 	<!--  Websockets stuff -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-websocket</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-messaging</artifactId>
         </dependency>
         <dependency>
             <groupId>org.webjars</groupId>
@@ -93,7 +96,9 @@
             <version>3.1.1-1</version>
         </dependency>
         <!-- Finish -->
-
+		
+	</dependencies>
+	
 	<build>
 		<plugins>
 			<plugin>
