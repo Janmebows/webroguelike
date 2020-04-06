@@ -8,6 +8,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -55,6 +56,7 @@ public class HomeController {
 		return "/home";
 	}
 	
+	@MessageMapping("/game")
 	public void updatePlayer(@ModelAttribute PlayerCharacter pc, @ModelAttribute char input)
 	{
 		pc.setInput(input);
@@ -97,7 +99,7 @@ public class HomeController {
 //		actorList.add(playerCharacter);
 		return controller.map.getMapCharacters();
 	}
-	
+		
 	@Autowired
 	SimpMessagingTemplate template;
 	
