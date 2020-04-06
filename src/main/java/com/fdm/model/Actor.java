@@ -14,7 +14,7 @@ import javax.persistence.ManyToOne;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 
-import com.fdm.controller.MapAndActorThreadController;
+import com.fdm.controller.GameController;
 
 @Component
 @Entity
@@ -99,7 +99,7 @@ public abstract class Actor implements Runnable {
 
 	@Override
 	public void run() {
-		while (alive && MapAndActorThreadController.isRunning) {
+		while (alive && GameController.isRunning) {
 			try {
 				synchronized (key) {
 					key.wait();

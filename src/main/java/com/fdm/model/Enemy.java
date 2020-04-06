@@ -14,37 +14,6 @@ public class Enemy extends Actor {
 		super();
 	}
 
-	public Enemy(String characterName, int x, int y, Object key) {
-		super();
-		this.characterName = characterName;
-		this.x = x;
-		this.y = y;
-		this.characterSymbol = '#';
-		this.key = key;
-		logger.info("Summoned new enemy " + this.toString());
-
-	}
-
-	public Enemy(int x, int y, Object key) {
-		super();
-		this.characterName = generateName();
-		this.x = x;
-		this.y = y;
-		this.characterSymbol = '#';
-		this.key = key;
-		logger.info("Summoned new enemy " + this.toString());
-
-	}
-
-	public Enemy(Object key) {
-		this(1, 1, key);
-
-	}
-
-	public Enemy(String name, Object key) {
-		this(name, 1, 1, key);
-	}
-
 	// deprecated
 	public Enemy(String characterName, int x, int y) {
 		super();
@@ -91,10 +60,4 @@ public class Enemy extends Actor {
 		return super.move(dir);
 	}
 
-	public static final transient String[] names = new String[] { "Dwight Schrute", "Bob the boss" };
-
-	public String generateName() {
-		Random rng = RandomHolder.getInstance().random;
-		return names[rng.nextInt(names.length)];
-	}
 }

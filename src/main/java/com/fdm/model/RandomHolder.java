@@ -4,7 +4,7 @@ import java.util.Random;
 
 
 
-public class RandomHolder {
+public class RandomHolder { 
 
 	
 	static RandomHolder instance;

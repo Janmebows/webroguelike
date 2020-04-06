@@ -42,7 +42,8 @@ public class Map {
 	private transient Tile[][] map;
 
 	protected transient static Logger logger = Logger.getLogger("MapLogger");
-    private transient volatile char[][] viewMap;
+	private transient volatile char[][] viewMap;
+
 	public Map() {
 		this("map");
 
@@ -58,18 +59,18 @@ public class Map {
 		this.actorList = actors;
 		readMapFromFile(mapName);
 		viewMap = new char[xMax][yMax];
-		logger.info("Generated map, "+ mapName);
+		logger.info("Generated map, " + mapName);
 	}
 
-    
-	//called on backend once a tick to update the map the view will see
-    public void updateVisibleMap() {
-        for (int y = 0; y < yMax; ++y) {
-            for (int x = 0; x < xMax; ++x) {
-                viewMap[x][y] = getSymbol(x, y);
-            }
-        }
-    }
+	// called on backend once a tick to update the map the view will see
+	public void updateVisibleMap() {
+		for (int y = 0; y < yMax; ++y) {
+			for (int x = 0; x < xMax; ++x) {
+				viewMap[x][y] = getSymbol(x, y);
+			}
+		}
+	}
+
 	public int getxMax() {
 		return xMax;
 	}
@@ -80,7 +81,7 @@ public class Map {
 
 	public static void generateMapFile(int xMax, int yMax, String title) {
 
-		String fileLoc = System.getProperty("user.dir") + "/" + title +".txt";
+		String fileLoc = System.getProperty("user.dir") + "/" + title + ".txt";
 
 		logger.trace("Generating map file " + fileLoc);
 		try (OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(fileLoc),
@@ -124,7 +125,7 @@ public class Map {
 			// drop the leading BOM character
 			if (!Character.isDigit(line.charAt(0)))
 				line = line.substring(1);
-			String[] xAndy = line.split(","); 
+			String[] xAndy = line.split(",");
 			xMax = Integer.parseInt(xAndy[0]);
 			yMax = Integer.parseInt(xAndy[1]);
 			map = new Tile[xMax][yMax];
@@ -162,6 +163,7 @@ public class Map {
 	}
 
 	public void addActors(List<Actor> actors) {
+		actors.forEach(x -> x.setMap(this));
 		this.actorList.addAll(actors);
 	}
 
@@ -193,6 +195,7 @@ public class Map {
 	public Tile[][] getMap() {
 		return map;
 	}
+
 	
     public char[][] getMapCharacters() {
     	if(viewMap == null) {
@@ -202,8 +205,6 @@ public class Map {
         return viewMap;
     }
 
-    
-
 	public char[] mapAsCharArray() {
 		char[] out = new char[(xMax + 1) * yMax];
 		for (int y = 0; y < yMax; ++y) {
@@ -211,7 +212,7 @@ public class Map {
 				out[y * (xMax + 1) + x] = getSymbol(x, y);
 
 			}
-			out[y*(xMax+1) + xMax] = '\n';
+			out[y * (xMax + 1) + xMax] = '\n';
 
 		}
 		return out;
@@ -301,5 +302,26 @@ public class Map {
 		}
 		return false;
 
+	}
+
+	List<Coord> validTiles() {
+		List<Coord> validTiles = new ArrayList<Coord>();
+		for (int y = 0; y < yMax; ++y) {
+			for (int x = 0; x < xMax; ++x) {
+				if(!map[x][y].isBlocking())
+					validTiles.add(new Coord(x,y));
+			}
+		}
+		return validTiles;
+	}
+	
+	class Coord{
+		public int x;
+		public int y;
+		Coord(int x, int y)
+		{
+			this.x = x;
+			this.y = y;
+		}
 	}
 }

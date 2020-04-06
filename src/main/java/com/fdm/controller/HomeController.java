@@ -44,10 +44,10 @@ public class HomeController {
 	@Autowired
 	MapRepository mapRepo;
 	
-	Object key;
 	Map map;
-	MapAndActorThreadController controller;
 	boolean initialised = false;
+
+	GameController controller;
 	
 	@GetMapping({ "/home" })
 	public String getIndex(HttpSession session) {
@@ -66,18 +66,17 @@ public class HomeController {
 	public void initGame(){
 		Iterable<Enemy> enemyIterator = enemyRepo.findAll();
 		map = new Map("20x20test");
-		key = new Object();
 		List<Actor> actorList =  new ArrayList<Actor>();
 		for (Enemy enemy : enemyIterator) {
 			actorList.add(enemy);
 		}
 		map.addActors(actorList);
-		controller = new MapAndActorThreadController(map, key, actorList);
 		initialised = true;
+
+		controller = new GameController(map, actorList);
 	}
 
 	public boolean connect(@ModelAttribute PlayerCharacter pc) {
-		pc.setKey(key);
 		pc.setMap(map);
 		map.addActor(pc);
 		pc.setMap(map);
@@ -105,7 +104,7 @@ public class HomeController {
 	@Autowired
 	SimpMessagingTemplate template;
 	
-	@Scheduled(fixedDelay = MapAndActorThreadController.SERVER_TICK)
+	@Scheduled(fixedDelay = GameController.SERVER_TICK)
 	public void autoUpdateMap() {
 		if(initialised) {
 			template.convertAndSend("/topic/game", controller.map.getMapCharacters());
