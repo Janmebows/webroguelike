@@ -15,10 +15,14 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import javax.persistence.CollectionTable;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.Table;
 
 import org.apache.log4j.Logger;
@@ -34,18 +38,23 @@ public class Map {
 	private int id;
 
 	String mapName = "map";
-	transient volatile List<Actor> actorList;
+	@ElementCollection
+    @CollectionTable(name="ACTORS_ON_MAP")
+	volatile List<Actor> actorList;
 
 	// The map is defined such that 0,0 is the TOP LEFT CORNER
 	private int xMax;
 	private int yMax;
-	private transient Tile[][] map;
+	@Lob
+	@Column(name = "TILES", columnDefinition="BLOB")
+	private Tile[][] map;
 
 	protected transient static Logger logger = Logger.getLogger("MapLogger");
 	private transient volatile char[][] viewMap;
 
+	private transient volatile String[][] stringViewMap;
+
 	public Map() {
-		this("map");
 
 	}
 
@@ -58,17 +67,30 @@ public class Map {
 		this.mapName = mapName;
 		this.actorList = actors;
 		readMapFromFile(mapName);
-		viewMap = new char[xMax][yMax];
 		logger.info("Generated map, " + mapName);
 	}
 
 	// called on backend once a tick to update the map the view will see
 	public void updateVisibleMap() {
+		viewMap = new char[xMax][yMax];
 		for (int y = 0; y < yMax; ++y) {
 			for (int x = 0; x < xMax; ++x) {
 				viewMap[x][y] = getSymbol(x, y);
 			}
 		}
+	}
+	
+	public void updateVisibleStringMap() {
+		stringViewMap = new String[xMax][yMax];
+		for (int y = 0; y < yMax; ++y) {
+			for (int x = 0; x < xMax; ++x) {
+				stringViewMap[x][y] = getStringSymbol(x, y);
+			}
+		}
+	}
+
+	public String[][] getStringMap(){
+		return stringViewMap;
 	}
 
 	public int getxMax() {
@@ -217,6 +239,23 @@ public class Map {
 		}
 		return out;
 
+	}
+	
+	private String getStringSymbol(int x, int y) {
+		Optional<Actor> playerAt = actorList.parallelStream()
+				.filter(player -> player instanceof PlayerCharacter && player.isAtPosition(x, y)).findAny();
+		if (playerAt.isPresent())
+			return playerAt.get().getHtmlString();
+		else {
+			Optional<Actor> enemyAt = actorList.parallelStream()
+					.filter(enemy -> enemy instanceof Enemy && enemy.isAtPosition(x, y)).findAny();
+			if (enemyAt.isPresent()) {
+				return enemyAt.get().getHtmlString();
+
+			} else {
+				return "<p style=\"padding: 0; margin: 0;\">" + map[x][y].getChar() + "</p>";
+			}
+		}
 	}
 
 	private char getSymbol(int x, int y) {

@@ -52,6 +52,7 @@ public class GameController {
 		if (session.getAttribute("account") != null) {
 			return "home";
 		}
+		
 		return "/home";
 	}
 
@@ -67,7 +68,7 @@ public class GameController {
 	}
 
 	@PostMapping("/home")
-	public char[][] postGame() {
+	public String[][] postGame() {
 //		Actor enemy = new Enemy("hi", 2, 4, key);
 //		Actor enemy2 = new Enemy("bye",  5, 8, key);
 //		Actor enemy3 = new Enemy("running out of things", 2, 4, key);
@@ -81,7 +82,8 @@ public class GameController {
 //		actorList.add(playerCharacter);
 		controller = GameLogicController.getInstance();
 		if (controller.map != null)
-			return controller.map.getMapCharacters();
+//			return controller.map.getMapCharacters();
+			return controller.map.getStringMap(); 
 		else
 			return null;
 	}
