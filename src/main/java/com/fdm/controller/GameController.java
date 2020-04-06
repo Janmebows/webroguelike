@@ -20,7 +20,7 @@ import com.fdm.model.PlayerCharacter;
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/api")
-public class HomeController {
+public class GameController {
 
 	@Autowired
 	AccountRepository accountRepository;

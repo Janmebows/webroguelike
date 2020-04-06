@@ -28,13 +28,13 @@
       </div>
 
       <button @click="saveAccount" class="btn btn-success">Register</button>
-      <br/>
+      <br />
       <p>{{error}}</p>
     </div>
 
     <div v-else>
       <h4>You registered in successfully!</h4>
-      <router-link class="btn btn-success" to="/home">Continue</router-link>
+      <router-link class="btn btn-success" to="/game">Continue</router-link>
       <!-- <button class="btn btn-success" to="/home">Continue</button> -->
     </div>
   </div>
@@ -73,9 +73,10 @@ export default {
             this.$emit("auth");
             this.$emit("accountdata", response.data);
             this.authenticated = true;
- //           eventBus.$emit('responseData', response.data);
+            //           eventBus.$emit('responseData', response.data);
           } else {
-            this.error = "Oops looks like the username is already taken or what you entered is invalid";
+            this.error =
+              "Oops looks like the username is already taken or what you entered is invalid";
           }
         })
         .catch(e => {
