@@ -1,5 +1,8 @@
 package com.fdm.controller;
+
 import java.util.List;
+
+import org.apache.log4j.Logger;
 
 import com.fdm.model.Actor;
 import com.fdm.model.Map;
@@ -8,7 +11,7 @@ public class GameLogicController implements Runnable {
 
 	public static final long SERVER_TICK = 2000;
 	Map map;
-	
+
 	// if we want multiple maps this shouldn't be static
 	public static boolean isRunning = true;
 	private static volatile Object key;
@@ -20,10 +23,19 @@ public class GameLogicController implements Runnable {
 		GameLogicController.key = key;
 		this.actorList = actorList;
 		actorList.forEach(x -> x.key = getKey());
+		Logger.getLogger("RootLogger").warn("A new logic controller was made since we didn't make it a singleton!");
 	}
-	
 
+	private GameLogicController() {
+	}
 
+	static GameLogicController instance;
+
+	public static GameLogicController getInstance() {
+		if (instance == null)
+			instance = new GameLogicController();
+		return instance;
+	}
 
 	public static Object getKey() {
 		if (key == null)
@@ -33,6 +45,7 @@ public class GameLogicController implements Runnable {
 
 	public void addActor(Actor newActor) {
 		newActor.key = getKey();
+		newActor.setMap(map);
 		map.addActor(newActor);
 		Thread th = new Thread(newActor);
 		th.start();
@@ -80,6 +93,9 @@ public class GameLogicController implements Runnable {
 
 			try {
 				Thread.sleep(SERVER_TICK);
+				synchronized (getKey()) {
+					map.updateVisibleMap();
+				}
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -92,8 +108,8 @@ public class GameLogicController implements Runnable {
 
 	@Override
 	public void run() {
-//		handleNoPrint();
-		handle();
+		handleNoPrint();
+//		handle();
 	}
 
 }

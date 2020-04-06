@@ -4,16 +4,24 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import com.fdm.dal.ActorRepository;
 import com.fdm.model.Map.Coord;
 
+@Component
 public class EnemyFactory {
-
+	@Autowired
+	ActorRepository actorRepo;
+	
 	Random rng = RandomHolder.getInstance().random;
 
 	public Enemy makeEnemy(Map map) {
 		List<Coord> coords = map.validTiles();
 		Coord coord = coords.get(rng.nextInt(coords.size()));
 		Enemy enemy = new Enemy(generateName(), coord.x, coord.y);
+		enemy = actorRepo.save(enemy);
 		return enemy;
 	}
 
