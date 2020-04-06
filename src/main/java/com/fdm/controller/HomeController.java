@@ -47,6 +47,7 @@ public class HomeController {
 	Object key;
 	Map map;
 	MapAndActorThreadController controller;
+	boolean initialised = false;
 	
 	@GetMapping({ "/home" })
 	public String getIndex(HttpSession session) {
@@ -72,6 +73,7 @@ public class HomeController {
 		}
 		map.addActors(actorList);
 		controller = new MapAndActorThreadController(map, key, actorList);
+		initialised = true;
 	}
 
 	public boolean connect(@ModelAttribute PlayerCharacter pc) {
@@ -105,6 +107,8 @@ public class HomeController {
 	
 	@Scheduled(fixedDelay = MapAndActorThreadController.SERVER_TICK)
 	public void autoUpdateMap() {
-		template.convertAndSend("/topic/game", controller.map.getMapCharacters());
+		if(initialised) {
+			template.convertAndSend("/topic/game", controller.map.getMapCharacters());
+		}
 	}
 }

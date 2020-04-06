@@ -195,6 +195,10 @@ public class Map {
 	}
 	
     public char[][] getMapCharacters() {
+    	if(viewMap == null) {
+    		 viewMap = new char[xMax][yMax];
+    		 updateVisibleMap();
+    	}
         return viewMap;
     }
 
