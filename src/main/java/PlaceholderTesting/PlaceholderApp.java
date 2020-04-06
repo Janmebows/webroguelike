@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.fdm.controller.MapAndActorThreadController;
 import com.fdm.controller.PlayerCharacterInputController;
-import com.fdm.model.Account;
 import com.fdm.model.Actor;
 import com.fdm.model.Enemy;
 import com.fdm.model.Map;
@@ -15,7 +14,7 @@ public class PlaceholderApp {
 
 	public static void main(String[] args) {
 		Object key = new Object();
-		Account account = new Account();
+		//Account account = new Account();
 		Map map = new Map("20x20test");
 		PlayerCharacter playerCharacter = new PlayerCharacter("jim", 5, 5,  key);
 		PlayerCharacterInputController pci = new PlayerCharacterInputController(playerCharacter);

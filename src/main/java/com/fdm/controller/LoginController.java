@@ -1,10 +1,11 @@
 package com.fdm.controller;
 
+import java.util.List;
+import java.util.Optional;
+
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,16 +30,27 @@ public class LoginController {
 //	}
 
 	@PostMapping("/login")
-	public Account postLogin(HttpSession session,@RequestBody String username, @RequestBody String password ) {
+	public Account postLogin(@RequestBody Account account) {
+		if (account == null) {
+            return null;
+        }
+        // EMPTY FIELDS
+        if (account.getUsername() == null || account.getUsername().equals("")) {
+            return null;
+
+        } else if (account.getPassword() == null || account.getPassword().equals("")) {
+            return null;
+        }
+		
 		System.out.println("Testing");
-		Account _account = accountRepository.findByUsernameAndPassword(username, password).get(0);
+		List<Account> _account = accountRepository.findByUsernameAndPassword(account.getUsername(), account.getPassword());
 		System.out.println("/login called with account:" + _account);
-		if (_account.equals(null)) {
+		if (_account.isEmpty()) {
 			return null;
 		} else {
-			session.setAttribute("activeUser", _account);
-			System.out.println(session.getAttribute("activeUser"));
-			return _account;
+//			session.setAttribute("activeUser", _account);
+//			System.out.println(session.getAttribute("activeUser"));
+			return _account.get(0);
 		}
 	}
 	/*@GetMapping("/login")

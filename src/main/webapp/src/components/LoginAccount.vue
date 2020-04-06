@@ -6,13 +6,12 @@
         <div class="form-group">
           <input type="text" placeholder="Username" class="form-control" id="username" required v-model="account.username" name="username">
         </div>
-    
         <div class="form-group">
           <input type="password" placeholder="Password" class="form-control" id="password" required v-model="account.password" name="password">
         </div>
-    
         <button v-on:click="loginAccount" class="btn btn-success">Login</button>
-
+        <br/>
+        <p>{{error}}</p>
     </div>
     <div v-else>
       <h4>You Logged in successfully!</h4>
@@ -28,16 +27,16 @@ import http from "../http-common";
 export default {
   name: "login-account",
   data() {
+   
     return {
       account: {
         id: 0,
         username: "",
         password: "",
-        active: false,
-        playerCharacter: 0,
       },
       authenticated: false,
       message:"",
+      error: "",
     };
   },
   methods: {
@@ -51,27 +50,24 @@ export default {
       http
         .post("/login", data)
         .then(response => {
-          // https://www.npmjs.com/package/vue-session
-          console.log(response);
-          if (response.status === 200 && 'token' in response.body) {
-            this.authenticated = true;
+        
+          if (response.status === 200 && response.data != "") {
             this.account = response.data; // JSON automagically reads data
             console.log(response.data);
+            this.$emit("auth");
+            this.$emit("accountdata", response.data);
+            this.authenticated = true;
+            this.$router.push('/home');
           }
           else {
-
+            this.error = "Oops looks like the you entered invalid info, please try again.";
             this.authenticated = false;
           }
         })
         .catch(e => {
+          this.error = "Oops something went wrong! Please contact the admin.";
           console.log(e);
         });
-
-      
-    },
-    logoutAccount() {
-      this.authenticated = false;
-      this.account = {};
     },
     /* eslint-enable no-console */
   }

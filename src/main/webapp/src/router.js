@@ -7,9 +7,10 @@ import LoginAccount from "./components/LoginAccount.vue";
 import Customer from "./components/Customer.vue";
 import Home from "./components/Home.vue";
 import EditAccount from "./components/EditAccount.vue";
-import VueSession from 'vue-session';
+import Chat from "./components/Chat.vue";
 
-Vue.use(VueSession, { persist: true });
+
+// Vue.use(VueSession, { persist: true });
 Vue.use(Router);
 
 // All restful controllers need components connected here
@@ -35,7 +36,7 @@ export default new Router({
       name: "add",
       component: AddCustomer
     },
-       {
+    {
       path: "/register",
       name: "register",
       component: Register
@@ -45,15 +46,16 @@ export default new Router({
       name: "login",
       component: LoginAccount
     },
-   {
+    {
+
       path: "/home",
       name: "map-details",
       component: Home
     },
     {
-     path: "/edit-account",
-      name: "edit-account",
-      component: EditAccount
-    },
+      path: "/chat",
+      name: "chat",
+      component: Chat
+    }
   ]
 });

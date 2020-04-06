@@ -38,18 +38,40 @@ public class RegisterController {
 		model.addAttribute("account", new Account());
 		return "register";
 	}
-	
+
 	@PostMapping("/account")
-	public Account postAccount(@RequestBody Account account) {
-		
-		Account _account = new Account(account.getUsername(), account.getPassword());
-		accountRepository.save(_account);
-		PlayerCharacter plc = new PlayerCharacter(_account.getUsername());
-		pCharRepo.save(plc);
-		_account.setPlayerCharacter(plc);
-		
-		return _account;
-	}
+    public Account postAccount(@RequestBody Account account) {
+        if (account == null) {
+            return null;
+        }
+        // EMPTY FIELDS
+        if (account.getUsername() == null || account.getUsername().equals("")) {
+            return null;
+
+        } else if (account.getPassword() == null || account.getPassword().equals("")) {
+            return null;
+//
+//    } else if (account.getConfirmPassword() == null || account.getConfirmPassword().equals("")) {
+//        return null;
+//
+//    } else if (!account.getPassword().equals(account.getConfirmPassword())) {
+//        return null;
+
+        }
+
+        // DUPLICATES
+        else if (!accountRepository.findByUsername(account.getUsername()).isEmpty()) {
+            return null;
+        } else {
+            Account _account = new Account(account.getUsername(), account.getPassword());
+            PlayerCharacter plc = new PlayerCharacter(_account.getUsername());
+            _account.setPlayerCharacter(plc);
+            pCharRepo.save(plc);
+            accountRepository.save(_account);
+            return _account;
+        }
+
+    }
 
 //	@PostMapping("/register")
 //	public String processRegister(HttpSession session, Model model, Account account) {
