@@ -10,13 +10,6 @@ import com.fdm.model.Map;
 @EnableScheduling
 @Configuration
 public class SchedulerConfig {
-	
-	SimpMessagingTemplate template;
-	
-	//this might go in the controller
-	@Scheduled(fixedDelay = 1000)
-	public void autoUpdateMap() {
-		template.convertAndSend("/topic/game", map);
-	}
+		
 
 }

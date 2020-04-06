@@ -1,11 +1,15 @@
 package com.fdm.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -13,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 import com.fdm.dal.AccountRepository;
 import com.fdm.dal.ActorRepository;
 import com.fdm.dal.EnemyRepository;
@@ -91,5 +96,13 @@ public class HomeController {
 //
 //		actorList.add(playerCharacter);
 		return controller.map.getMapCharacters();
+	}
+	
+	@Autowired
+	SimpMessagingTemplate template;
+	
+	@Scheduled(fixedDelay = 1000)
+	public void autoUpdateMap() {
+		template.convertAndSend("/topic/chat", controller.map.getMapCharacters());
 	}
 }
