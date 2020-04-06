@@ -1,6 +1,8 @@
 package com.fdm.controller;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
 import com.fdm.model.Actor;
 import com.fdm.model.Map;
 
@@ -20,9 +22,16 @@ public class GameLogicController implements Runnable {
 		GameLogicController.key = key;
 		this.actorList = actorList;
 		actorList.forEach(x -> x.key = getKey());
+		Logger.getLogger("RootLogger").warn("A new logic controller was made since we didn't make it a singleton!");
 	}
+	private GameLogicController() {}
+	static GameLogicController instance;
 	
-
+	public static GameLogicController getInstance() {
+		if(instance == null)
+			instance = new GameLogicController();
+		return instance;
+	}
 
 
 	public static Object getKey() {
@@ -33,6 +42,7 @@ public class GameLogicController implements Runnable {
 
 	public void addActor(Actor newActor) {
 		newActor.key = getKey();
+		newActor.setMap(map);
 		map.addActor(newActor);
 		Thread th = new Thread(newActor);
 		th.start();
@@ -92,8 +102,8 @@ public class GameLogicController implements Runnable {
 
 	@Override
 	public void run() {
-//		handleNoPrint();
-		handle();
+		handleNoPrint();
+//		handle();
 	}
 
 }

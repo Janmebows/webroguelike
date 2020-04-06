@@ -44,7 +44,6 @@ public class GameController {
 	MapRepository mapRepo;
 
 	Map map;
-	boolean initialised = false;
 
 	GameLogicController controller;
 
@@ -60,26 +59,9 @@ public class GameController {
 	public void updatePlayer(@ModelAttribute PlayerCharacter pc, @ModelAttribute char input) {
 		pc.setInput(input);
 	}
-
-	public void initGame() {
-		Iterable<Enemy> enemyIterator = enemyRepo.findAll();
-		map = new Map("20x20test");
-		List<Actor> actorList = new ArrayList<Actor>();
-		for (Enemy enemy : enemyIterator) {
-			actorList.add(enemy);
-		}
-		map.addActors(actorList);
-		initialised = true;
-
-		controller = new GameLogicController(map, actorList);
-	}
-
 	public boolean connect(@ModelAttribute PlayerCharacter pc) {
-		pc.setMap(map);
-		map.addActor(pc);
-		pc.setMap(map);
+		controller = GameLogicController.getInstance();
 		controller.addActor(pc);
-
 		return true;
 	}
 
@@ -104,8 +86,8 @@ public class GameController {
 
 	@Scheduled(fixedDelay = GameLogicController.SERVER_TICK)
 	public void autoUpdateMap() {
-		if (initialised) {
+		controller = GameLogicController.getInstance();
+		if(controller.map!=null) 
 			template.convertAndSend("/topic/game", controller.map.getMapCharacters());
-		}
 	}
 }
