@@ -21,22 +21,42 @@ public class Enemy extends Actor {
 		this.y = y;
 		this.characterSymbol = '#';
 		this.key = key;
+		logger.info("Summoned new enemy " + this.toString());
+
+	}
+
+	public Enemy(int x, int y, Object key) {
+		super();
+		this.characterName = generateName();
+		this.x = x;
+		this.y = y;
+		this.characterSymbol = '#';
+		this.key = key;
+		logger.info("Summoned new enemy " + this.toString());
+
+	}
+
+	public Enemy(Object key) {
+		this(1, 1, key);
+
 	}
 
 	public Enemy(String name, Object key) {
-		this(name, 0, 0,key);
+		this(name, 1, 1, key);
 	}
 
+	// deprecated
 	public Enemy(String characterName, int x, int y) {
 		super();
 		this.characterName = characterName;
 		this.x = x;
 		this.y = y;
 		this.characterSymbol = '#';
+		logger.info("Summoned new enemy " + this.toString());
 	}
 
 	public Enemy(String name) {
-		this(name, 0, 0);
+		this(name, 1, 1);
 	}
 
 	@Override
@@ -44,11 +64,11 @@ public class Enemy extends Actor {
 		return "Enemy [characterName=" + characterName + ", x=" + x + ", y=" + y + "]";
 	}
 
-	Random rnd = RandomHolder.getInstance().random;
+	transient Random rnd = RandomHolder.getInstance().random;
 
 	@Override
-	public boolean move(Direction dir) { 
-		
+	public boolean move(Direction dir) {
+
 		int next = rnd.nextInt(9);
 		switch (next) {
 		case 0:
@@ -71,8 +91,10 @@ public class Enemy extends Actor {
 		return super.move(dir);
 	}
 
-//	String[] names = new String[] {"", }
-	public String nameGenerator() {
-		return "johnny";
+	public static final transient String[] names = new String[] { "Dwight Schrute", "Bob the boss" };
+
+	public String generateName() {
+		Random rng = RandomHolder.getInstance().random;
+		return names[rng.nextInt(names.length)];
 	}
 }

@@ -14,6 +14,7 @@ public class PlayerCharacter extends Actor {
 	
 	
 	public void setInput(char input) {
+		//if null character or blankspace
 		if (input == '\u0000' || input== ' '){
 			return;
 		}

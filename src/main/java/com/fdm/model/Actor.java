@@ -11,6 +11,7 @@ import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 
 import com.fdm.controller.MapAndActorThreadController;
@@ -25,6 +26,7 @@ public abstract class Actor implements Runnable {
 	public volatile transient Object key;
 	String characterName;
 
+	protected transient static Logger logger = Logger.getLogger("ActorLogger");
 	char characterSymbol;
 	int colorred;
 	int colorgreen;
@@ -34,14 +36,11 @@ public abstract class Actor implements Runnable {
 	@ManyToOne
 	@JoinColumn(name = "mapid")
 	Map map;
-	
 
 	// position
 	int x;
 	int y;
 
-	
-	
 	// Stats
 	boolean alive = true;
 	int maxHP = 10;
@@ -49,26 +48,29 @@ public abstract class Actor implements Runnable {
 	int attack = 10;
 	int level = 1;
 	int exp = 0;
-	
-	
 
 	public void takeDamage(int damage) {
+		logger.info(this.characterName + " took " + damage + " damage");
 		currentHP = currentHP - damage;
 		if (currentHP <= 0) {
 			alive = false;
 			System.out.println(characterName + " died");
+			logger.warn(characterName + " died");
 			map.updateActors();
 		}
 	}
 
 	public void heal(int amount) {
+		logger.info(this.characterName + " healed for " + amount);
 		currentHP = currentHP + amount;
 		if (currentHP > maxHP) {
 			currentHP = maxHP;
 		}
+
 	}
 
 	public void gainExp(int amount) {
+		logger.info(this.characterName + " gained " + amount + " experience");
 		exp = exp + amount;
 		if (exp >= 100) {
 			levelup();
@@ -82,9 +84,12 @@ public abstract class Actor implements Runnable {
 		level = level + 1;
 		System.out.println(characterName + " leveled up!");
 		System.out.println(characterName + "'s level is now " + level);
+		logger.info(characterName + " leveled up!");
+		logger.info(characterName + "'s level is now " + level);
 	}
 
 	public void attack(Enemy target) {
+		logger.info(this.characterName + " attacked " + target.characterName);
 		target.takeDamage(attack);
 		if (!target.isAlive()) {
 			gainExp(100);
@@ -100,7 +105,11 @@ public abstract class Actor implements Runnable {
 					key.wait();
 				}
 				if (this.move(nextDirection)) {
+
+					logger.info(this.characterName + " moved " + nextDirection.name() + " new position"
+							+ getPositionString());
 					this.nextDirection = Direction.NONE;
+
 				}
 			} catch (InterruptedException e) {
 				e.printStackTrace();
@@ -115,9 +124,10 @@ public abstract class Actor implements Runnable {
 	}
 
 	public String getColor() {
-		return "#"+Integer.toHexString(color.getRGB()).substring(2);
-		
+		return "#" + Integer.toHexString(color.getRGB()).substring(2);
+
 	}
+
 	public int getColorred() {
 		return colorred;
 	}
@@ -170,7 +180,6 @@ public abstract class Actor implements Runnable {
 		this.characterSymbol = characterSymbol;
 	}
 
-
 	public void setColor(int red, int green, int blue) {
 		this.color = new Color(red, green, blue);
 	}
@@ -181,12 +190,22 @@ public abstract class Actor implements Runnable {
 
 	@Override
 	public String toString() {
-		return "Actor [characterName=" + characterName + ", x=" + x + ", y=" + y + "]";
+		return "Actor [characterName=" + characterName + getPositionString() + "]";
 	}
 
 	public void updatePosition(int x, int y) {
+
+		logger.info(this.characterName + " moves from " + getPositionString() + " to " + getPositionString(x, y) + "!");
 		this.x = x;
 		this.y = y;
+	}
+
+	private String getPositionString() {
+		return "[" + x + ", " + y + "]";
+	}
+
+	private String getPositionString(int x, int y) {
+		return "[" + x + ", " + y + "]";
 	}
 
 	public boolean isAtPosition(int x, int y) {
@@ -198,6 +217,7 @@ public abstract class Actor implements Runnable {
 	}
 
 	public void setCharacterName(String characterName) {
+		logger.info(this.characterName + " becomes " + characterName + "!");
 		this.characterName = characterName;
 	}
 

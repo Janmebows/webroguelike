@@ -21,6 +21,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -40,6 +41,7 @@ public class Map {
 	private int yMax;
 	private transient Tile[][] map;
 
+	protected transient static Logger logger = Logger.getLogger("MapLogger");
     private transient volatile char[][] viewMap;
 	public Map() {
 		this("map");
@@ -56,6 +58,7 @@ public class Map {
 		this.actorList = actors;
 		readMapFromFile(mapName);
 		viewMap = new char[xMax][yMax];
+		logger.info("Generated map, "+ mapName);
 	}
 
     
@@ -79,6 +82,7 @@ public class Map {
 
 		String fileLoc = System.getProperty("user.dir") + "/" + title +".txt";
 
+		logger.trace("Generating map file " + fileLoc);
 		try (OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(fileLoc),
 				StandardCharsets.UTF_8)) {
 			writer.append(xMax + "," + yMax + "\n");
@@ -92,8 +96,10 @@ public class Map {
 			}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
+			logger.fatal("Map file was not found");
 		} catch (IOException e) {
 			e.printStackTrace();
+			logger.fatal("IOException");
 		}
 		System.out.println(fileLoc);
 	}
@@ -106,23 +112,26 @@ public class Map {
 
 		String fileLoc = System.getProperty("user.dir") + "/" + mapName + ".txt";
 		Path path = Paths.get(fileLoc);
+		logger.trace("Reading map file " + fileLoc);
 		try {
 			yMax = (int) Files.lines(path).count();
-		} catch (IOException e) {
-			e.printStackTrace();
+		} catch (IOException x) {
+			x.printStackTrace();
+			logger.fatal("IOException" + x.getMessage());
 		}
 		try (BufferedReader reader = new BufferedReader(new FileReader(fileLoc));) {
 			String line = reader.readLine();
 			// drop the leading BOM character
 			if (!Character.isDigit(line.charAt(0)))
 				line = line.substring(1);
-			String[] xAndy = line.split(",");
+			String[] xAndy = line.split(","); 
 			xMax = Integer.parseInt(xAndy[0]);
 			yMax = Integer.parseInt(xAndy[1]);
 			map = new Tile[xMax][yMax];
 			int yIndex = 0;
 			while ((line = reader.readLine()) != null) {
 				if (yIndex > yMax) {
+					logger.warn("Map file size does not match given dimensions");
 					System.out.println("Map file does not match leading dimensions");
 					return;
 				}
@@ -134,6 +143,7 @@ public class Map {
 			}
 		} catch (IOException x) {
 			System.err.format("IOException: %s%n", x);
+			logger.fatal("IOException" + x.getMessage());
 		}
 
 	}
@@ -160,6 +170,7 @@ public class Map {
 	}
 
 	public void updateActors() {
+		logger.trace(mapName + " updated living actors");
 		actorList = actorList.stream().filter(x -> x.isAlive()).collect(Collectors.toList());
 	}
 
@@ -228,6 +239,7 @@ public class Map {
 	}
 
 	public boolean tryMoveActor(Actor actor, Direction dir) {
+		logger.trace(actor.getCharacterName() + " trying to move " + dir.name());
 		int x = actor.getX();
 		int y = actor.getY();
 		List<Actor> enemyList = getEnemies();
