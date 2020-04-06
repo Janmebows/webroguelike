@@ -1,4 +1,5 @@
 package com.fdm.controller;
+
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -10,7 +11,7 @@ public class GameLogicController implements Runnable {
 
 	public static final long SERVER_TICK = 2000;
 	Map map;
-	
+
 	// if we want multiple maps this shouldn't be static
 	public static boolean isRunning = true;
 	private static volatile Object key;
@@ -24,15 +25,17 @@ public class GameLogicController implements Runnable {
 		actorList.forEach(x -> x.key = getKey());
 		Logger.getLogger("RootLogger").warn("A new logic controller was made since we didn't make it a singleton!");
 	}
-	private GameLogicController() {}
+
+	private GameLogicController() {
+	}
+
 	static GameLogicController instance;
-	
+
 	public static GameLogicController getInstance() {
-		if(instance == null)
+		if (instance == null)
 			instance = new GameLogicController();
 		return instance;
 	}
-
 
 	public static Object getKey() {
 		if (key == null)
@@ -90,6 +93,9 @@ public class GameLogicController implements Runnable {
 
 			try {
 				Thread.sleep(SERVER_TICK);
+				synchronized (getKey()) {
+					map.updateVisibleMap();
+				}
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
