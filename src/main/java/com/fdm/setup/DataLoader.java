@@ -28,12 +28,13 @@ public class DataLoader implements ApplicationRunner {
 	@Autowired
 	MapRepository mapRepo;
 
+	  @Autowired
+	  EnemyFactory enemyFactory;
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
 		System.out.println("Populating database");
 		Map map = new Map("20x20test");
-		EnemyFactory ef = new EnemyFactory();
-		List<Actor> actors = ef.makeEnemies(map,20);
+		List<Actor> actors = enemyFactory.makeEnemies(map,100);
 		actorRepo.saveAll(actors);
 		Account acc = new Account("uname", "pword");
 	//	accountRepo.save(acc);

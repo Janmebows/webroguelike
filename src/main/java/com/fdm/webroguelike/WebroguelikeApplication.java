@@ -7,7 +7,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
-@ComponentScan(basePackages = { "com.fdm.controller", "com.fdm.setup" })
+@ComponentScan(basePackages = { "com.fdm.controller", "com.fdm.setup", "com.fdm.model" })
 @EnableJpaRepositories(basePackages = { "com.fdm.dal" })
 @EntityScan(basePackages = { "com.fdm.model" })
 public class WebroguelikeApplication {

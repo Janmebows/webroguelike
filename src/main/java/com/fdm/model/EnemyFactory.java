@@ -5,10 +5,12 @@ import java.util.List;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.fdm.dal.ActorRepository;
 import com.fdm.model.Map.Coord;
 
+@Component
 public class EnemyFactory {
 	@Autowired
 	ActorRepository actorRepo;

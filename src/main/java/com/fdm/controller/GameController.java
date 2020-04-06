@@ -59,6 +59,7 @@ public class GameController {
 	public void updatePlayer(@ModelAttribute PlayerCharacter pc, @ModelAttribute char input) {
 		pc.setInput(input);
 	}
+
 	public boolean connect(@ModelAttribute PlayerCharacter pc) {
 		controller = GameLogicController.getInstance();
 		controller.addActor(pc);
@@ -78,7 +79,11 @@ public class GameController {
 //		playerCharacter.setMap(map);
 //
 //		actorList.add(playerCharacter);
-		return controller.map.getMapCharacters();
+		controller = GameLogicController.getInstance();
+		if (controller.map != null)
+			return controller.map.getMapCharacters();
+		else
+			return null;
 	}
 
 	@Autowired
@@ -87,7 +92,7 @@ public class GameController {
 	@Scheduled(fixedDelay = GameLogicController.SERVER_TICK)
 	public void autoUpdateMap() {
 		controller = GameLogicController.getInstance();
-		if(controller.map!=null) 
+		if (controller.map != null)
 			template.convertAndSend("/topic/game", controller.map.getMapCharacters());
 	}
 }
