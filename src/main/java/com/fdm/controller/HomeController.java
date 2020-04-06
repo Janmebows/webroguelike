@@ -101,8 +101,8 @@ public class HomeController {
 	@Autowired
 	SimpMessagingTemplate template;
 	
-	@Scheduled(fixedDelay = 1000)
+	@Scheduled(fixedDelay = MapAndActorThreadController.SERVER_TICK)
 	public void autoUpdateMap() {
-		template.convertAndSend("/topic/chat", controller.map.getMapCharacters());
+		template.convertAndSend("/topic/game", controller.map.getMapCharacters());
 	}
 }
