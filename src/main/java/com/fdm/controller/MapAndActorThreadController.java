@@ -7,57 +7,54 @@ import com.fdm.model.Map;
 
 public class MapAndActorThreadController {
 
-	private static final long SERVER_TICK = 2000;
+	public static final long SERVER_TICK = 2000;
 	Map map;
 
-	boolean isRunning = true;
+	// if we want multiple maps this shouldn't be static
+	public static boolean isRunning = true;
 	volatile Object key;
 	private List<Actor> actorList;
-	
-	//can make this a list when needed
-	PlayerCharacterInputController pci;
 
-
-	public MapAndActorThreadController(Map map, PlayerCharacterInputController pci, Object key, List<Actor> actorList) {
+	public MapAndActorThreadController(Map map, Object key, List<Actor> actorList) {
 		super();
 		this.map = map;
-		this.pci = pci;
 		this.key = key;
 		this.actorList = actorList;
-		actorList.forEach(x -> x.setMap(map));
-		map.addActors(actorList);
 	}
-	
-	
+
 	public void addActor(Actor newActor) {
 		newActor.key = this.key;
 		map.addActor(newActor);
+		Thread th = new Thread(newActor);
+		th.start();
 	}
 
 	public void handle() {
 		map.printMap();
-		for (Actor enemy : actorList) {
-			Thread th = new Thread(enemy);
+		for (Actor actor : actorList) {
+			Thread th = new Thread(actor);
 			th.start();
 		}
-
-		Thread inputThread = new Thread(pci);
-		inputThread.start();
 		while (isRunning) {
 
 			synchronized (key) {
 				key.notifyAll();
 			}
-				map.printMap();
-				// MapUpdate(x, y, newSymbol)
-			
+			map.printMap();
+			// MapUpdate(x, y, newSymbol)
+
 			try {
-				Thread.sleep(SERVER_TICK);
+				Thread.sleep(SERVER_TICK / 2);
+				map.updateVisibleMap();
+				Thread.sleep(SERVER_TICK / 2);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 		}
+		//wake up threads so they can die
+		synchronized (key) {
+			key.notifyAll();
+		}
 	}
-
 
 }
