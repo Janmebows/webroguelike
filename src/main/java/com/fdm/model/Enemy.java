@@ -71,4 +71,8 @@ public class Enemy extends Actor {
 		return super.move(dir);
 	}
 
+//	String[] names = new String[] {"", }
+	public String nameGenerator() {
+		return "johnny";
+	}
 }

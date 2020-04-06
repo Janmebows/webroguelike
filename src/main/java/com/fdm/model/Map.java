@@ -33,7 +33,6 @@ public class Map {
 	private int id;
 
 	String mapName = "map";
-
 	transient volatile List<Actor> actorList;
 
 	// The map is defined such that 0,0 is the TOP LEFT CORNER
@@ -41,23 +40,33 @@ public class Map {
 	private int yMax;
 	private transient Tile[][] map;
 
+    private transient volatile char[][] viewMap;
 	public Map() {
 		this("map");
 
 	}
 
 	public Map(String mapName) {
-		this.mapName = mapName;
-		readMapFromFile(mapName);
-		actorList = new ArrayList<Actor>();
+
+		this(mapName, new ArrayList<Actor>());
 	}
 
 	public Map(String mapName, List<Actor> actors) {
 		this.mapName = mapName;
 		this.actorList = actors;
 		readMapFromFile(mapName);
+		viewMap = new char[xMax][yMax];
 	}
 
+    
+	//called on backend once a tick to update the map the view will see
+    public void updateVisibleMap() {
+        for (int y = 0; y < yMax; ++y) {
+            for (int x = 0; x < xMax; ++x) {
+                viewMap[x][y] = getSymbol(x, y);
+            }
+        }
+    }
 	public int getxMax() {
 		return xMax;
 	}
@@ -175,15 +184,10 @@ public class Map {
 	}
 	
     public char[][] getMapCharacters() {
-        char[][] out = new char[xMax][yMax];
-
-        for (int y = 0; y < yMax; ++y) {
-            for (int x = 0; x < xMax; ++x) {
-                out[x][y] = getSymbol(x, y);
-            }
-        }
-        return out;
+        return viewMap;
     }
+
+    
 
 	public char[] mapAsCharArray() {
 		char[] out = new char[(xMax + 1) * yMax];

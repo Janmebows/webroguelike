@@ -13,6 +13,8 @@ import javax.persistence.ManyToOne;
 
 import org.springframework.stereotype.Component;
 
+import com.fdm.controller.MapAndActorThreadController;
+
 @Component
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -28,17 +30,27 @@ public abstract class Actor implements Runnable {
 	int colorgreen;
 	int colorblue;
 	transient Color color = new Color(colorred, colorgreen, colorblue);
-	public transient volatile Direction nextInput = Direction.NONE;
-	boolean alive = true;
+	public transient volatile Direction nextDirection = Direction.NONE;
 	@ManyToOne
 	@JoinColumn(name = "mapid")
 	Map map;
+	
+
+	// position
+	int x;
+	int y;
+
+	
+	
 	// Stats
+	boolean alive = true;
 	int maxHP = 10;
 	int currentHP = maxHP;
 	int attack = 10;
 	int level = 1;
 	int exp = 0;
+	
+	
 
 	public void takeDamage(int damage) {
 		currentHP = currentHP - damage;
@@ -82,13 +94,13 @@ public abstract class Actor implements Runnable {
 
 	@Override
 	public void run() {
-		while (alive) {
+		while (alive && MapAndActorThreadController.isRunning) {
 			try {
 				synchronized (key) {
 					key.wait();
 				}
-				if (this.move(nextInput)) {
-					this.nextInput = Direction.NONE;
+				if (this.move(nextDirection)) {
+					this.nextDirection = Direction.NONE;
 				}
 			} catch (InterruptedException e) {
 				e.printStackTrace();
@@ -102,6 +114,10 @@ public abstract class Actor implements Runnable {
 		return false;
 	}
 
+	public String getColor() {
+		return "#"+Integer.toHexString(color.getRGB()).substring(2);
+		
+	}
 	public int getColorred() {
 		return colorred;
 	}
@@ -154,9 +170,6 @@ public abstract class Actor implements Runnable {
 		this.characterSymbol = characterSymbol;
 	}
 
-	public Color getColor() {
-		return color;
-	}
 
 	public void setColor(int red, int green, int blue) {
 		this.color = new Color(red, green, blue);
@@ -179,10 +192,6 @@ public abstract class Actor implements Runnable {
 	public boolean isAtPosition(int x, int y) {
 		return (this.x == x) && (this.y == y);
 	}
-
-	// position
-	int x;
-	int y;
 
 	public String getCharacterName() {
 		return characterName;
