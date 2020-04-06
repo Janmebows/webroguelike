@@ -15,14 +15,12 @@ import com.fdm.model.PlayerCharacter;
 public class PlayerMovementControllerTest {
 	
 	
-	@Mock 
-	PlayerCharacter mockChar;
 	
 	@Mock
 	Map mockMap;
 
 	@InjectMocks
-	PlayerCharacterInputController controller = new PlayerCharacterInputController(mockChar);
+	PlayerCharacter pc;
 	
 	@Before
 	public void init() {
@@ -30,12 +28,40 @@ public class PlayerMovementControllerTest {
 	}
 
 	@Test
-	public void test_translates_input_correctly() {
-		assertEquals(Direction.DOWN, controller.processInput("s"));
-		assertEquals(Direction.UP, controller.processInput("w"));
-		assertEquals(Direction.LEFT, controller.processInput("a"));
-		assertEquals(Direction.RIGHT, controller.processInput("d"));
-		assertEquals(Direction.NONE, controller.processInput("sadg"));
+	public void input_translates_down_input_correctly() {
+		pc.setInput('s');
+		assertEquals(Direction.DOWN, pc.nextDirection);
+	}
+	@Test
+	public void input_translates_right_input_correctly() {
+		pc.setInput('d');
+		assertEquals(Direction.RIGHT, pc.nextDirection);
+	}
+	@Test
+	public void input_translates_left_input_correctly() {
+		pc.setInput('a');
+		assertEquals(Direction.LEFT, pc.nextDirection);
+	}
+	@Test
+	public void input_translates_up_input_correctly() {
+		pc.setInput('w');
+		assertEquals(Direction.UP, pc.nextDirection);
+//		assertEquals(Direction.UP, pc.processInput("w"));
+//		assertEquals(Direction.LEFT, pc.processInput("a"));
+//		assertEquals(Direction.RIGHT, pc.processInput("d"));
+//		assertEquals(Direction.NONE, pc.processInput("sadg"));
+	}
+
+	@Test
+	public void input_translates_fails_on_other() {
+		pc.setInput(' ');
+		assertEquals(Direction.NONE, pc.nextDirection);
+		pc.setInput('b');
+		assertEquals(Direction.NONE, pc.nextDirection);
+		pc.setInput('c');
+		assertEquals(Direction.NONE, pc.nextDirection);
+		pc.setInput('f');
+		assertEquals(Direction.NONE, pc.nextDirection);
 	}
 	
 }

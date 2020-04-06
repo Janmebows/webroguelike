@@ -14,29 +14,18 @@ public class Enemy extends Actor {
 		super();
 	}
 
-	public Enemy(String characterName, int x, int y, Object key) {
-		super();
-		this.characterName = characterName;
-		this.x = x;
-		this.y = y;
-		this.characterSymbol = '#';
-		this.key = key;
-	}
-
-	public Enemy(String name, Object key) {
-		this(name, 0, 0,key);
-	}
-
+	// deprecated
 	public Enemy(String characterName, int x, int y) {
 		super();
 		this.characterName = characterName;
 		this.x = x;
 		this.y = y;
 		this.characterSymbol = '#';
+		logger.info("Summoned new enemy " + this.toString());
 	}
 
 	public Enemy(String name) {
-		this(name, 0, 0);
+		this(name, 1, 1);
 	}
 
 	@Override
@@ -44,11 +33,11 @@ public class Enemy extends Actor {
 		return "Enemy [characterName=" + characterName + ", x=" + x + ", y=" + y + "]";
 	}
 
-	Random rnd = RandomHolder.getInstance().random;
+	transient Random rnd = RandomHolder.getInstance().random;
 
 	@Override
-	public boolean move(Direction dir) { 
-		
+	public boolean move(Direction dir) {
+
 		int next = rnd.nextInt(9);
 		switch (next) {
 		case 0:

@@ -4,12 +4,42 @@ import javax.persistence.*;
 
 import org.springframework.stereotype.Component;
 
+
 @Component
 @Entity
 public class PlayerCharacter extends Actor {
 
 //	@OneToOne(mappedBy = "playerCharacter")
 	//Account owner;
+	
+	
+	public void setInput(char input) {
+		//if null character or blankspace
+		if (input == '\u0000' || input== ' '){
+			return;
+		}
+		//System.out.println("playerCharacter " + characterName + " inputted " + input);
+ 
+		Direction inputDirection = processInput(input);
+		if(inputDirection!= Direction.NONE)
+			nextDirection = inputDirection;
+		return;
+	}
+	
+	public Direction processInput(char input) {
+		// currently using wasd.
+		switch (input) {
+		case 'w':
+			return Direction.UP;
+		case 's':
+			return Direction.DOWN;
+		case 'a':
+			return Direction.LEFT;
+		case 'd':
+			return Direction.RIGHT;
+		}
+		return Direction.NONE;
+	}
 
 	public PlayerCharacter() {
 		super();
@@ -69,4 +99,10 @@ public class PlayerCharacter extends Actor {
 	public void setMap(Map map) {
 		this.map = map;
 	}
+
+	public void setKey(Object key) {
+		this.key = key;
+		
+	}
+
 }

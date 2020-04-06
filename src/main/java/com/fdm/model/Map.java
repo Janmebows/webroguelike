@@ -21,6 +21,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -33,7 +34,6 @@ public class Map {
 	private int id;
 
 	String mapName = "map";
-
 	transient volatile List<Actor> actorList;
 
 	// The map is defined such that 0,0 is the TOP LEFT CORNER
@@ -41,21 +41,34 @@ public class Map {
 	private int yMax;
 	private transient Tile[][] map;
 
+	protected transient static Logger logger = Logger.getLogger("MapLogger");
+	private transient volatile char[][] viewMap;
+
 	public Map() {
 		this("map");
 
 	}
 
 	public Map(String mapName) {
-		this.mapName = mapName;
-		readMapFromFile(mapName);
-		actorList = new ArrayList<Actor>();
+
+		this(mapName, new ArrayList<Actor>());
 	}
 
 	public Map(String mapName, List<Actor> actors) {
 		this.mapName = mapName;
 		this.actorList = actors;
 		readMapFromFile(mapName);
+		viewMap = new char[xMax][yMax];
+		logger.info("Generated map, " + mapName);
+	}
+
+	// called on backend once a tick to update the map the view will see
+	public void updateVisibleMap() {
+		for (int y = 0; y < yMax; ++y) {
+			for (int x = 0; x < xMax; ++x) {
+				viewMap[x][y] = getSymbol(x, y);
+			}
+		}
 	}
 
 	public int getxMax() {
@@ -68,8 +81,9 @@ public class Map {
 
 	public static void generateMapFile(int xMax, int yMax, String title) {
 
-		String fileLoc = System.getProperty("user.dir") + "/" + title +".txt";
+		String fileLoc = System.getProperty("user.dir") + "/" + title + ".txt";
 
+		logger.trace("Generating map file " + fileLoc);
 		try (OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(fileLoc),
 				StandardCharsets.UTF_8)) {
 			writer.append(xMax + "," + yMax + "\n");
@@ -83,8 +97,10 @@ public class Map {
 			}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
+			logger.fatal("Map file was not found");
 		} catch (IOException e) {
 			e.printStackTrace();
+			logger.fatal("IOException");
 		}
 		System.out.println(fileLoc);
 	}
@@ -97,10 +113,12 @@ public class Map {
 
 		String fileLoc = System.getProperty("user.dir") + "/" + mapName + ".txt";
 		Path path = Paths.get(fileLoc);
+		logger.trace("Reading map file " + fileLoc);
 		try {
 			yMax = (int) Files.lines(path).count();
-		} catch (IOException e) {
-			e.printStackTrace();
+		} catch (IOException x) {
+			x.printStackTrace();
+			logger.fatal("IOException" + x.getMessage());
 		}
 		try (BufferedReader reader = new BufferedReader(new FileReader(fileLoc));) {
 			String line = reader.readLine();
@@ -114,6 +132,7 @@ public class Map {
 			int yIndex = 0;
 			while ((line = reader.readLine()) != null) {
 				if (yIndex > yMax) {
+					logger.warn("Map file size does not match given dimensions");
 					System.out.println("Map file does not match leading dimensions");
 					return;
 				}
@@ -125,6 +144,7 @@ public class Map {
 			}
 		} catch (IOException x) {
 			System.err.format("IOException: %s%n", x);
+			logger.fatal("IOException" + x.getMessage());
 		}
 
 	}
@@ -143,6 +163,7 @@ public class Map {
 	}
 
 	public void addActors(List<Actor> actors) {
+		actors.forEach(x -> x.setMap(this));
 		this.actorList.addAll(actors);
 	}
 
@@ -151,6 +172,7 @@ public class Map {
 	}
 
 	public void updateActors() {
+		logger.trace(mapName + " updated living actors");
 		actorList = actorList.stream().filter(x -> x.isAlive()).collect(Collectors.toList());
 	}
 
@@ -173,16 +195,14 @@ public class Map {
 	public Tile[][] getMap() {
 		return map;
 	}
+
 	
     public char[][] getMapCharacters() {
-        char[][] out = new char[xMax][yMax];
-
-        for (int y = 0; y < yMax; ++y) {
-            for (int x = 0; x < xMax; ++x) {
-                out[x][y] = getSymbol(x, y);
-            }
-        }
-        return out;
+    	if(viewMap == null) {
+    		 viewMap = new char[xMax][yMax];
+    		 updateVisibleMap();
+    	}
+        return viewMap;
     }
 
 	public char[] mapAsCharArray() {
@@ -192,7 +212,7 @@ public class Map {
 				out[y * (xMax + 1) + x] = getSymbol(x, y);
 
 			}
-			out[y*(xMax+1) + xMax] = '\n';
+			out[y * (xMax + 1) + xMax] = '\n';
 
 		}
 		return out;
@@ -224,6 +244,7 @@ public class Map {
 	}
 
 	public boolean tryMoveActor(Actor actor, Direction dir) {
+		logger.trace(actor.getCharacterName() + " trying to move " + dir.name());
 		int x = actor.getX();
 		int y = actor.getY();
 		List<Actor> enemyList = getEnemies();
@@ -281,5 +302,26 @@ public class Map {
 		}
 		return false;
 
+	}
+
+	List<Coord> validTiles() {
+		List<Coord> validTiles = new ArrayList<Coord>();
+		for (int y = 0; y < yMax; ++y) {
+			for (int x = 0; x < xMax; ++x) {
+				if(!map[x][y].isBlocking())
+					validTiles.add(new Coord(x,y));
+			}
+		}
+		return validTiles;
+	}
+	
+	class Coord{
+		public int x;
+		public int y;
+		Coord(int x, int y)
+		{
+			this.x = x;
+			this.y = y;
+		}
 	}
 }
