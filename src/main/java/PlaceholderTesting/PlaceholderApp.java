@@ -16,7 +16,7 @@ public class PlaceholderApp {
 	public static void main(String[] args) {
 		Map map = new Map("20x20test");
 		PlayerCharacter playerCharacter = new PlayerCharacter("jim", 5, 5);
-		playerCharacter.setCharacterSymbol('µ');
+		playerCharacter.setCharacterSymbol('@');
 		Actor enemy = new Enemy("hi", 2, 4);
 		Actor enemy2 = new Enemy("bye", 5, 8);
 		Actor enemy3 = new Enemy("running out of things", 2, 4);
@@ -49,4 +49,4 @@ public class PlaceholderApp {
 		}).start();
 	}
 
-}
+} 

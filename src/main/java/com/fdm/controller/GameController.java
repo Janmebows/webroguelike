@@ -40,6 +40,7 @@ public class GameController {
 
 	@GetMapping({ "/game" })
 	public String getIndex(HttpSession session) {
+		System.out.println("HIT HERE");
 		if (session.getAttribute("account") != null) {
 			return "game";
 		}
@@ -76,6 +77,6 @@ public class GameController {
 	public void autoUpdateMap() {
 		controller = GameLogicController.getInstance();
 		if (controller.map != null)
-			template.convertAndSend("/topic/game", controller.map.getMapCharacters());
+			template.convertAndSend("/topic/game", controller.map.getStringMap());
 	}
 }

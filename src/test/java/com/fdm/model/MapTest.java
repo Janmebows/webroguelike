@@ -29,7 +29,7 @@ public class MapTest {
 
 	}
 
-	/*** Tset of map building with testing map ***/
+	/*** Test of map building with testing map ***/
 	@Test
 	public void test_map_is_made_properly_and_can_get_elements() {
 		assertEquals(Tile.FULL_BLOCK, map.get(0, 0));
@@ -76,6 +76,8 @@ public class MapTest {
 	public void zerozero_is_blocked_since_it_is_a_wall() {
 		assertTrue(map.isBlocked(0, 0));
 	}
+
+	/*** Finish testing map building ***/
 
 	@Test
 	public void test_actor_moving() {
