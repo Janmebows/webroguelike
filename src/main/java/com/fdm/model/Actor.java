@@ -121,6 +121,7 @@ public abstract class Actor implements Runnable {
 			}
 		}
 		isRunning = false;
+//		GameLogicController.getInstance().checkIfOver();
 	}
 
 	public String getHtmlString() {

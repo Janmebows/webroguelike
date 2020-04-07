@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import org.apache.log4j.Logger;
 
 import com.fdm.model.Actor;
+import com.fdm.model.Enemy;
 import com.fdm.model.Map;
 import com.fdm.model.PlayerCharacter;
 
@@ -44,27 +45,29 @@ public class GameLogicController implements Runnable {
 
 	public Actor findActor(int id) {
 		List<Actor> valid = actorList.parallelStream().filter(x -> x.getId() == id).collect(Collectors.toList());
-		if(valid.size()==1)
+		if (valid.size() == 1)
 			return valid.get(0);
-		else return null;
-		
+		else
+			return null;
+
 	}
+
 	public static Object getKey() {
 		if (key == null)
 			key = new Object();
 		return key;
 	}
+
 	public void tryAddActor(PlayerCharacter actor) {
-		if(map.getActors().contains(actor))
+		if (findActor(actor.getId()) != null)
 			return;
 		else {
 			addActor(actor);
 		}
-	
+
 	}
 
 	public void addActor(Actor newActor) {
-//		newActor.key = getKey();
 		newActor.setMap(map);
 		map.addActor(newActor);
 		actorList.add(newActor);
@@ -72,7 +75,13 @@ public class GameLogicController implements Runnable {
 		th.start();
 	}
 
-	
+	public void removeActor(Actor actor) {
+		actor.isRunning = false;
+		map.remove(actor.getId());
+		actorList.removeIf(x -> x.getId() == actor.getId());
+
+	}
+
 //	public boolean startGame(Map map, List<Actor> actorList) {
 //		if(isRunning)
 //			return false;
@@ -85,8 +94,9 @@ public class GameLogicController implements Runnable {
 //		
 //		return true;
 //	}
-	
+
 	public void runConsoleGame() {
+		map.updateVisibleMap();
 		map.printMap();
 		for (Actor actor : actorList) {
 			Thread th = new Thread(actor);
@@ -147,6 +157,18 @@ public class GameLogicController implements Runnable {
 		runConsoleGame();
 	}
 
+	public void checkIfOver() {
+		long remaining = actorList.parallelStream().filter(x -> x instanceof Enemy && x.isAlive()).count();
+		System.out.println("There are " + remaining + " enemies remaining");
+		if (remaining == 0)
+			endGame();
 
+	}
+
+	private void endGame() {
+		System.out.println("Ending game (but not really)");
+		actorList.forEach(x -> x.isRunning = false);
+		GameLogicController.isRunning = false;
+	}
 
 }

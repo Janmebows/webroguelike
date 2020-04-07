@@ -38,7 +38,7 @@ public class Enemy extends Actor {
 	@Override
 	public boolean move(Direction dir) {
 
-		int next = rnd.nextInt(9);
+		int next = rnd.nextInt(20);
 		switch (next) {
 		case 0:
 			dir = Direction.LEFT;

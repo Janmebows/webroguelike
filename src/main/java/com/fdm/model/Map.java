@@ -177,7 +177,7 @@ public class Map {
 	public void printMap() {
 		for (int j = 0; j < yMax; ++j) {
 			for (int i = 0; i < xMax; ++i) {
-				System.out.print(getSymbol(i, j));
+				System.out.print(viewMap[i][j]);
 			}
 			System.out.println();
 		}
@@ -187,6 +187,10 @@ public class Map {
 		actorList.add(actor);
 	}
 
+	public void remove(int id) {
+		actorList.removeIf(x -> x.getId() == id);
+		
+	}
 	public void addActors(List<Actor> actors) {
 		actors.forEach(x -> x.setMap(this));
 		this.actorList.addAll(actors);
@@ -366,4 +370,5 @@ public class Map {
 			this.y = y;
 		}
 	}
+
 }

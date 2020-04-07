@@ -65,8 +65,6 @@ public class GameController {
 	public void updatePlayer(@RequestBody PlayerCharacter playerCharacter) {
 		controller = GameLogicController.getInstance();
 		PlayerCharacter actualPlayerCharacter = (PlayerCharacter) controller.findActor(playerCharacter.getId());
-		if (actualPlayerCharacter.getMap() == null) {
-		}
 		actualPlayerCharacter.setInput(playerCharacter.nextInput);
 		controller.tryAddActor(actualPlayerCharacter);
 
@@ -78,7 +76,8 @@ public class GameController {
 
 	@PostMapping("/leaveGame")
 	public void disconnect(@RequestBody PlayerCharacter pc) {
-		// disconnect player from controller
+		controller = GameLogicController.getInstance();
+		controller.removeActor(pc);
 	}
 
 	@PostMapping("/joinGame")
@@ -101,7 +100,7 @@ public class GameController {
 
 		System.out.println("A player tried to join");
 		System.out.println(pc);
-		controller.addActor(pc);
+		controller.tryAddActor(pc);
 		pc = actorRepo.save(pc);
 		acc.setPlayerCharacter(pc);
 		acc = accountRepository.save(acc);
