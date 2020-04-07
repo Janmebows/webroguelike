@@ -89,14 +89,15 @@ public class GameLogicController implements Runnable {
 		while (isRunning) {
 
 			synchronized (getKey()) {
+				map.updateVisibleStringMap();
 				getKey().notifyAll();
 			}
 			// MapUpdate(x, y, newSymbol)
 
 			try {
-				Thread.sleep(SERVER_TICK/2);
-                map.updateVisibleMap();
-                Thread.sleep(SERVER_TICK/2);			} catch (InterruptedException e) {
+				Thread.sleep(SERVER_TICK);
+
+			} catch (InterruptedException e) {
 
 				e.printStackTrace();
 			}

@@ -90,6 +90,9 @@ public class Map {
 	}
 
 	public String[][] getStringMap(){
+		if(stringViewMap == null){
+			updateVisibleStringMap();
+		}
 		return stringViewMap;
 	}
 
