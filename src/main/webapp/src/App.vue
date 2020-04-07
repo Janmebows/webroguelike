@@ -3,7 +3,6 @@
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary" role="navigation">
       <div class="container">
       <!-- Hidden on mobile -->
-
       <a class="navbar-item" href="/">
         <strong class="is-size-4">
           <img
@@ -15,8 +14,6 @@
         </strong>
       </a>
     <a class="navbar-brand" href="/">Office Heroes RPG</a>
-
-    
     <div v-show="navbarShow" class="navbar-collapse" id="navbarColor01" style="">
         <ul class="navbar-nav mr-auto flex-right" v-if="authenticated">
           <li class="nav-item">
@@ -49,7 +46,7 @@
     </nav>
     <br />
     <transition name="fade" mode="out-in">
-      <router-view @auth="authUser" @accountdata="saveData($event)" />
+      <router-view @auth="authUser" @accountdata="saveData($event)"/>
     </transition>
   </div>
 </template>
@@ -62,8 +59,8 @@ export default {
       authenticated: false,
       account: {
         id: 0,
-        username: "",
-        password: ""
+        username: this.$parent,
+        password: "",
       },
       navbarShow: false,
     };
@@ -84,7 +81,8 @@ export default {
       this.account = {};
       this.authenticated = false;
       this.$router.push("/");
-    }
+    },
+    // is called before render
   }
 };
 </script>
