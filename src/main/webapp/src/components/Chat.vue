@@ -5,13 +5,13 @@
     </div>
     <div class="row">
       <div class="col-md-12">
-        <div class="form-group" >
+        <div class="form-group d-none" >
        <div class="custom-control custom-switch">
          <input type="checkbox" class="custom-control-input" id="customSwitch1" checked="">
          <label class="custom-control-label" for="customSwitch1">Toggle this switch element</label>
        </div>
        </div>
-        <div class="form-group" >
+        <div class="form-group d-none" >
           <label for="connect">Chat connection:</label>
           <button
             id="connect"
@@ -28,23 +28,24 @@
             @click.prevent="disconnect"
           >Disconnect</button>
         </div>
-        <form class="col-md-6" >
-          <div class="form-group">
+        <form class="row" >
+          <div class="col-md-8">
             <label for="from">
               <br />Write your Message:
             </label>
-            <input
+            <input 
               type="text"
               id="text"
               class="form-control"
               v-model="send_message"
               placeholder="Write a message..."
             />
-            <div>
+          </div>
+          <div class="col-md-4">
               <br />
               <button id="send" class="btn btn-default" type="submit" @click.prevent="send">Send</button>
             </div>
-          </div>
+         
         </form>
         <div class="col-md-12">
           <table id="conversation" class="table table-striped">
