@@ -35,7 +35,7 @@ public class DataLoader implements ApplicationRunner {
 		//make a few accounts
 		//make some with characters
 		System.out.println("Populating database");
-		Map map = new Map("20x20test");
+		Map map = new Map("ProductionMap");
 		List<Actor> actors = actorFactory.makeEnemies(map,10);
 		actorRepo.saveAll(actors);
 		Account acc = new Account("uname", "pword");

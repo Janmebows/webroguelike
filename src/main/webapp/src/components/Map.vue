@@ -69,7 +69,7 @@ export default {
 
 
           const ROWS = 20;
-          const COLS = 20;
+          const COLS = 40;
           var map = document.getElementById("map");
           var table = document.createElement("table");
 
@@ -114,15 +114,16 @@ export default {
           console.log("Connect frame " + frame);
 
           this.stompClient.subscribe("/topic/game", tick => {
-            const ROWS = 20;
-            const COLS = 20;
+
+          const ROWS = 20;
+          const COLS = 40;
             this.map = JSON.parse(tick.body);
             var map = document.getElementById("map");
             var table = document.createElement("table");
 
-            for (var i = 0; i < ROWS; i++) {
-              var tr = document.createElement("tr");
-              for (var j = 0; j < COLS; j++) {
+          for (var i = 0; i < ROWS; i++) {
+            var tr = document.createElement("tr");
+            for (var j = 0; j < COLS; j++) {
                 var td = document.createElement("td");
                 // var cellText = document.createTextNode(this.map[i][j]);
                 // td.appendChild(cellText);

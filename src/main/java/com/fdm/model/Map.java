@@ -115,6 +115,9 @@ public class Map {
 
 			for (int yIndex = 0; yIndex < yMax; ++yIndex) {
 				for (int xIndex = 0; xIndex < xMax; ++xIndex) {
+					if(yIndex == 0 || yIndex == yMax-1 || xIndex ==0 || xIndex == xMax -1)
+						writer.append('█');
+						else
 					writer.append(".");
 				}
 				writer.append("\n");

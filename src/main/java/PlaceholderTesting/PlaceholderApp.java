@@ -14,7 +14,7 @@ import com.fdm.model.PlayerCharacter;
 public class PlaceholderApp {
 
 	public static void main(String[] args) {
-		Map map = new Map("20x20test");
+		Map map = new Map("ProductionMap");
 		PlayerCharacter playerCharacter = new PlayerCharacter("jim", 5, 5);
 		playerCharacter.setCharacterSymbol('@');
 		Actor enemy = new Enemy("hi", 2, 4);

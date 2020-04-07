@@ -51,12 +51,15 @@ public abstract class Actor implements Runnable {
 	int attack = 10;
 	int level = 1;
 	int exp = 0;
-
-	public void takeDamage(int damage) {
+	int value = 100;
+	int killCount =0 ;
+	public void takeDamage(int damage, Actor attacker) {
 		logger.info(this.characterName + " took " + damage + " damage");
 		currentHP = currentHP - damage;
 		if (currentHP <= 0) {
 			alive = false;
+			attacker.addKillAndGainExp(this.value*this.level);
+			
 			System.out.println(characterName + " died");
 			logger.warn(characterName + " died");
 			map.updateActors();
@@ -71,11 +74,12 @@ public abstract class Actor implements Runnable {
 		}
 
 	}
-
-	public void gainExp(int amount) {
+	
+	public void addKillAndGainExp(int amount) {
+		this.killCount++;
 		logger.info(this.characterName + " gained " + amount + " experience");
 		exp = exp + amount;
-		if (exp >= 100) {
+		while (exp >= 100) {
 			levelup();
 		}
 	}
@@ -85,6 +89,7 @@ public abstract class Actor implements Runnable {
 		currentHP = maxHP;
 		attack = attack + 5;
 		level = level + 1;
+		exp -=100;
 		System.out.println(characterName + " leveled up!");
 		System.out.println(characterName + "'s level is now " + level);
 		logger.info(characterName + " leveled up!");
@@ -93,10 +98,7 @@ public abstract class Actor implements Runnable {
 
 	public void attack(Enemy target) {
 		logger.info(this.characterName + " attacked " + target.characterName);
-		target.takeDamage(attack);
-		if (!target.isAlive()) {
-			gainExp(100);
-		}
+		target.takeDamage(attack, this);
 
 	}
 
