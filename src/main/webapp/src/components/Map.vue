@@ -114,7 +114,7 @@ export default {
               }
               table.appendChild(tr);
             }
-            if (map.hasChildNodes) {
+            if (map.firstChild != null) {
               map.removeChild(map.childNodes[0]);
             }
             map.appendChild(table);

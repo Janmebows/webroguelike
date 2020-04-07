@@ -65,6 +65,7 @@ public class GameController {
 		controller = GameLogicController.getInstance();
 		if (controller.map != null)
 			return controller.map.getStringMap(); 
+
 		else
 			return null;
 	}
