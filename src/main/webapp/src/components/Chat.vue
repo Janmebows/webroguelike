@@ -1,11 +1,17 @@
 <template>
-  <div id="main-content" class="container" align>
+  <div id="main-content" class="container" >
     <div class="row">
       <h4>Chat</h4>
     </div>
     <div class="row">
       <div class="col-md-12">
-        <div class="form-group" align>
+        <div class="form-group" >
+       <div class="custom-control custom-switch">
+         <input type="checkbox" class="custom-control-input" id="customSwitch1" checked="">
+         <label class="custom-control-label" for="customSwitch1">Toggle this switch element</label>
+       </div>
+       </div>
+        <div class="form-group" >
           <label for="connect">Chat connection:</label>
           <button
             id="connect"
@@ -22,7 +28,7 @@
             @click.prevent="disconnect"
           >Disconnect</button>
         </div>
-        <form class="col-md-6" align>
+        <form class="col-md-6" >
           <div class="form-group">
             <label for="from">
               <br />Write your Message:

@@ -21,10 +21,10 @@
       <div class="col-md-5" style="float:left">
         <div id="map" align="center"></div>
         <div class align="center">
-          <button type="button" class="btn btn-outline-info">Up</button>
-          <button type="button" class="btn btn-outline-info">Down</button>
-          <button type="button" class="btn btn-outline-info">Left</button>
-          <button type="button" class="btn btn-outline-info">Right</button>
+          <button type="button" @click="go('w')" class="btn btn-outline-info">Up</button>
+          <button type="button" @click="go('s')" class="btn btn-outline-info">Down</button>
+          <button type="button" @click="go('a')" class="btn btn-outline-info">Left</button>
+          <button type="button" @click="go('d')" class="btn btn-outline-info">Right</button>
         </div>
       </div>
     </div>
@@ -41,11 +41,16 @@ export default {
   data() {
     return {
       received_map: 0,
-      mapConnected: 0
+      mapConnected: 0,
+      playerCharacter: this.$parent.account.playerCharacter,
     };
   },
   components: {},
   methods: {
+    go : function (input) {
+      console.log(input);
+      // DO THE THING HERE
+    },
     retrieveMaps() {
       http
         .post("/game")
