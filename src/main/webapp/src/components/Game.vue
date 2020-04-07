@@ -17,9 +17,10 @@ import Map from "./Map.vue";
 
 export default {
   name: "Game",
-
   data() {
-    return {};
+    return {
+      account: this.$parent.account,
+    };
   },
   components: {
     Chat,
