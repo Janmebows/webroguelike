@@ -2,21 +2,21 @@
   <div class="container">
     <div class="row">
       <div class="form-group" align>
-        <label for="connect">WebSocket connection:</label>
+        <label for="connect">Start Game:</label>
         <button
           id="mapConnect"
-          class="btn btn-default"
+          class="btn btn-outline-info"
           type="submit"
           :disabled="mapConnected == 1"
           @click.prevent="connect"
-        >Connect</button>
+        >Play</button>
         <button
           id="disconnect"
           class="btn btn-default"
           type="submit"
           :disabled="mapConnected == 0"
           @click.prevent="disconnect"
-        >Disconnect</button>
+        >Close Connection</button>
       </div>
       <div class="col-md-5" style="float:left">
         <div id="map" align="center"></div>
