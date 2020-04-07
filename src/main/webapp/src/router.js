@@ -60,6 +60,11 @@ export default new Router({
       component: Game
     },
     {
+      path: "/map",
+      name: "map",
+      component: Map
+    },
+    {
       path: "/chat",
       name: "chat",
       component: Chat

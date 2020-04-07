@@ -40,11 +40,13 @@ public class DataLoader implements ApplicationRunner {
 	//	accountRepo.save(acc);
 		PlayerCharacter plc = actorRepo.save(new PlayerCharacter("player1", 1, 1));
 		plc.setCharacterSymbol('ñ');
+		plc.setColor(255, 0, 0);
 		actorRepo.save(plc);
 		actors.add(plc);
 		acc.setPlayerCharacter(plc);
 		accountRepo.save(acc);
 		map.addActors(actors);
+		map = mapRepo.save(map);
 		GameLogicController gc = new GameLogicController(map, actors);
 		Thread th = new Thread(gc);
 		th.start();
