@@ -28,14 +28,14 @@ public class SearchController {
 	}
 	
 	@PostMapping("/search")
-	public List<PlayerCharacter> processSearch(@RequestBody PlayerCharacter playerChar) {
-		
+	public List<PlayerCharacter> processSearch(@RequestBody String name, char symbol, int level) {
+		System.out.println("processSearch init: "+name+" "+symbol+" "+level);
+
 		List<PlayerCharacter> foundPlayers = new ArrayList<PlayerCharacter>();
-		
 		//name, symbol, level, 
-		
-		foundPlayers = playerCharacterRepository.findByCharacterNameContainingAndCharacterSymbolContainingAndLevelContaining(playerChar.getCharacterName(), playerChar.getCharacterSymbol(), playerChar.getLevel());
-		
+		foundPlayers = playerCharacterRepository.findByCharacterNameContainingAndCharacterSymbolContainingAndLevelContaining(name, symbol, level);
+
+//		foundPlayers = playerCharacterRepository.findByCharacterNameContainingAndCharacterSymbolContainingAndLevelContaining(playerChar.getCharacterName(), playerChar.getCharacterSymbol(), playerChar.getLevel());
 		return foundPlayers;
 	}
 
