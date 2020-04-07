@@ -11,7 +11,7 @@ import com.fdm.model.PlayerCharacter;
 
 public class GameLogicController implements Runnable {
 
-	public static final long SERVER_TICK = 2000;
+	public static final long SERVER_TICK = 500;
 	Map map;
 
 	// if we want multiple maps this shouldn't be static
@@ -55,7 +55,7 @@ public class GameLogicController implements Runnable {
 		return key;
 	}
 	public void tryAddActor(PlayerCharacter actor) {
-		if(map.getActors().contains(actor))
+		if(findActor(actor.getId()) == null)
 			return;
 		else {
 			addActor(actor);

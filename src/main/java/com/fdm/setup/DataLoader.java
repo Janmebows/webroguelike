@@ -47,7 +47,7 @@ public class DataLoader implements ApplicationRunner {
 		plc.setCharacterSymbol('ñ');
 		plc.setColor(255, 0, 0);
 		actorRepo.save(plc);
-		actors.add(plc);
+//		actors.add(plc);
 		acc.setPlayerCharacter(plc);
 		accountRepo.save(acc);
 		map.addActors(actors);

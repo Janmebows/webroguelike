@@ -65,10 +65,14 @@ public class GameController {
 	public void updatePlayer(@RequestBody PlayerCharacter playerCharacter) {
 		controller = GameLogicController.getInstance();
 		PlayerCharacter actualPlayerCharacter = (PlayerCharacter) controller.findActor(playerCharacter.getId());
+		if(actualPlayerCharacter==null) {
+			actualPlayerCharacter = (PlayerCharacter) actorRepo.findById(playerCharacter.getId()).get();
+			controller.addActor(actualPlayerCharacter);
+		}
 		if (actualPlayerCharacter.getMap() == null) {
 		}
 		actualPlayerCharacter.setInput(playerCharacter.nextInput);
-		controller.tryAddActor(actualPlayerCharacter);
+//		controller.tryAddActor(actualPlayerCharacter);
 
 		System.out.println(playerCharacter.nextInput);
 		System.out.println("got input from player " + actualPlayerCharacter.getCharacterName() + " id "
@@ -101,7 +105,7 @@ public class GameController {
 
 		System.out.println("A player tried to join");
 		System.out.println(pc);
-		controller.addActor(pc);
+		controller.tryAddActor(pc);
 		pc = actorRepo.save(pc);
 		acc.setPlayerCharacter(pc);
 		acc = accountRepository.save(acc);
