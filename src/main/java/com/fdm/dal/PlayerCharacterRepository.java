@@ -10,13 +10,13 @@ import com.fdm.model.PlayerCharacter;
 @Repository
 public interface PlayerCharacterRepository extends CrudRepository<PlayerCharacter, Integer> {
 
-	List<PlayerCharacter> findByNameContainingAndSymbolContainingAndLevelContaining(String characterName,
+	List<PlayerCharacter> findByCharacterNameContainingAndCharacterSymbolContainingAndLevelContaining(String characterName,
 			char characterSymbol, int level);
 	
-	List<PlayerCharacter> findByNameContainingAndSymbolContainingAndLevelGreaterThan(String characterName,
+	List<PlayerCharacter> findByCharacterNameContainingAndCharacterSymbolAndLevelGreaterThan(String characterName,
 			char characterSymbol, int level);
 	
-	List<PlayerCharacter> findByNameContainingAndSymbolContainingAndLevelLessThan(String characterName,
+	List<PlayerCharacter> findByCharacterNameContainingAndCharacterSymbolAndLevelLessThan(String characterName,
 			char characterSymbol, int level);	
 	
 }
