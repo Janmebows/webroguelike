@@ -2,24 +2,24 @@ package com.fdm.model;
 
 public class SearchFilters {
 	
-	private String Name;
-	private char Symbol;
+	private String name;
+	private char symbol;
 	private int level;
 	private int killCount;
 	private String levelDirection;
 	private String killDirection;
 		
 	public String getName() {
-		return Name;
+		return name;
 	}
 	public void setName(String name) {
-		Name = name;
+		this.name = name;
 	}
 	public char getSymbol() {
-		return Symbol;
+		return symbol;
 	}
 	public void setSymbol(char symbol) {
-		Symbol = symbol;
+		this.symbol = symbol;
 	}
 	public int getLevel() {
 		return level;
