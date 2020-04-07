@@ -73,13 +73,14 @@ export default {
     return {
       received_messages: [],
       send_message: null,
-      connected: 0
+      connected: 0,
+      username: this.$parent.account.username,
     };
   },
   methods: {
     send() {
       if (this.stompClient && this.stompClient.connected) {
-        var from = document.getElementById("from").value;
+        var from = this.username;
         var text = document.getElementById("text").value;
         this.stompClient.send(
           "/app/chat",

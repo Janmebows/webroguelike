@@ -27,7 +27,10 @@
       </div>
       <button v-on:click="loginAccount" class="btn btn-success">Login</button>
       <br />
-      <p>{{error}}</p>
+      
+       <p class="text-warning" >{{warning}}</p>
+       <p class="text-danger" >{{error}}</p>
+     
     </div>
     <div v-else>
       <h4>You Logged in successfully!</h4>
@@ -50,12 +53,15 @@ export default {
       },
       authenticated: false,
       message: "",
-      error: ""
+      error: "",
+      warning: "",
     };
   },
   methods: {
     /* eslint-disable no-console */
     loginAccount() {
+      this.error = "";
+      this.warning = "";
       var data = {
         username: this.account.username,
         password: this.account.password
@@ -90,5 +96,15 @@ export default {
 .submitform {
   max-width: 300px;
   margin: auto;
+}
+/* Vue Fade animations */
+.text-fade-enter-active,
+.text-fade-leave-active {
+    transition: opacity .2s ease
+}
+
+.text-fade-enter,
+.text-fade-leave-to {
+  opacity: 0
 }
 </style>

@@ -29,7 +29,8 @@
 
       <button @click="saveAccount" class="btn btn-success">Register</button>
       <br />
-      <p>{{error}}</p>
+      <p class="text-warning" >{{warning}}</p>
+       <p class="text-danger" >{{error}}</p>
     </div>
 
     <div v-else>
@@ -54,12 +55,15 @@ export default {
         password: ""
       },
       authenticated: false,
-      error: ""
+      warning: "",
+      error: "",
     };
   },
   methods: {
     /* eslint-disable no-console */
     saveAccount() {
+      this.error = "";
+      this.warning = "";
       var data = {
         username: this.account.username,
         password: this.account.password
@@ -75,7 +79,7 @@ export default {
             this.authenticated = true;
             //           eventBus.$emit('responseData', response.data);
           } else {
-            this.error =
+            this.warning =
               "Oops looks like the username is already taken or what you entered is invalid";
           }
         })
