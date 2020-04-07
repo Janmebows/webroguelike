@@ -48,7 +48,6 @@ public class GameController {
 	}
 
 	@MessageMapping("/game")
-	@SendTo("/topic/game")
 	public void updatePlayer(@ModelAttribute PlayerCharacter pc, @ModelAttribute char input) {
 		pc.setInput(input);
 	}
