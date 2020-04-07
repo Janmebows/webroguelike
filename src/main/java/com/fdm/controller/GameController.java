@@ -65,8 +65,13 @@ public class GameController {
 	public void updatePlayer(@RequestBody PlayerCharacter playerCharacter) {
 		controller = GameLogicController.getInstance();
 		PlayerCharacter actualPlayerCharacter = (PlayerCharacter) controller.findActor(playerCharacter.getId());
+
+		if(actualPlayerCharacter==null) {
+			actualPlayerCharacter = (PlayerCharacter) actorRepo.findById(playerCharacter.getId()).get();
+			controller.addActor(actualPlayerCharacter);
+		}
 		actualPlayerCharacter.setInput(playerCharacter.nextInput);
-		controller.tryAddActor(actualPlayerCharacter);
+//		controller.tryAddActor(actualPlayerCharacter);
 
 		System.out.println(playerCharacter.nextInput);
 		System.out.println("got input from player " + actualPlayerCharacter.getCharacterName() + " id "

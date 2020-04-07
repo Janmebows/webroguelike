@@ -248,7 +248,7 @@ public class Map {
 
 	}
 	
-	private String getStringSymbol(int x, int y) {
+	private synchronized String getStringSymbol(int x, int y) {
 		Optional<Actor> playerAt = actorList.parallelStream()
 				.filter(player -> player instanceof PlayerCharacter && player.isAtPosition(x, y)).findAny();
 		if (playerAt.isPresent())

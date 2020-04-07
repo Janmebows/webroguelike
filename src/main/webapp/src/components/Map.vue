@@ -177,27 +177,27 @@ export default {
   mounted() {
     this.retrieveMaps();
     // Key event listeners
-    var gameApp = this;
-    window.addEventListener('keyup', function(e) {
-       switch (e.keyCode) {
-           case 37:
-              // alert('Left key pressed');
-              gameApp.go('a');
-              break;
-           case 38:
-              // alert('Up key pressed');
-              gameApp.go('w');
-              break;
-           case 39:
-              // alert('Right key pressed');
-              gameApp.go('d');
-              break;
-           case 40:
-              // alert('Down key pressed');
-              gameApp.go('s');
-              break;
-        }
-    });
+    // var gameApp = this;
+    // window.addEventListener('keyup', function(e) {
+    //    switch (e.keyCode) {
+    //        case 37:
+    //           // alert('Left key pressed');
+    //           gameApp.go('a');
+    //           break;
+    //        case 38:
+    //           // alert('Up key pressed');
+    //           gameApp.go('w');
+    //           break;
+    //        case 39:
+    //           // alert('Right key pressed');
+    //           gameApp.go('d');
+    //           break;
+    //        case 40:
+    //           // alert('Down key pressed');
+    //           gameApp.go('s');
+    //           break;
+    //     }
+    // });
   },
 };
 </script>
