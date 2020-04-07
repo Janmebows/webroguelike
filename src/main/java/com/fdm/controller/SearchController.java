@@ -31,8 +31,9 @@ public class SearchController {
 	@PostMapping("/search")
 	public List<PlayerCharacter> processSearch(@RequestBody SearchFilters searchInput) {
 		
+		System.out.println("processSearch init: "+ searchInput.getName()+" " + searchInput.getSymbol() + " " + searchInput.getLevel());
+
 		List<PlayerCharacter> foundPlayers = new ArrayList<PlayerCharacter>();
-		
 		//name, symbol, level, 
 		
 		foundPlayers = playerCharacterRepository.findByCharacterNameContainingAndCharacterSymbolAndLevelGreaterThan(searchInput.getName(), searchInput.getSymbol(), searchInput.getLevel());
