@@ -41,7 +41,7 @@ export default {
   data() {
     return {
       received_map: 0,
-      mapConnected: 1
+      mapConnected: 0
     };
   },
   components: {},
