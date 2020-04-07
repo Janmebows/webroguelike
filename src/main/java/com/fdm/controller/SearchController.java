@@ -34,7 +34,7 @@ public class SearchController {
 		
 		//name, symbol, level, 
 		
-		foundPlayers = playerCharacterRepository.findByNameContainingAndSymbolContainingAndLevelContaining(playerChar.getCharacterName(), playerChar.getCharacterSymbol(), playerChar.getLevel());
+		//foundPlayers = playerCharacterRepository.findByNameContainingAndSymbolContainingAndLevelContaining(playerChar.getCharacterName(), playerChar.getCharacterSymbol(), playerChar.getLevel());
 		
 		return foundPlayers;
 	}
