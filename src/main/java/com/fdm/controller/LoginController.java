@@ -10,6 +10,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fdm.dal.*;
 import com.fdm.model.*;
 
+/**
+ * @author Andrew
+ * @author Ian
+ *
+ */
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/api")
@@ -18,6 +23,10 @@ public class LoginController {
 	@Autowired
 	AccountRepository accountRepository;
 
+	/**
+	 * @param account: Placeholder account from form.
+	 * @return Account: Matched account.
+	 */
 	@PostMapping("/login")
 	public Account postLogin(@RequestBody Account account) {
 		if (account == null) {

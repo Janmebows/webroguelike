@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fdm.dal.PlayerCharacterRepository;
 import com.fdm.model.PlayerCharacter;
+import com.fdm.model.SearchFilters;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
@@ -28,13 +29,13 @@ public class SearchController {
 	}
 	
 	@PostMapping("/search")
-	public List<PlayerCharacter> processSearch(@RequestBody PlayerCharacter playerChar) {
+	public List<PlayerCharacter> processSearch(@RequestBody SearchFilters searchInput) {
 		
 		List<PlayerCharacter> foundPlayers = new ArrayList<PlayerCharacter>();
 		
 		//name, symbol, level, 
 		
-		foundPlayers = playerCharacterRepository.findByCharacterNameContainingAndCharacterSymbolContainingAndLevelContaining(playerChar.getCharacterName(), playerChar.getCharacterSymbol(), playerChar.getLevel());
+		foundPlayers = playerCharacterRepository.findByCharacterNameContainingAndCharacterSymbolAndLevelGreaterThan(searchInput.getName(), searchInput.getSymbol(), searchInput.getLevel());
 		
 		return foundPlayers;
 	}

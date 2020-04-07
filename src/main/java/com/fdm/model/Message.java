@@ -1,5 +1,9 @@
 package com.fdm.model;
 
+/**
+ * @author Kristen
+ *
+ */
 public class Message {
 	
 	String from;
