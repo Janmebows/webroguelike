@@ -7,7 +7,7 @@
         placeholder="Find Players"
         id="searchInput"
         name="searchInput"
-        v-model="searchFilters.Name"
+        v-model="searchFilters.name"
       />
       <button v-on:click="retrievePlayers" class="btn btn-secondary">Search</button>
     </form>
@@ -38,8 +38,8 @@ export default {
   data() {
     return {
       searchFilters: {
-        Name: "",
-        Symbol: "",
+        name: "",
+        symbol: "ñ",
         level: 0,
         killCount: 0,
         levelDirection: "",
@@ -52,13 +52,14 @@ export default {
     /* eslint-disable no-console */
     retrievePlayers() {
       var data = {
-        Name: this.searchFilters.Name
-        // Symbol: this.searchFilter.Symbol,
-        // level: this.searchFilter.level
-        // killCount: this.searchFilter.killCount,
-        // levelDirection: this.searchFilter.levelDirection,
-        // killDirection: this.searchFilter.killDirection
+        name: this.searchFilters.name,
+        symbol: this.searchFilters.symbol,
+        level: this.searchFilters.level,
+        killCount: this.searchFilters.killCount,
+        levelDirection: this.searchFilters.levelDirection,
+        killDirection: this.searchFilters.killDirection
       };
+      console.log(data);
       http
         .post("/search", data)
         .then(response => {
