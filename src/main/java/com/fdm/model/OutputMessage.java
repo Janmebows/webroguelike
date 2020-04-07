@@ -12,6 +12,11 @@ public class OutputMessage {
 		this.text = text;
 		this.time = time;
 	}
+	
+	public OutputMessage() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 
 	public String getSender() {
 		return sender;
