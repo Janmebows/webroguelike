@@ -40,6 +40,7 @@ public class GameController {
 
 	@GetMapping({ "/game" })
 	public String getIndex(HttpSession session) {
+		System.out.println("HIT HERE");
 		if (session.getAttribute("account") != null) {
 			return "game";
 		}
