@@ -117,6 +117,10 @@ public abstract class Actor implements Runnable {
 			}
 		}
 	}
+	
+	public String getHtmlString() {
+		return "<p style=\"padding: 0; margin: 0; color: " +getColor() + ";\">"+ characterSymbol + "</p>";
+	}
 
 	public boolean move(Direction dir) {
 		if (dir != Direction.NONE)

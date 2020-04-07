@@ -21,8 +21,10 @@ public class GameLogicController implements Runnable {
 		super();
 		this.map = map;
 		GameLogicController.key = key;
+		GameLogicController.instance = this;
 		this.actorList = actorList;
 		actorList.forEach(x -> x.key = getKey());
+		instance = this;
 		Logger.getLogger("RootLogger").warn("A new logic controller was made since we didn't make it a singleton!");
 	}
 
@@ -92,11 +94,10 @@ public class GameLogicController implements Runnable {
 			// MapUpdate(x, y, newSymbol)
 
 			try {
-				Thread.sleep(SERVER_TICK);
-				synchronized (getKey()) {
-					map.updateVisibleMap();
-				}
-			} catch (InterruptedException e) {
+				Thread.sleep(SERVER_TICK/2);
+                map.updateVisibleMap();
+                Thread.sleep(SERVER_TICK/2);			} catch (InterruptedException e) {
+
 				e.printStackTrace();
 			}
 		}
