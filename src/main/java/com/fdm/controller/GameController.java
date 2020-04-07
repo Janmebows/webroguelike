@@ -44,6 +44,7 @@ public class GameController {
 			return "game";
 		}
 		return "/game";
+
 	}
 
 	@MessageMapping("/game")
@@ -59,11 +60,11 @@ public class GameController {
 	}
 
 	@PostMapping("/game")
-	public char[][] postGame() {
+	public String[][] postGame() {
 
 		controller = GameLogicController.getInstance();
 		if (controller.map != null)
-			return controller.map.getMapCharacters();
+			return controller.map.getStringMap(); 
 		else
 			return null;
 	}

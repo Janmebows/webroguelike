@@ -2,18 +2,34 @@ package com.fdm.model;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
+
+import java.util.List;
+
+import org.apache.log4j.Logger;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 public class MapTest {
 
+
+	List<Actor> mockActors;
+
+	Logger mockLogger;
+	
 	Map map;
 
 	@Before
 	public void init() {
+		mockActors = mock(List.class);
+		mockLogger = mock(Logger.class);
 		map = new Map("TestingMap");
+
 	}
 
+	/*** Tset of map building with testing map ***/
 	@Test
 	public void test_map_is_made_properly_and_can_get_elements() {
 		assertEquals(Tile.FULL_BLOCK, map.get(0, 0));
@@ -66,15 +82,30 @@ public class MapTest {
 		Actor mockActor = mock(Actor.class);
 		map.tryMoveActor(mockActor, Direction.NONE);
 	}
-	
+
 	@Test
 	public void map_as_char_array_works() {
-		char[] compare = new char[] {'█','.',',','\n',' ','.','.','\n'};
+		char[] compare = new char[] { '█', '.', ',', '\n', ' ', '.', '.', '\n' };
 		char[] result = map.mapAsCharArray();
-		assertEquals(compare.length,result.length);
-		for(int i=0; i<compare.length; i++) {
-		assertEquals(compare[i],result[i]);
+		assertEquals(compare.length, result.length);
+		for (int i = 0; i < compare.length; i++) {
+			assertEquals(compare[i], result[i]);
 		}
 	}
 
+	@Test
+	public void update_string_map() {
+		Map map = new Map("TestingMap");
+		PlayerCharacter plc = new PlayerCharacter("player1", 1, 1);
+		plc.setCharacterSymbol('ñ');
+		plc.setColor(255, 0, 0);
+		map.addActor(plc);
+		map.updateVisibleStringMap();
+		for (int y = 0; y < map.getyMax(); ++y) {
+			for (int x = 0; x < map.getxMax(); ++x) {
+				System.out.print(map.getStringMap()[x][y]);
+			}
+			System.out.println();
+		}
+	}
 }
