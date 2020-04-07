@@ -11,7 +11,6 @@ public class PlayerCharacter extends Actor {
 //	@OneToOne(mappedBy = "playerCharacter")
 	// Account owner;
 	public volatile char nextInput = '\u0000';
-
 	public void setInput(char input) {
 		// if null character or blankspace
 		if (input == '\u0000' || input == ' ') {
@@ -58,7 +57,7 @@ public class PlayerCharacter extends Actor {
 		this.characterName = characterName;
 		this.x = x;
 		this.y = y;
-		this.key = key;
+//		this.key = key;
 	}
 
 	public PlayerCharacter(String characterName, int x, int y) {
@@ -106,9 +105,9 @@ public class PlayerCharacter extends Actor {
 		this.map = map;
 	}
 
-	public void setKey(Object key) {
-		this.key = key;
-
-	}
+//	public void setKey(Object key) {
+//		this.key = key;
+//
+//	}
 
 }

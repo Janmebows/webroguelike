@@ -88,7 +88,7 @@ public class PlayerCharacterTest {
 	@Test
 	public void test_print_html() {
 		playerChar.setCharacterSymbol('%');
-		playerChar.setColor(Color.red);
+		playerChar.setColor(255,0,0);
 		assertEquals("<p style=\"color: #ff0000;\">%</p>",playerChar.getHtmlString());
 	}
 }

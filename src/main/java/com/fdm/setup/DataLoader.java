@@ -14,7 +14,7 @@ import com.fdm.dal.ActorRepository;
 import com.fdm.dal.MapRepository;
 import com.fdm.model.Account;
 import com.fdm.model.Actor;
-import com.fdm.model.EnemyFactory;
+import com.fdm.model.ActorFactory;
 import com.fdm.model.Map;
 import com.fdm.model.PlayerCharacter;
 
@@ -29,14 +29,19 @@ public class DataLoader implements ApplicationRunner {
 	MapRepository mapRepo;
 
 	  @Autowired
-	  EnemyFactory enemyFactory;
+	  ActorFactory actorFactory;
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
+		//make a few accounts
+		//make some with characters
 		System.out.println("Populating database");
 		Map map = new Map("20x20test");
-		List<Actor> actors = enemyFactory.makeEnemies(map,10);
+		List<Actor> actors = actorFactory.makeEnemies(map,10);
 		actorRepo.saveAll(actors);
 		Account acc = new Account("uname", "pword");
+		Account acctwo = new Account("u", "p");
+//		acctwo.setPlayerCharacter(actorFactory.makePlayerCharacter(acctwo.getUsername(),map));
+		accountRepo.save(acctwo);
 	//	accountRepo.save(acc);
 		PlayerCharacter plc = actorRepo.save(new PlayerCharacter("player1", 1, 1));
 		plc.setCharacterSymbol('ñ');
@@ -48,6 +53,7 @@ public class DataLoader implements ApplicationRunner {
 		map.addActors(actors);
 		map = mapRepo.save(map);
 		GameLogicController gc = new GameLogicController(map, actors);
+//		actorRepo.saveAll(actors);
 		Thread th = new Thread(gc);
 		th.start();
 		System.out.println("Finished populating");

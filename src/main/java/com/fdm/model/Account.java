@@ -25,7 +25,7 @@ public class Account {
 		this.confirmPassword = confirmPassword;
 	}
 
-	@OneToOne//(mappedBy="owner")
+	@OneToOne(optional = true)//(mappedBy="owner")
 	PlayerCharacter playerCharacter;
 
 	public PlayerCharacter getPlayerCharacter() {

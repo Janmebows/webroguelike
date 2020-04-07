@@ -14,6 +14,7 @@ import javax.persistence.ManyToOne;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fdm.controller.GameController;
 import com.fdm.controller.GameLogicController;
 
@@ -24,7 +25,7 @@ public abstract class Actor implements Runnable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	int id;
-	public volatile transient Object key;
+//	public volatile transient Object key;
 	String characterName;
 
 	protected transient static Logger logger = Logger.getLogger("ActorLogger");
@@ -32,8 +33,9 @@ public abstract class Actor implements Runnable {
 	int colorred;
 	int colorgreen;
 	int colorblue;
-	transient Color color = new Color(colorred, colorgreen, colorblue);
 	public transient volatile Direction nextDirection = Direction.NONE;
+	//json ignore because json doesn't like LOB data
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "mapid")
 	Map map;
@@ -98,12 +100,14 @@ public abstract class Actor implements Runnable {
 
 	}
 
+	public transient boolean isRunning = false;
 	@Override
 	public void run() {
+		isRunning = true;
 		while (alive && GameLogicController.isRunning) {
 			try {
-				synchronized (key) {
-					key.wait();
+				synchronized ( GameLogicController.getKey()) {
+					 GameLogicController.getKey().wait();
 				}
 				if (this.move(nextDirection)) {
 
@@ -116,10 +120,11 @@ public abstract class Actor implements Runnable {
 				e.printStackTrace();
 			}
 		}
+		isRunning = false;
 	}
-	
+
 	public String getHtmlString() {
-		return "<p style=\"padding: 0; margin: 0; color: " +getColor() + ";\">"+ characterSymbol + "</p>";
+		return "<p style=\"padding: 0; margin: 0; color: " + getColor() + ";\">" + characterSymbol + "</p>";
 	}
 
 	public boolean move(Direction dir) {
@@ -129,6 +134,7 @@ public abstract class Actor implements Runnable {
 	}
 
 	public String getColor() {
+		Color color = new Color(colorred, colorgreen, colorblue);
 		return "#" + Integer.toHexString(color.getRGB()).substring(2);
 
 	}
@@ -186,11 +192,9 @@ public abstract class Actor implements Runnable {
 	}
 
 	public void setColor(int red, int green, int blue) {
-		this.color = new Color(red, green, blue);
-	}
-
-	public void setColor(Color color) {
-		this.color = color;
+		this.colorred = red;
+		this.colorgreen = green;
+		this.colorblue = blue;
 	}
 
 	@Override

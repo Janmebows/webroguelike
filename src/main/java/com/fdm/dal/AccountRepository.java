@@ -16,5 +16,5 @@ public interface AccountRepository extends CrudRepository<Account, Integer> {
 
 //	List<Account> findByUsernameAndPassword(String username, String password);
 	List<Account> findByUsernameAndPassword(String username, String password);
-	
+	List<Account> findByPlayerCharacterId(int playerCharacterId);
 }

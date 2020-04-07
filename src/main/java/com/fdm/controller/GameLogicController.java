@@ -1,11 +1,13 @@
 package com.fdm.controller;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.apache.log4j.Logger;
 
 import com.fdm.model.Actor;
 import com.fdm.model.Map;
+import com.fdm.model.PlayerCharacter;
 
 public class GameLogicController implements Runnable {
 
@@ -13,7 +15,7 @@ public class GameLogicController implements Runnable {
 	Map map;
 
 	// if we want multiple maps this shouldn't be static
-	public static boolean isRunning = true;
+	public static boolean isRunning = false;
 	private static volatile Object key;
 	private List<Actor> actorList;
 
@@ -23,8 +25,9 @@ public class GameLogicController implements Runnable {
 		GameLogicController.key = key;
 		GameLogicController.instance = this;
 		this.actorList = actorList;
-		actorList.forEach(x -> x.key = getKey());
+//		actorList.forEach(x -> x.key = getKey());
 		instance = this;
+		isRunning = true;
 		Logger.getLogger("RootLogger").warn("A new logic controller was made since we didn't make it a singleton!");
 	}
 
@@ -39,21 +42,51 @@ public class GameLogicController implements Runnable {
 		return instance;
 	}
 
+	public Actor findActor(int id) {
+		List<Actor> valid = actorList.parallelStream().filter(x -> x.getId() == id).collect(Collectors.toList());
+		if(valid.size()==1)
+			return valid.get(0);
+		else return null;
+		
+	}
 	public static Object getKey() {
 		if (key == null)
 			key = new Object();
 		return key;
 	}
+	public void tryAddActor(PlayerCharacter actor) {
+		if(map.getActors().contains(actor))
+			return;
+		else {
+			addActor(actor);
+		}
+	
+	}
 
 	public void addActor(Actor newActor) {
-		newActor.key = getKey();
+//		newActor.key = getKey();
 		newActor.setMap(map);
 		map.addActor(newActor);
+		actorList.add(newActor);
 		Thread th = new Thread(newActor);
 		th.start();
 	}
 
-	public void handle() {
+	
+//	public boolean startGame(Map map, List<Actor> actorList) {
+//		if(isRunning)
+//			return false;
+//		this.map = map;
+//		GameLogicController.key = key;
+//		GameLogicController.instance = this;
+//		this.actorList = actorList;
+//		actorList.forEach(x -> x.key = getKey());
+//		instance = this;
+//		
+//		return true;
+//	}
+	
+	public void runConsoleGame() {
 		map.printMap();
 		for (Actor actor : actorList) {
 			Thread th = new Thread(actor);
@@ -81,7 +114,7 @@ public class GameLogicController implements Runnable {
 		}
 	}
 
-	public void handleNoPrint() {
+	public void runGame() {
 		for (Actor actor : actorList) {
 			Thread th = new Thread(actor);
 			th.start();
@@ -110,8 +143,10 @@ public class GameLogicController implements Runnable {
 
 	@Override
 	public void run() {
-		handleNoPrint();
-//		handle();
+		runGame();
+		runConsoleGame();
 	}
+
+
 
 }

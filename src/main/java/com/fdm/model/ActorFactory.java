@@ -11,7 +11,7 @@ import com.fdm.dal.ActorRepository;
 import com.fdm.model.Map.Coord;
 
 @Component
-public class EnemyFactory {
+public class ActorFactory {
 	@Autowired
 	ActorRepository actorRepo;
 	
@@ -24,7 +24,17 @@ public class EnemyFactory {
 		enemy = actorRepo.save(enemy);
 		return enemy;
 	}
-
+	
+	public static final transient char[] symbols = new char[] {'!','@','#','$','%','&','☺'};
+	public PlayerCharacter makePlayerCharacter(String name, Map map) {
+		List<Coord> coords = map.validTiles();
+		Coord coord = coords.get(rng.nextInt(coords.size()));
+		PlayerCharacter plc = new PlayerCharacter(name,coord.x,coord.y);
+		plc.setCharacterSymbol(symbols[rng.nextInt(symbols.length)]);
+		plc.setColor(rng.nextInt(256), rng.nextInt(256), rng.nextInt(256));
+		plc = actorRepo.save(plc);
+		return plc;
+	}
 	public List<Actor> makeEnemies(Map map, int count) {
 		List<Actor> enemyList = new ArrayList<Actor>();
 		for (int i = 0; i < count; ++i) {

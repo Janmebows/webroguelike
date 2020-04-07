@@ -28,7 +28,7 @@ public class PlaceholderApp {
 		map.addActors(actorList);
 		inputThread(playerCharacter);
 		GameLogicController controller = new GameLogicController(map, actorList);
-		controller.handle();
+		controller.runConsoleGame();
 
 	}
 

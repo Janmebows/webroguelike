@@ -1,5 +1,6 @@
 package com.fdm.controller;
 
+import java.util.List;
 import java.util.Optional;
 
 import javax.servlet.http.HttpSession;
@@ -14,13 +15,16 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fdm.dal.AccountRepository;
 import com.fdm.dal.ActorRepository;
 import com.fdm.dal.EnemyRepository;
 import com.fdm.dal.MapRepository;
+import com.fdm.model.Account;
 import com.fdm.model.Actor;
+import com.fdm.model.ActorFactory;
 import com.fdm.model.Map;
 import com.fdm.model.PlayerCharacter;
 
@@ -39,13 +43,16 @@ public class GameController {
 	@Autowired
 	MapRepository mapRepo;
 
+	@Autowired
+	ActorFactory af;
+
 	Map map;
 	GameLogicController controller;
 
 	@GetMapping({ "/game" })
 	public String getIndex(HttpSession session) {
 		System.out.println("HIT HERE");
-		//add player to the map
+		// add player to the map
 		if (session.getAttribute("account") != null) {
 			return "game";
 		}
@@ -53,30 +60,53 @@ public class GameController {
 
 	}
 
-	//@MessageMapping("/input")
+	// @MessageMapping("/input")
 	@PostMapping("/input")
 	public void updatePlayer(@RequestBody PlayerCharacter playerCharacter) {
-		Optional<Actor> a = actorRepo.findById(playerCharacter.getId());
-		PlayerCharacter actualPlayerCharacter = (PlayerCharacter) a.get();
-		actualPlayerCharacter.setInput(playerCharacter.nextInput);
-		System.out.println(playerCharacter.nextInput);
-		System.out.println("got input");
-		
-	}
-//		
-//			, @ModelAttribute Character input) {
-//		System.out.println("got input");
-//		if(pc == null)
-//			System.out.println("Player was null (unsurprisingly)");
-//		if(input == null)
-//			System.out.println("input was null (thats bad)");
-//		pc.setInput(input);
-//	}
-
-	public boolean connect(@ModelAttribute PlayerCharacter pc) {
 		controller = GameLogicController.getInstance();
+		PlayerCharacter actualPlayerCharacter = (PlayerCharacter) controller.findActor(playerCharacter.getId());
+		if (actualPlayerCharacter.getMap() == null) {
+		}
+		actualPlayerCharacter.setInput(playerCharacter.nextInput);
+		controller.tryAddActor(actualPlayerCharacter);
+
+		System.out.println(playerCharacter.nextInput);
+		System.out.println("got input from player " + actualPlayerCharacter.getCharacterName() + " id "
+				+ actualPlayerCharacter.getId());
+		actorRepo.save(actualPlayerCharacter);
+	}
+
+	@PostMapping("/leaveGame")
+	public void disconnect(@RequestBody PlayerCharacter pc) {
+		// disconnect player from controller
+	}
+
+	@PostMapping("/joinGame")
+	public Account connect(@RequestBody Account acc) {
+		Optional<Account> _account = accountRepository.findById(acc.getId());
+		acc = _account.get();
+		PlayerCharacter pc = acc.getPlayerCharacter();
+		controller = GameLogicController.getInstance();
+		if (controller == null) {
+			// start new game
+			map = new Map("20x20test");
+			controller = new GameLogicController(map, af.makeEnemies(map, 20));
+		}
+		if (pc == null || pc.getId() == 0) {
+			pc = af.makePlayerCharacter(acc.getUsername(), controller.map);
+		} else {
+			pc = (PlayerCharacter) actorRepo.findById(pc.getId()).get();
+//			controller.addActor(pc);
+		}
+
+		System.out.println("A player tried to join");
+		System.out.println(pc);
 		controller.addActor(pc);
-		return true;
+		pc = actorRepo.save(pc);
+		acc.setPlayerCharacter(pc);
+		acc = accountRepository.save(acc);
+		return acc;
+
 	}
 
 	@PostMapping("/game")
@@ -84,7 +114,7 @@ public class GameController {
 
 		controller = GameLogicController.getInstance();
 		if (controller.map != null)
-			return controller.map.getStringMap(); 
+			return controller.map.getStringMap();
 
 		else
 			return null;

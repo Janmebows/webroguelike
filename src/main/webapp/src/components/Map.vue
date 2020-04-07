@@ -43,14 +43,13 @@ export default {
       received_map: 0,
       mapConnected: 0,
       playerCharacter: this.$parent.account.playerCharacter,
+      username: this.$parent.account.username
     };
   },
   components: {},
   methods: {
     go : function (input) {
-      console.log(input);
-      console.log(this.playerCharacter);
-      // DO THE THING HERE
+      //move in direction
             var data = {
               // playerCharacter: this.playerCharacter,
               id: this.playerCharacter.id,
@@ -67,7 +66,7 @@ export default {
         .post("/game")
         .then(response => {
           this.maps = response.data;
-          console.log("retrieve maps " + this.maps);
+          // console.log("retrieve maps " + this.maps);
 
           const ROWS = 20;
           const COLS = 20;
@@ -80,7 +79,7 @@ export default {
               var td = document.createElement("td");
               // var cellText = document.createTextNode(this.maps[i][j]);
               // td.appendChild(cellText);
-              td.innerHTML = this.map[i][j];
+              td.innerHTML = this.map[j][i];
               tr.appendChild(td);
             }
             table.appendChild(tr);
@@ -127,7 +126,7 @@ export default {
                 var td = document.createElement("td");
                 // var cellText = document.createTextNode(this.map[i][j]);
                 // td.appendChild(cellText);
-              td.innerHTML = this.map[i][j];
+              td.innerHTML = this.map[j][i];
                 tr.appendChild(td);
               }
               table.appendChild(tr);
@@ -143,6 +142,25 @@ export default {
           this.mapConnected = 0;
         }
       );
+       var data = {
+              // playerCharacter: this.playerCharacter,
+             // id: this.playerCharacter == null ? 0 : this.playerCharacter.id,
+             //  characterName: this.username
+            id: this.$parent.account.id
+              
+            };
+          console.log(data);
+      http
+      .post("/joinGame",data)
+        .then(response => {
+          console.log(response.data);
+           this.$parent.account = response.data;
+           this.playerCharacter = response.data.playerCharacter;
+        })
+
+        .catch(e => {
+          console.log("Post /joinGame Error, " + e);
+        });
     },
     disconnect() {
       if (this.stompClient) {
