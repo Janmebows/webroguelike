@@ -7,7 +7,7 @@
         placeholder="Find Players"
         id="searchInput"
         name="searchInput"
-        v-model="PlayerCharacter.charName"
+        v-model="searchFilters.Name"
       />
       <button v-on:click="retrievePlayers" class="btn btn-secondary">Search</button>
     </form>
@@ -37,10 +37,13 @@ export default {
   name: "search",
   data() {
     return {
-      PlayerCharacter: {
-        characterName: "",
-        characterSymbol: "",
-        level: 0
+      searchFilters: {
+        Name: "",
+        Symbol: "",
+        level: 0,
+        killCount: 0,
+        levelDirection: "",
+        killDirection: ""
       },
       players: []
     };
@@ -48,12 +51,16 @@ export default {
   methods: {
     /* eslint-disable no-console */
     retrievePlayers() {
-      var charName = this.PlayerCharacter.characterName;
-      var charSymbol = this.PlayerCharacter.characterSymbol;
-      var charLevel = this.PlayerCharacter.level;
-
+      var data = {
+        Name: this.searchFilters.Name
+        // Symbol: this.searchFilter.Symbol,
+        // level: this.searchFilter.level
+        // killCount: this.searchFilter.killCount,
+        // levelDirection: this.searchFilter.levelDirection,
+        // killDirection: this.searchFilter.killDirection
+      };
       http
-        .post("/search", charName, charSymbol, charLevel)
+        .post("/search", data)
         .then(response => {
           console.log(this.data);
           this.players = response.data; // JSON are parsed automatically.
