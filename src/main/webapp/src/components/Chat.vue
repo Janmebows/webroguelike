@@ -133,7 +133,9 @@ export default {
       this.connected ? this.disconnect() : this.connect();
     }
   },
-  mounted() {}
+  mounted() {
+    this.connect();
+  }
 };
 </script>
 <style scoped="">

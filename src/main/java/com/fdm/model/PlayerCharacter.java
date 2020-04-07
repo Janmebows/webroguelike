@@ -4,28 +4,35 @@ import javax.persistence.*;
 
 import org.springframework.stereotype.Component;
 
-
 @Component
 @Entity
 public class PlayerCharacter extends Actor {
 
 //	@OneToOne(mappedBy = "playerCharacter")
-	//Account owner;
-	
-	
+	// Account owner;
+	public volatile char nextInput = '\u0000';
+
 	public void setInput(char input) {
-		//if null character or blankspace
-		if (input == '\u0000' || input== ' '){
+		// if null character or blankspace
+		if (input == '\u0000' || input == ' ') {
 			return;
 		}
-		//System.out.println("playerCharacter " + characterName + " inputted " + input);
- 
+		// System.out.println("playerCharacter " + characterName + " inputted " +
+		// input);
+
 		Direction inputDirection = processInput(input);
-		if(inputDirection!= Direction.NONE)
+		if (inputDirection != Direction.NONE)
 			nextDirection = inputDirection;
 		return;
 	}
-	
+//
+//	@Override
+//	public boolean move(Direction dir) {
+//		processInput(nextInput);
+//		nextInput = '\u0000';
+//		return super.move(dir);
+//	}
+
 	public Direction processInput(char input) {
 		// currently using wasd.
 		switch (input) {
@@ -45,7 +52,7 @@ public class PlayerCharacter extends Actor {
 		super();
 	}
 
-	public PlayerCharacter(String characterName, int x, int y,  Object key) {
+	public PlayerCharacter(String characterName, int x, int y, Object key) {
 
 		super();
 		this.characterName = characterName;
@@ -53,6 +60,7 @@ public class PlayerCharacter extends Actor {
 		this.y = y;
 		this.key = key;
 	}
+
 	public PlayerCharacter(String characterName, int x, int y) {
 
 		super();
@@ -61,11 +69,9 @@ public class PlayerCharacter extends Actor {
 		this.y = y;
 	}
 
-
 	public PlayerCharacter(String name, Object key) {
 		this(name, 1, 1, key);
 	}
-
 
 	public PlayerCharacter(String name) {
 		this(name, 1, 1);
@@ -102,7 +108,7 @@ public class PlayerCharacter extends Actor {
 
 	public void setKey(Object key) {
 		this.key = key;
-		
+
 	}
 
 }

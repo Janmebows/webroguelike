@@ -1,5 +1,7 @@
 package com.fdm.controller;
 
+import java.util.Optional;
+
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -17,6 +20,7 @@ import com.fdm.dal.AccountRepository;
 import com.fdm.dal.ActorRepository;
 import com.fdm.dal.EnemyRepository;
 import com.fdm.dal.MapRepository;
+import com.fdm.model.Actor;
 import com.fdm.model.Map;
 import com.fdm.model.PlayerCharacter;
 
@@ -41,6 +45,7 @@ public class GameController {
 	@GetMapping({ "/game" })
 	public String getIndex(HttpSession session) {
 		System.out.println("HIT HERE");
+		//add player to the map
 		if (session.getAttribute("account") != null) {
 			return "game";
 		}
@@ -48,10 +53,25 @@ public class GameController {
 
 	}
 
-	@MessageMapping("/game")
-	public void updatePlayer(@ModelAttribute PlayerCharacter pc, @ModelAttribute char input) {
-		pc.setInput(input);
+	//@MessageMapping("/input")
+	@PostMapping("/input")
+	public void updatePlayer(@RequestBody PlayerCharacter playerCharacter) {
+		Optional<Actor> a = actorRepo.findById(playerCharacter.getId());
+		PlayerCharacter actualPlayerCharacter = (PlayerCharacter) a.get();
+		actualPlayerCharacter.setInput(playerCharacter.nextInput);
+		System.out.println(playerCharacter.nextInput);
+		System.out.println("got input");
+		
 	}
+//		
+//			, @ModelAttribute Character input) {
+//		System.out.println("got input");
+//		if(pc == null)
+//			System.out.println("Player was null (unsurprisingly)");
+//		if(input == null)
+//			System.out.println("input was null (thats bad)");
+//		pc.setInput(input);
+//	}
 
 	public boolean connect(@ModelAttribute PlayerCharacter pc) {
 		controller = GameLogicController.getInstance();

@@ -49,7 +49,18 @@ export default {
   methods: {
     go : function (input) {
       console.log(input);
+      console.log(this.playerCharacter);
       // DO THE THING HERE
+            var data = {
+              // playerCharacter: this.playerCharacter,
+              id: this.playerCharacter.id,
+              nextInput: input
+      };
+      http
+        .post("/input",data)
+        .catch(e => {
+          console.log("Post /game Error, " + e);
+        });
     },
     retrieveMaps() {
       http
@@ -69,7 +80,7 @@ export default {
               var td = document.createElement("td");
               // var cellText = document.createTextNode(this.maps[i][j]);
               // td.appendChild(cellText);
-              td.innerHTML = this.maps[i][j];
+              td.innerHTML = this.map[i][j];
               tr.appendChild(td);
             }
             table.appendChild(tr);
