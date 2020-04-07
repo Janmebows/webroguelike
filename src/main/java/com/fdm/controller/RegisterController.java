@@ -33,9 +33,8 @@ public class RegisterController {
 	PlayerCharacterRepository pCharRepo;
 
 	@GetMapping("/register")
-	public String getRegister(HttpSession session, Model model) {
+	public String getRegister() {
 		System.out.println("GET REGISTER");
-		model.addAttribute("account", new Account());
 		return "register";
 	}
 

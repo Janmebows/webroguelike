@@ -34,7 +34,7 @@ public class DataLoader implements ApplicationRunner {
 	public void run(ApplicationArguments args) throws Exception {
 		System.out.println("Populating database");
 		Map map = new Map("20x20test");
-		List<Actor> actors = enemyFactory.makeEnemies(map,100);
+		List<Actor> actors = enemyFactory.makeEnemies(map,10);
 		actorRepo.saveAll(actors);
 		Account acc = new Account("uname", "pword");
 	//	accountRepo.save(acc);

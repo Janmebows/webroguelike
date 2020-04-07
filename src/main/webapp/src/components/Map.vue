@@ -67,8 +67,9 @@ export default {
             var tr = document.createElement("tr");
             for (var j = 0; j < COLS; j++) {
               var td = document.createElement("td");
-              var cellText = document.createTextNode(this.maps[i][j]);
-              td.appendChild(cellText);
+              // var cellText = document.createTextNode(this.maps[i][j]);
+              // td.appendChild(cellText);
+              td.innerHTML = this.maps[i][j];
               tr.appendChild(td);
             }
             table.appendChild(tr);
@@ -113,8 +114,9 @@ export default {
               var tr = document.createElement("tr");
               for (var j = 0; j < COLS; j++) {
                 var td = document.createElement("td");
-                var cellText = document.createTextNode(this.map[i][j]);
-                td.appendChild(cellText);
+                // var cellText = document.createTextNode(this.map[i][j]);
+                // td.appendChild(cellText);
+              td.innerHTML = this.map[i][j];
                 tr.appendChild(td);
               }
               table.appendChild(tr);
