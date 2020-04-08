@@ -1,8 +1,9 @@
 <template>
   <div class="container">
     <div class="row">
-      <div class="form-group" align>
-        <label for="connect">Start Game: </label>
+      <div class="form-group" >
+        <h4>Start Game:</h4>
+        <label for="connect"> </label>
         <button
           id="mapConnect"
           class="btn btn-primary"
@@ -12,13 +13,13 @@
         >Play</button>
         <button
           id="disconnect"
-          class="btn btn-default"
+          class="btn btn-primary"
           type="submit"
           :disabled="mapConnected == 0"
           @click.prevent="disconnect"
         >Quit Game</button>
       </div>
-      <div class="col-md-6" style="float:left">
+      <div class="col-md-12" style="">
         <div id="map" align="center"></div>
         <div class align="center">
           <div class="col-md-6">

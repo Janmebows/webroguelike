@@ -18,12 +18,12 @@
       </div>
       <hr/>
     <div class="row">
-      <div class="col-md-12" style="float:left">
+      <div class="col-md-12" style="">
         <Map />
       </div>
       </div>
       <div class="row ">
-      <div class="col-md-12" style="float:right">
+      <div class="col-md-12" style="">
         <Chat />
       </div>
     </div>
