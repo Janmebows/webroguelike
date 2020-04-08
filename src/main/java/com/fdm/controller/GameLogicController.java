@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import org.apache.log4j.Logger;
 
 import com.fdm.model.Actor;
+import com.fdm.model.ActorFactory;
 import com.fdm.model.Enemy;
 import com.fdm.model.Map;
 import com.fdm.model.PlayerCharacter;
@@ -81,8 +82,10 @@ public class GameLogicController implements Runnable {
 		actor.isRunning = false;
 		map.remove(actor.getId());
 		actorList.removeIf(x -> x.getId() == actor.getId());
-
+		if(actor instanceof Enemy)
+			addActor(ActorFactory.makeEnemy(map));
 	}
+	
 
 //	public boolean startGame(Map map, List<Actor> actorList) {
 //		if(isRunning)

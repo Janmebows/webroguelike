@@ -166,9 +166,21 @@ export default {
         });
     },
     disconnect() {
+      //       var data = {
+      //   playerCharacter: this.$parent.account.playerCharacter
+      // };
+          // console.log(data);
+
+      http
+      .post("/leaveGame",this.$parent.account.playerCharacter)
+      .catch(e => {
+          console.log("Post /disconnect Error, " + e);
+        });
       if (this.stompClient) {
         this.stompClient.disconnect();
       }
+
+
       this.mapConnected = 0;
     },
 
