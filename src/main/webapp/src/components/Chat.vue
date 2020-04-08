@@ -1,15 +1,22 @@
 <template>
-  <div id="main-content" class=" jumbotron" >
-      <h4>Chat</h4>
+  <div id="main-content" class=" jumbotron">
+    <h4>Chat</h4>
     <div class="row">
-      <div class="col-md-12">
-        <div class="form-group d-none" >
-       <div class="custom-control custom-switch">
-         <input type="checkbox" class="custom-control-input" id="customSwitch1" checked="">
-         <label class="custom-control-label" for="customSwitch1">Toggle this switch element</label>
-       </div>
-       </div>
-        <div class="form-group d-none" >
+      <div class="col-7">
+        <div class="form-group d-none">
+          <div class="custom-control custom-switch">
+            <input
+              type="checkbox"
+              class="custom-control-input"
+              id="customSwitch1"
+              checked=""
+            />
+            <label class="custom-control-label" for="customSwitch1"
+              >Toggle this switch element</label
+            >
+          </div>
+        </div>
+        <div class="form-group d-none">
           <label for="connect">Chat connection:</label>
           <button
             id="connect"
@@ -17,21 +24,23 @@
             type="submit"
             :disabled="connected == 1"
             @click.prevent="connect"
-          >Connect</button>
+          >
+            Connect
+          </button>
           <button
             id="disconnect"
             class="btn btn-default"
             type="submit"
             :disabled="connected == 0"
             @click.prevent="disconnect"
-          >Disconnect</button>
+          >
+            Disconnect
+          </button>
         </div>
-        <form class="row" >
+        <form class="row">
           <div class="col-md-8">
-            <label for="from">
-              <br />Write your Message:
-            </label>
-            <input 
+            <label for="from"> <br />Write your Message: </label>
+            <input
               type="text"
               id="text"
               class="form-control"
@@ -40,25 +49,44 @@
             />
           </div>
           <div class="col-md-4 d-flex align-items-end">
-           
-              <button id="send" class="btn btn-primary" type="submit" @click.prevent="send">Send</button>
-            </div>
-         
+            <button
+              id="send"
+              class="btn btn-primary"
+              type="submit"
+              @click.prevent="send"
+            >
+              Send
+            </button>
+          </div>
         </form>
-      
-          <table id="conversation" class="table table-striped">
-            <thead>
-              <tr>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="item in received_messages" :key="item">
-                <td>{{ item }}</td>
-              </tr>
-            </tbody>
-          </table>
-      
+
+        <table id="conversation" class="table">
+          <thead>
+            <tr>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="item in received_messages" :key="item">
+              <td>
+                <div
+                  class="toast show"
+                  role="alert"
+                  aria-live="assertive"
+                  aria-atomic="true"
+                >
+                  <div class="toast-header">
+                    <strong class="mr-auto">{{ item.sender }} said</strong>
+                    <small>{{ item.time }}</small>
+                  </div>
+                  <div class="toast-body">
+                    {{ item.text }}
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
@@ -141,4 +169,7 @@ export default {
 };
 </script>
 <style scoped="">
+.table th, .table td {
+    border-top: 0px solid #444;
+}
 </style>
