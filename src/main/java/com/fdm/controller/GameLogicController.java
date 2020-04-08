@@ -109,36 +109,7 @@ public class GameLogicController implements Runnable {
 //		
 //		return true;
 //	}
-
-	public void runConsoleGame() {
-		getMap().updateVisibleMap();
-		getMap().printMap();
-		for (Actor actor : actorList) {
-			Thread th = new Thread(actor);
-			th.start();
-		}
-		while (isRunning) {
-
-			synchronized (getKey()) {
-				getKey().notifyAll();
-			}
-			getMap().printMap();
-			// MapUpdate(x, y, newSymbol)
-
-			try {
-				Thread.sleep(SERVER_TICK / 2);
-				getMap().updateVisibleMap();
-				Thread.sleep(SERVER_TICK / 2);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
-		// wake up threads so they can die
-		synchronized (getKey()) {
-			getKey().notifyAll();
-		}
-	}
-
+	
 	public void runGame() {
 		for (Actor actor : actorList) {
 			Thread th = new Thread(actor);
@@ -169,21 +140,6 @@ public class GameLogicController implements Runnable {
 	@Override
 	public void run() {
 		runGame();
-		runConsoleGame();
-	}
-
-	public void checkIfOver() {
-		long remaining = actorList.parallelStream().filter(x -> x instanceof Enemy && x.isAlive()).count();
-		System.out.println("There are " + remaining + " enemies remaining");
-		if (remaining == 0)
-			endGame();
-
-	}
-
-	private void endGame() {
-		System.out.println("Ending game (but not really)");
-		actorList.forEach(x -> x.isRunning = false);
-		GameLogicController.isRunning = false;
 	}
 
 	public Map getMap() {
