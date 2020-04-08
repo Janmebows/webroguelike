@@ -134,6 +134,9 @@ export default {
   },
   mounted() {
     this.connect();
+    if (!this.$parent.authenticated) {
+      this.$router.push("/login");
+    }
   }
 };
 </script>

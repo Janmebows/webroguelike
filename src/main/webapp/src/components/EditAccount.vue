@@ -133,6 +133,9 @@ export default {
       this.authenticated = false;
       this.$router.push("/");
     }
+  },
+  mounted() {
+    
   }
 };
 </script>

@@ -52,7 +52,8 @@ export default {
   name: "Game",
   data() {
     return {
-      account: this.$parent.account
+      account: this.$parent.account,
+      authenticated: this.$parent.authenticated
     };
   },
   components: {
@@ -60,7 +61,11 @@ export default {
     Map
   },
   methods: {},
-  mounted() {}
+  mounted() {
+    if (!this.authenticated) {
+      this.$router.push("/login");
+    }
+  }
 };
 </script>
 <style scoped="">

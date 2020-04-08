@@ -26,9 +26,9 @@
             <li class="nav-item">
               <router-link class="nav-link" to="/search">Search</router-link>
             </li>
-            <li class="nav-item">
+            <!-- <li class="nav-item">
               <router-link class="nav-link" to="/editaccount">Edit Account</router-link>
-            </li>
+            </li> -->
             <li class="nav-item">
               <router-link @click.native="logout" class="nav-link" to="/">Logout</router-link>
             </li>

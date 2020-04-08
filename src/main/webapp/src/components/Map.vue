@@ -27,7 +27,7 @@
     <div class="row" v-if="isPlaying">
       <div class="col-lg-12">
         <div id="map" align="center"></div>
-        <hr />
+        <hr style="opacity: 0" />
         <div class="row">
           <div class="col-lg" align="center">
 
@@ -41,7 +41,7 @@
             <div class="" align="center">
               <p>
                 Your Character controls for:
-                <span v-bind:style="{ color: playerCharacter.color }">{{
+                <span class="badge badge-pill badge-dark" v-bind:style="{ color: playerCharacter.color }">{{
                   playerCharacter.characterSymbol
                 }}</span>
               </p>

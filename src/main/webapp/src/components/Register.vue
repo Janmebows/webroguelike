@@ -27,7 +27,7 @@
         />
       </div>
       <div v-if="!processing">
-      <button @click="saveAccount" class="btn btn-success">Register</button>
+      <button @click="saveAccount" class="btn btn-primary">Register</button>
       <hr style="opacity: 0" />
       </div>
       <div class="progress" v-else >
@@ -41,7 +41,7 @@
 
     <div v-else>
       <h4>You registered in successfully!</h4>
-      <router-link class="btn btn-success" to="/game">Continue</router-link>
+      <router-link class="btn btn-primary" to="/game">Continue</router-link>
       <!-- <button class="btn btn-success" to="/home">Continue</button> -->
     </div>
   </div>

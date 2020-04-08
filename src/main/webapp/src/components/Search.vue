@@ -79,6 +79,9 @@ export default {
   },
   mounted() {
     this.retrievePlayers();
+    if (!this.$parent.authenticated) {
+      this.$router.push("/register");
+    }
   }
 };
 </script>
