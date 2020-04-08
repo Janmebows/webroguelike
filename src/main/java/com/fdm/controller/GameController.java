@@ -87,7 +87,7 @@ public class GameController {
 	@PostMapping("/joinGame")
 	public Account connect(@RequestBody Account acc) {
 		Optional<Account> _account = accountRepository.findById(acc.getId());
-		if(_account.isEmpty()) {
+		if(!_account.isPresent()) {
 			return null;
 		}
 		acc = _account.get();
