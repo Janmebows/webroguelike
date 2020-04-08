@@ -1,6 +1,6 @@
 <template>
   <div class="submitform">
-    <div v-if="!authenticated">
+  
       <h4>Login</h4>
 
       <div class="form-group">
@@ -25,17 +25,18 @@
           name="password"
         />
       </div>
-      <button v-on:click="loginAccount" class="btn btn-success">Login</button>
-      <br />
-      
+      <div v-if="!processing">
+      <button v-on:click="loginAccount" class="btn btn-primary">Login</button>
+      <hr style="opacity: 0" />
+      </div>
+      <div class="progress" v-else >
+          <div class="progress-bar progress-bar-striped progress-bar-animated" 
+          role="progressbar" aria-valuenow="100" 
+          aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
+      </div>
        <p class="text-warning" >{{warning}}</p>
        <p class="text-danger" >{{error}}</p>
-     
-    </div>
-    <div v-else>
-      <h4>You Logged in successfully!</h4>
-      <p>{{account.username}}</p>
-    </div>
+    
   </div>
 </template>
 
@@ -52,6 +53,7 @@ export default {
         password: ""
       },
       authenticated: false,
+      processing: false,
       message: "",
       error: "",
       warning: "",
@@ -62,6 +64,7 @@ export default {
     loginAccount() {
       this.error = "";
       this.warning = "";
+      this.processing = true;
       var data = {
         username: this.account.username,
         password: this.account.password
@@ -77,12 +80,14 @@ export default {
             this.authenticated = true;
             this.$router.push("/game");
           } else {
+            this.processing = false;
             this.error =
               "Oops looks like the you entered invalid info, please try again.";
             this.authenticated = false;
           }
         })
         .catch(e => {
+          this.processing = false;
           this.error = "Oops something went wrong! Please contact the admin.";
           console.log(e);
         });

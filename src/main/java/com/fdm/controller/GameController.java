@@ -44,7 +44,7 @@ public class GameController {
 	GameLogicController controller;
 
 	@PostMapping("/input")
-	public void updatePlayer(@RequestBody PlayerCharacter playerCharacter) {
+	public PlayerCharacter updatePlayer(@RequestBody PlayerCharacter playerCharacter) {
 		controller = GameLogicController.getInstance();
 		PlayerCharacter actualPlayerCharacter = (PlayerCharacter) controller.findActor(playerCharacter.getId());
 
@@ -58,7 +58,8 @@ public class GameController {
 
 		logger.trace("got input from player " + actualPlayerCharacter.getCharacterName() + " id "
 				+ actualPlayerCharacter.getId()+ " position " + actualPlayerCharacter.getX() + "," + actualPlayerCharacter.getY());
-		actorRepo.save(actualPlayerCharacter);
+		actualPlayerCharacter = actorRepo.save(actualPlayerCharacter);
+		return actualPlayerCharacter;
 	}
 
 	@PostMapping("/leaveGame")

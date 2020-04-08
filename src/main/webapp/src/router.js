@@ -3,7 +3,7 @@ import Router from "vue-router";
 import Register from "./components/Register.vue";
 import LoginAccount from "./components/LoginAccount.vue";
 import Game from "./components/Game.vue";
-import EditAccount from "./components/EditAccount.vue";
+// import EditAccount from "./components/EditAccount.vue";
 import Chat from "./components/Chat.vue";
 import Search from "./components/Search.vue";
 
@@ -28,11 +28,11 @@ export default new Router({
       name: "login",
       component: LoginAccount
     },
-    {
-      path: "/editaccount",
-      name: "editaccount",
-      component: EditAccount
-    },
+    // {
+    //   path: "/editaccount",
+    //   name: "editaccount",
+    //   component: EditAccount
+    // },
     {
 
       path: "/game",

@@ -1,32 +1,83 @@
 <template>
   <div class="container">
     <div class="row">
-      <div class="form-group" align>
-        <label for="connect">Start Game: </label>
+      <div class="form-group mx-auto">
+        <h4>Start Game</h4>
+        <label for="connect"></label>
         <button
           id="mapConnect"
           class="btn btn-primary"
           type="submit"
           :disabled="mapConnected == 1"
           @click.prevent="connect"
-        >Play</button>
+        >
+          Play
+        </button>
         <button
           id="disconnect"
-          class="btn btn-default"
+          class="btn btn-primary"
           type="submit"
           :disabled="mapConnected == 0"
           @click.prevent="disconnect"
-        >Quit Game</button>
+        >
+          Quit Game
+        </button>
       </div>
-      <div class="col-md-6" style="float:left">
+    </div>
+    <div class="row" v-if="isPlaying">
+      <div class="col-lg-12">
         <div id="map" align="center"></div>
-        <div class align="center">
-          <div class="col-md-6">
-          <button type="button" @click="go('w')" class="btn btn-outline-info">Up</button>
+        <hr style="opacity: 0" />
+        <div class="row">
+          <div class="col-lg" align="center">
+
+              <h4>Your score</h4>
+              <p>Level: <span class="badge badge-pill badge-light">{{playerCharacter.level}}</span></p>
+              <p>Exp: <span class="badge badge-pill badge-light">{{playerCharacter.exp}} / 100</span></p>
+           
           </div>
-          <button type="button" @click="go('a')" class="btn btn-outline-info">Left</button>
-          <button type="button" @click="go('s')" class="btn btn-outline-info">Down</button>
-          <button type="button" @click="go('d')" class="btn btn-outline-info">Right</button>
+
+          <div class="col-lg">
+            <div class="" align="center">
+              <p>
+                Your Character controls for:
+                <span class="badge badge-pill badge-dark" v-bind:style="{ color: playerCharacter.color }">{{
+                  playerCharacter.characterSymbol
+                }}</span>
+              </p>
+              <button
+                type="button"
+                @click="go('w')"
+                class="btn btn-outline-info"
+              >
+                Up
+              </button>
+            </div>
+            <div class="" align="center">
+              <button
+                type="button"
+                @click="go('a')"
+                class="btn btn-outline-info"
+              >
+                Left
+              </button>
+              <button
+                type="button"
+                @click="go('s')"
+                class="btn btn-outline-info"
+              >
+                Down
+              </button>
+              <button
+                type="button"
+                @click="go('d')"
+                class="btn btn-outline-info"
+              >
+                Right
+              </button>
+            </div>
+          </div>
+
         </div>
       </div>
     </div>
@@ -45,30 +96,32 @@ export default {
       received_map: 0,
       mapConnected: 0,
       playerCharacter: this.$parent.account.playerCharacter,
-      username: this.$parent.account.username
+      username: this.$parent.account.username,
+      isPlaying: false
     };
   },
   components: {},
   methods: {
-    go : function (input) {
+    go: function(input) {
       //move in direction
-            var data = {
-              // playerCharacter: this.playerCharacter,
-              id: this.playerCharacter.id,
-              nextInput: input
+      var data = {
+        // playerCharacter: this.playerCharacter,
+        id: this.playerCharacter.id,
+        nextInput: input
       };
-      http
-        .post("/input",data)
-        .catch(e => {
-          console.log("Post /game Error, " + e);
-        });
+      http.post("/input", data)
+      .then(response => {
+        this.playerCharacter = response.data;
+      })
+      .catch(e => {
+        console.log("Post /game Error, " + e);
+      });
     },
     retrieveMaps() {
       http
         .post("/game")
         .then(response => {
           this.maps = response.data;
-
 
           const ROWS = 20;
           const COLS = 40;
@@ -88,6 +141,7 @@ export default {
           }
           map.appendChild(table);
           this.recieved_map = map;
+          this.$parent.level = this.$parent.level + 1;
         })
         .catch(e => {
           console.log("Post /game Error, " + e);
@@ -106,6 +160,8 @@ export default {
       }
     },
     connect() {
+      this.isPlaying = true;
+
       this.socket = new SockJS("http://localhost:4201/game");
       this.stompClient = Stomp.over(this.socket);
 
@@ -116,20 +172,19 @@ export default {
           console.log("Connect frame " + frame);
 
           this.stompClient.subscribe("/topic/game", tick => {
-
-          const ROWS = 20;
-          const COLS = 40;
+            const ROWS = 20;
+            const COLS = 40;
             this.map = JSON.parse(tick.body);
             var map = document.getElementById("map");
             var table = document.createElement("table");
 
-          for (var i = 0; i < ROWS; i++) {
-            var tr = document.createElement("tr");
-            for (var j = 0; j < COLS; j++) {
+            for (var i = 0; i < ROWS; i++) {
+              var tr = document.createElement("tr");
+              for (var j = 0; j < COLS; j++) {
                 var td = document.createElement("td");
                 // var cellText = document.createTextNode(this.map[i][j]);
                 // td.appendChild(cellText);
-              td.innerHTML = this.map[j][i];
+                td.innerHTML = this.map[j][i];
                 tr.appendChild(td);
               }
               table.appendChild(tr);
@@ -145,20 +200,19 @@ export default {
           this.mapConnected = 0;
         }
       );
-       var data = {
-              // playerCharacter: this.playerCharacter,
-             // id: this.playerCharacter == null ? 0 : this.playerCharacter.id,
-             //  characterName: this.username
-            id: this.$parent.account.id
-              
-            };
-          console.log(data);
+      var data = {
+        // playerCharacter: this.playerCharacter,
+        // id: this.playerCharacter == null ? 0 : this.playerCharacter.id,
+        //  characterName: this.username
+        id: this.$parent.account.id
+      };
+      console.log(data);
       http
-      .post("/joinGame",data)
+        .post("/joinGame", data)
         .then(response => {
           console.log(response.data);
-           this.$parent.account = response.data;
-           this.playerCharacter = response.data.playerCharacter;
+          this.$parent.account = response.data;
+          this.playerCharacter = response.data.playerCharacter;
         })
 
         .catch(e => {
@@ -169,19 +223,17 @@ export default {
       //       var data = {
       //   playerCharacter: this.$parent.account.playerCharacter
       // };
-          // console.log(data);
+      // console.log(data);
 
-      http
-      .post("/leaveGame",this.$parent.account.playerCharacter)
-      .catch(e => {
-          console.log("Post /disconnect Error, " + e);
-        });
+      http.post("/leaveGame", this.$parent.account.playerCharacter).catch(e => {
+        console.log("Post /disconnect Error, " + e);
+      });
       if (this.stompClient) {
         this.stompClient.disconnect();
       }
 
-
       this.mapConnected = 0;
+      this.isPlaying = false;
     },
 
     tickleConnection() {
@@ -192,28 +244,28 @@ export default {
   mounted() {
     this.retrieveMaps();
     // Key event listeners
-    // var gameApp = this;
-    // window.addEventListener('keyup', function(e) {
-    //    switch (e.keyCode) {
-    //        case 37:
-    //           // alert('Left key pressed');
-    //           gameApp.go('a');
-    //           break;
-    //        case 38:
-    //           // alert('Up key pressed');
-    //           gameApp.go('w');
-    //           break;
-    //        case 39:
-    //           // alert('Right key pressed');
-    //           gameApp.go('d');
-    //           break;
-    //        case 40:
-    //           // alert('Down key pressed');
-    //           gameApp.go('s');
-    //           break;
-    //     }
-    // });
-  },
+    var gameApp = this;
+    window.addEventListener('keyup', function(e) {
+       switch (e.keyCode) {
+           case 37:
+              // alert('Left key pressed');
+              gameApp.go('a');
+              break;
+           case 38:
+              // alert('Up key pressed');
+              gameApp.go('w');
+              break;
+           case 39:
+              // alert('Right key pressed');
+              gameApp.go('d');
+              break;
+           case 40:
+              // alert('Down key pressed');
+              gameApp.go('s');
+              break;
+        }
+    });
+  }
 };
 </script>
 <style scoped="">

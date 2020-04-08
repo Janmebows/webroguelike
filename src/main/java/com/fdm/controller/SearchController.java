@@ -2,7 +2,6 @@ package com.fdm.controller;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -11,7 +10,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.fdm.dal.PlayerCharacterRepository;
 import com.fdm.model.LevelSorter;
 import com.fdm.model.PlayerCharacter;
@@ -38,7 +36,6 @@ public class SearchController {
 
 		List<PlayerCharacter> foundPlayers = new ArrayList<PlayerCharacter>();
 		// name, level, killCount
-
 		if (searchInput.getLevelDirection().equals("greaterThan")
 				&& searchInput.getKillDirection().equals("greaterThan")) {
 			foundPlayers = playerCharacterRepository
@@ -59,9 +56,7 @@ public class SearchController {
 			foundPlayers = playerCharacterRepository.findByCharacterNameContainingAndLevelLessThanAndKillCountLessThan(
 					searchInput.getName(), searchInput.getLevel(), searchInput.getKillCount());
 		}
-
 		foundPlayers.sort(new LevelSorter());
-
 		logger.info("Found " + foundPlayers);
 		return foundPlayers;
 	}
