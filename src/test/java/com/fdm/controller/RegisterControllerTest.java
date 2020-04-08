@@ -2,10 +2,8 @@ package com.fdm.controller;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.when;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InOrder;
@@ -13,7 +11,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import static org.mockito.Mockito.*;
-
 import com.fdm.dal.AccountRepository;
 import com.fdm.dal.PlayerCharacterRepository;
 import com.fdm.model.Account;

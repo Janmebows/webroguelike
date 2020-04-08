@@ -21,6 +21,8 @@ public class GameLogicController implements Runnable {
 	private static volatile Object key;
 	private List<Actor> actorList;
 
+	protected transient static Logger logger = Logger.getLogger("GameLogicLogger");
+
 	public GameLogicController(Map map, List<Actor> actorList) {
 		super();
 		this.setMap(map);
@@ -30,7 +32,7 @@ public class GameLogicController implements Runnable {
 //		actorList.forEach(x -> x.key = getKey());
 		instance = this;
 		isRunning = true;
-		Logger.getLogger("RootLogger").warn("A new logic controller was made since we didn't make it a singleton!");
+		logger.warn("A new logic controller was made");
 	}
 
 	private GameLogicController() {
@@ -39,8 +41,9 @@ public class GameLogicController implements Runnable {
 	public static GameLogicController instance;
 
 	public static GameLogicController getInstance() {
-		if (instance == null)
+		if (instance == null) {
 			instance = new GameLogicController();
+		}
 		return instance;
 	}
 
@@ -54,16 +57,20 @@ public class GameLogicController implements Runnable {
 	}
 
 	public static Object getKey() {
-		if (key == null)
+		if (key == null) {
 			key = new Object();
+			logger.warn("A new key was generated");
+		}
 		return key;
 	}
 
 	public void tryAddActor(PlayerCharacter actor) {
 
 		if (findActor(actor.getId()) != null)
-
+		{			
+			logger.warn("Actor with id "+ actor.getId() + " already exists");
 			return;
+		}
 		else {
 			addActor(actor);
 		}
@@ -76,16 +83,19 @@ public class GameLogicController implements Runnable {
 		actorList.add(newActor);
 		Thread th = new Thread(newActor);
 		th.start();
+		logger.trace("Started thread for actor with id " + newActor.getId());
 	}
 
 	public void removeActor(Actor actor) {
 		actor.isRunning = false;
 		getMap().remove(actor.getId());
 		actorList.removeIf(x -> x.getId() == actor.getId());
-		if(actor instanceof Enemy)
+
+		if (actor instanceof Enemy)
 			addActor(ActorFactory.makeEnemy(getMap()));
+		logger.trace("Removed actor with id " + actor.getId());
+
 	}
-	
 
 //	public boolean startGame(Map map, List<Actor> actorList) {
 //		if(isRunning)

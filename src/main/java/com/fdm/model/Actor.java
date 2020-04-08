@@ -1,7 +1,6 @@
 package com.fdm.model;
 
 import java.awt.Color;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -10,12 +9,9 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fdm.controller.GameController;
 import com.fdm.controller.GameLogicController;
 
 @Component
@@ -52,16 +48,14 @@ public abstract class Actor implements Runnable {
 	int level = 1;
 	int exp = 0;
 	int value = 100;
-	int killCount =0 ;
+	int killCount = 0 ;
 	public void takeDamage(int damage, Actor attacker) {
-		logger.info(this.characterName + " took " + damage + " damage");
+		logger.trace(this.characterName + " took " + damage + " damage");
 		currentHP = currentHP - damage;
 		if (currentHP <= 0) {
 			alive = false;
 			attacker.addKillAndGainExp(this.value*this.level);
-			
-			System.out.println(characterName + " died");
-			logger.warn(characterName + " died");
+			logger.info(characterName + " died");
 			map.updateActors();
 		}
 	}
@@ -90,8 +84,7 @@ public abstract class Actor implements Runnable {
 		attack = attack + 5;
 		level = level + 1;
 		exp -=100;
-		System.out.println(characterName + " leveled up!");
-		System.out.println(characterName + "'s level is now " + level);
+
 		logger.info(characterName + " leveled up!");
 		logger.info(characterName + "'s level is now " + level);
 	}
@@ -122,6 +115,7 @@ public abstract class Actor implements Runnable {
 				e.printStackTrace();
 			}
 		}
+		logger.warn(this.characterName + "'s thread was ended");
 		isRunning = false;
 		GameLogicController.getInstance().removeActor(this);
 	}
@@ -212,7 +206,7 @@ public abstract class Actor implements Runnable {
 		this.y = y;
 	}
 
-	private String getPositionString() {
+	public String getPositionString() {
 		return "[" + x + ", " + y + "]";
 	}
 
@@ -229,7 +223,7 @@ public abstract class Actor implements Runnable {
 	}
 
 	public void setCharacterName(String characterName) {
-		logger.info(this.characterName + " becomes " + characterName + "!");
+		logger.info(this.characterName + " changed name to " + characterName + "!");
 		this.characterName = characterName;
 	}
 

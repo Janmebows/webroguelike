@@ -1,7 +1,5 @@
 package com.fdm.controller;
 
-import static org.junit.Assert.*;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InOrder;
@@ -10,11 +8,13 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
 
 import com.fdm.dal.AccountRepository;
 import com.fdm.dal.ActorRepository;
@@ -24,7 +24,6 @@ import com.fdm.model.Account;
 import com.fdm.model.Map;
 import com.fdm.model.Coord;
 import com.fdm.model.PlayerCharacter;
-
 
 public class GameControllerTest {
 	

@@ -15,12 +15,17 @@
       <h4>Players List</h4>
       <ul>
         <li v-for="(player, index) in players" :key="index">
-          <router-link
-            :to="{
-                            name: 'players',
-                            params: { player: player, id: player.id }
-                        }"
-          >{{player.name}}</router-link>
+          {{
+          "Name: " + player.characterName
+          }}
+          <br />
+          {{
+          "Level: " + player.level
+          }}
+          <br />
+          {{
+          "Kills: " + player.killCount
+          }}
         </li>
       </ul>
     </div>
@@ -39,11 +44,10 @@ export default {
     return {
       searchFilters: {
         name: "",
-        symbol: "",
         level: 0,
-        killCount: 0,
-        levelDirection: "",
-        killDirection: ""
+        killCount: -1,
+        levelDirection: "greaterThan",
+        killDirection: "greaterThan"
       },
       players: []
     };
@@ -53,17 +57,14 @@ export default {
     retrievePlayers() {
       var data = {
         name: this.searchFilters.name,
-        symbol: this.searchFilters.symbol,
         level: this.searchFilters.level,
         killCount: this.searchFilters.killCount,
         levelDirection: this.searchFilters.levelDirection,
         killDirection: this.searchFilters.killDirection
       };
-      console.log(data);
       http
         .post("/search", data)
         .then(response => {
-          console.log(this.data);
           this.players = response.data; // JSON are parsed automatically.
           console.log(response.data);
         })
@@ -89,4 +90,3 @@ export default {
   margin: auto;
 }
 </style>
-
