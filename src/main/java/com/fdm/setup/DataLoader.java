@@ -17,6 +17,12 @@ import com.fdm.model.Actor;
 import com.fdm.model.ActorFactory;
 import com.fdm.model.Map;
 
+/**
+ * Class to load in data on initialisation of the server
+ * @author KILA
+ * @version 1.0
+ *
+ */
 @Component
 public class DataLoader implements ApplicationRunner {
 

@@ -6,6 +6,13 @@ import javax.persistence.Entity;
 
 import org.springframework.stereotype.Component;
 
+/**
+ * An extension of {@link Actor}
+ * Specifically  
+ * @author KILA
+ * @version 1.0
+ *
+ */
 @Component
 @Entity
 public class Enemy extends Actor {
@@ -14,7 +21,12 @@ public class Enemy extends Actor {
 		super();
 	}
 
-	// deprecated
+	/**
+	 * Construct an enemy
+	 * @param characterName - the name to give the enemy
+	 * @param x - the x coord to spawn at
+	 * @param y - the y coord to spawn at
+	 */
 	public Enemy(String characterName, int x, int y) {
 		super();
 		this.characterName = characterName;
@@ -39,6 +51,11 @@ public class Enemy extends Actor {
 
 	transient Random rnd = RandomHolder.getInstance().random;
 
+	/**
+	 * An override for {@link Actor#move(Direction)}
+	 * It randomly grabs a direction to move in
+	 * @param dir - ignored
+	 */
 	@Override
 	public boolean move(Direction dir) {
 

@@ -82,15 +82,7 @@ public class MapTest {
 		map.tryMoveActor(mockActor, Direction.NONE);
 	}
 
-	@Test
-	public void map_as_char_array_works() {
-		char[] compare = new char[] { '█', '.', ',', '\n', ' ', '.', '.', '\n' };
-		char[] result = map.mapAsCharArray();
-		assertEquals(compare.length, result.length);
-		for (int i = 0; i < compare.length; i++) {
-			assertEquals(compare[i], result[i]);
-		}
-	}
+
 
 	@Test
 	public void update_string_map() {
