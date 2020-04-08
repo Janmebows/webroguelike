@@ -20,7 +20,22 @@ public class ActorFactory {
 	public Enemy makeEnemy(Map map) {
 		List<Coord> coords = map.validTiles();
 		Coord coord = coords.get(rng.nextInt(coords.size()));
-		Enemy enemy = new Enemy(generateName(), coord.x, coord.y);
+		int choice = rng.nextInt(12);
+		Enemy enemy;
+		switch (choice) {
+		case 0:
+			enemy = new HighValueEnemy(generateName(),coord.x,coord.y);
+			break;
+		case 1:
+			enemy = new LowValueEnemy(generateName(),coord.x,coord.y);
+			break;
+		case 2:
+			enemy = new StrongEnemy(generateName(),coord.x,coord.y);
+			break;
+		default:
+			enemy = new Enemy(generateName(),coord.x,coord.y);
+			break;
+		}
 		enemy = actorRepo.save(enemy);
 		return enemy;
 	}
@@ -30,7 +45,7 @@ public class ActorFactory {
 		List<Coord> coords = map.validTiles();
 		Coord coord = coords.get(rng.nextInt(coords.size()));
 		PlayerCharacter plc = new PlayerCharacter(name,coord.x,coord.y);
-		plc.setCharacterSymbol(symbols[rng.nextInt(symbols.length)]);
+		plc.setCharacterSymbol(name.charAt(0));
 		plc.setColor(rng.nextInt(256), rng.nextInt(256), rng.nextInt(256));
 		plc = actorRepo.save(plc);
 		return plc;
