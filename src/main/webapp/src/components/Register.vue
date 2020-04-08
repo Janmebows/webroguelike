@@ -26,9 +26,15 @@
           name="password"
         />
       </div>
-
+      <div v-if="!processing">
       <button @click="saveAccount" class="btn btn-success">Register</button>
-      <br />
+      <hr style="opacity: 0" />
+      </div>
+      <div class="progress" v-else >
+          <div class="progress-bar progress-bar-striped progress-bar-animated" 
+          role="progressbar" aria-valuenow="100" 
+          aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
+      </div>
       <p class="text-warning" >{{warning}}</p>
        <p class="text-danger" >{{error}}</p>
     </div>
@@ -54,6 +60,7 @@ export default {
         username: "",
         password: ""
       },
+      processing: false,
       authenticated: false,
       warning: "",
       error: "",
@@ -64,6 +71,7 @@ export default {
     saveAccount() {
       this.error = "";
       this.warning = "";
+      this.processing = true;
       var data = {
         username: this.account.username,
         password: this.account.password
@@ -79,16 +87,19 @@ export default {
             this.authenticated = true;
             //           eventBus.$emit('responseData', response.data);
           } else {
+            this.processing = false;
             this.warning =
               "Oops looks like the username is already taken or what you entered is invalid";
           }
         })
         .catch(e => {
+        this.processing = false;
           this.error = "Oops something went wrong! Please contact the admin.";
           console.log(e);
         });
     },
     newAccount() {
+      this.processing = false;
       this.authenticated = false;
       this.account = {};
     }

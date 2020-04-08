@@ -7,23 +7,37 @@
     </div>
     <div class="row jumbotron padding-3">
       <div class="col-sm">
-          <h4>Goal</h4>
-          <p>Squash the bugs!</p>
+        <h4>Objectives</h4>
+        <p>Squash the bugs</p>
       </div>
       <div class="col-sm">
-          <h4>Objectives</h4>
-          <p>Squash the bugs</p>
+        <h4>The Bugs</h4>
+        <p>
+          (
+          <span class="enemy">#</span> ) Hash 100xp
+        </p>
+        <p>
+          (
+          <span class="enemyLow">¢</span> ) 5 cents 10xp
+        </p>
+        <p>
+          (
+          <span class="enemyStrong">+</span> ) Tough 100xp
+        </p>
+        <p>
+          (
+          <span class="enemyHigh">$</span> ) Gold 1000xp
+        </p>
       </div>
-
-      </div>
-      <hr/>
+    </div>
+    <hr />
     <div class="row">
-      <div class="col-md-12" style="">
+      <div class="col-md-12" style>
         <Map />
       </div>
-      </div>
-      <div class="row ">
-      <div class="col-md-12" style="">
+    </div>
+    <div class="row">
+      <div class="col-md-12" style>
         <Chat />
       </div>
     </div>
@@ -38,7 +52,7 @@ export default {
   name: "Game",
   data() {
     return {
-      account: this.$parent.account,
+      account: this.$parent.account
     };
   },
   components: {
@@ -55,5 +69,17 @@ export default {
 }
 .padding-3 {
   padding: 3em;
+}
+.enemy {
+  color: rgb(255, 255, 255);
+}
+.enemyLow {
+  color: rgb(255, 102, 40);
+}
+.enemyStrong {
+  color: rgb(255, 0, 0);
+}
+.enemyHigh {
+  color: rgb(255, 255, 0);
 }
 </style>
