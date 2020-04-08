@@ -1,7 +1,6 @@
 package com.fdm.controller;
 
 import java.util.Optional;
-
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
@@ -14,7 +13,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.fdm.dal.AccountRepository;
 import com.fdm.dal.ActorRepository;
 import com.fdm.dal.EnemyRepository;
@@ -85,7 +83,8 @@ public class GameController {
 	public Account connect(@RequestBody Account acc) {
 		logger.info("Account attempting to connect " + acc.getId());
 		Optional<Account> _account = accountRepository.findById(acc.getId());
-		if(_account.isEmpty()) {
+
+		if(!_account.isPresent()) {
 			logger.error("Account not found");
 			return null;
 		}

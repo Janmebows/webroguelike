@@ -1,9 +1,7 @@
 package com.fdm.model;
 
 import javax.persistence.*;
-
 import org.springframework.stereotype.Component;
-
 
 @Component
 @Entity

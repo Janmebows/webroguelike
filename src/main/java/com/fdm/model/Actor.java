@@ -1,7 +1,6 @@
 package com.fdm.model;
 
 import java.awt.Color;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -10,10 +9,8 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fdm.controller.GameLogicController;
 
@@ -51,7 +48,7 @@ public abstract class Actor implements Runnable {
 	int level = 1;
 	int exp = 0;
 	int value = 100;
-	int killCount =0 ;
+	int killCount = 0 ;
 	public void takeDamage(int damage, Actor attacker) {
 		logger.trace(this.characterName + " took " + damage + " damage");
 		currentHP = currentHP - damage;

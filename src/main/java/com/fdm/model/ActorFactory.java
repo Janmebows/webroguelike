@@ -3,7 +3,6 @@ package com.fdm.model;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-
 import org.apache.log4j.Logger;
 import com.fdm.model.Map.Coord;
 
