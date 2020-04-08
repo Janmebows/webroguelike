@@ -214,7 +214,7 @@ public class GameControllerTest {
 		when(mockPC.getId()).thenReturn(0);
 		mockGameLogicController.instance = mockGameLogicController;
 		when(mockActorRepo.findById(1)).thenReturn(Optional.of(mockPC));
-		when(mockActorRepo.save(mockPC)).thenReturn(mockPC);
+		when(mockActorRepo.save(any(PlayerCharacter.class))).thenReturn(mockPC);
 		when(mockAccountRepo.save(mockAccount)).thenReturn(mockAccount);
 		when(mockAccount.getUsername()).thenReturn("hi");
 		when(mockGameLogicController.getMap()).thenReturn(mockMap);
