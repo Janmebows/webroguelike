@@ -127,6 +127,7 @@ public abstract class Actor implements Runnable {
 			attacker.addKillAndGainExp(this.value*this.level);
 			logger.info(characterName + " died");
 			map.updateActors();
+			GameLogicController.getInstance().addActor(ActorFactory.makeEnemy(map));
 		}
 	}
 
