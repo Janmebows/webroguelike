@@ -3,6 +3,7 @@ package com.fdm.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,7 +21,7 @@ import com.fdm.model.SearchFilters;
 @RestController
 @RequestMapping("/api")
 public class SearchController {
-	
+	protected transient static Logger logger = Logger.getLogger("SearchLogger");
 	@Autowired
 	PlayerCharacterRepository playerCharacterRepository;
 	
@@ -31,8 +32,7 @@ public class SearchController {
 	
 	@PostMapping("/search")
 	public List<PlayerCharacter> processSearch(@RequestBody SearchFilters searchInput) {
-		
-		System.out.println("processSearch init: "+ searchInput.getName()+ " " + searchInput.getLevel() + " " + searchInput.getKillCount());
+		logger.trace("A search was made with " + searchInput.getName()+ " " + searchInput.getLevel() + " " + searchInput.getKillCount());
 
 		List<PlayerCharacter> foundPlayers = new ArrayList<PlayerCharacter>();
 		//name, level, killCount
@@ -49,12 +49,13 @@ public class SearchController {
 		
 		foundPlayers.sort(new LevelSorter());
 		
-		System.out.println(foundPlayers);
+		logger.info("Found " + foundPlayers);
 		return foundPlayers;
 	}
 	
 	@PostMapping("/findAll")
 	public List<PlayerCharacter> findAllPlayers() {
+		logger.info("Searched for all players");
 		List<PlayerCharacter> foundPlayers = (List<PlayerCharacter>) playerCharacterRepository.findAll();
 		
 		foundPlayers.sort(new LevelSorter());

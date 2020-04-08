@@ -5,10 +5,6 @@ import java.util.List;
 import java.util.Random;
 
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
-import com.fdm.dal.ActorRepository;
 import com.fdm.model.Map.Coord;
 
 public class ActorFactory {
@@ -44,6 +40,7 @@ public class ActorFactory {
 		PlayerCharacter plc = new PlayerCharacter(name,coord.x,coord.y);
 		plc.setCharacterSymbol(name.charAt(0));
 		plc.setColor(rng.nextInt(256), rng.nextInt(256), rng.nextInt(256));
+		logger.info("Generated new player "+ plc);
 		return plc;
 	}
 	public static  List<Actor> makeEnemies(Map map, int count) {
@@ -52,6 +49,7 @@ public class ActorFactory {
 			enemyList.add(makeEnemy(map));
 
 		}
+		logger.info("Finished generating enemies");
 		return enemyList;
 	}
 

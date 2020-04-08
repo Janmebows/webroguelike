@@ -14,23 +14,25 @@ import com.fdm.model.PlayerCharacter;
 public class GameLogicController implements Runnable {
 
 	public static final long SERVER_TICK = 500;
-	Map map;
+	private Map map;
 
 	// if we want multiple maps this shouldn't be static
 	public static boolean isRunning = false;
 	private static volatile Object key;
 	private List<Actor> actorList;
 
+	protected transient static Logger logger = Logger.getLogger("GameLogicLogger");
+
 	public GameLogicController(Map map, List<Actor> actorList) {
 		super();
-		this.map = map;
+		this.setMap(map);
 		GameLogicController.key = key;
 		GameLogicController.instance = this;
 		this.actorList = actorList;
 //		actorList.forEach(x -> x.key = getKey());
 		instance = this;
 		isRunning = true;
-		Logger.getLogger("RootLogger").warn("A new logic controller was made since we didn't make it a singleton!");
+		logger.warn("A new logic controller was made");
 	}
 
 	private GameLogicController() {
@@ -39,8 +41,9 @@ public class GameLogicController implements Runnable {
 	static GameLogicController instance;
 
 	public static GameLogicController getInstance() {
-		if (instance == null)
+		if (instance == null) {
 			instance = new GameLogicController();
+		}
 		return instance;
 	}
 
@@ -54,16 +57,20 @@ public class GameLogicController implements Runnable {
 	}
 
 	public static Object getKey() {
-		if (key == null)
+		if (key == null) {
 			key = new Object();
+			logger.warn("A new key was generated");
+		}
 		return key;
 	}
 
 	public void tryAddActor(PlayerCharacter actor) {
 
 		if (findActor(actor.getId()) != null)
-
+		{			
+			logger.warn("Actor with id "+ actor.getId() + " already exists");
 			return;
+		}
 		else {
 			addActor(actor);
 		}
@@ -71,21 +78,22 @@ public class GameLogicController implements Runnable {
 	}
 
 	public void addActor(Actor newActor) {
-		newActor.setMap(map);
-		map.addActor(newActor);
+		newActor.setMap(getMap());
+		getMap().addActor(newActor);
 		actorList.add(newActor);
 		Thread th = new Thread(newActor);
 		th.start();
+		logger.trace("Started thread for actor with id " + newActor.getId());
 	}
 
 	public void removeActor(Actor actor) {
 		actor.isRunning = false;
-		map.remove(actor.getId());
+		getMap().remove(actor.getId());
 		actorList.removeIf(x -> x.getId() == actor.getId());
-		if(actor instanceof Enemy)
-			addActor(ActorFactory.makeEnemy(map));
+		if (actor instanceof Enemy)
+			addActor(ActorFactory.makeEnemy(getMap()));
+		logger.trace("Removed actor with id " + actor.getId());
 	}
-	
 
 //	public boolean startGame(Map map, List<Actor> actorList) {
 //		if(isRunning)
@@ -101,8 +109,8 @@ public class GameLogicController implements Runnable {
 //	}
 
 	public void runConsoleGame() {
-		map.updateVisibleMap();
-		map.printMap();
+		getMap().updateVisibleMap();
+		getMap().printMap();
 		for (Actor actor : actorList) {
 			Thread th = new Thread(actor);
 			th.start();
@@ -112,12 +120,12 @@ public class GameLogicController implements Runnable {
 			synchronized (getKey()) {
 				getKey().notifyAll();
 			}
-			map.printMap();
+			getMap().printMap();
 			// MapUpdate(x, y, newSymbol)
 
 			try {
 				Thread.sleep(SERVER_TICK / 2);
-				map.updateVisibleMap();
+				getMap().updateVisibleMap();
 				Thread.sleep(SERVER_TICK / 2);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
@@ -137,7 +145,7 @@ public class GameLogicController implements Runnable {
 		while (isRunning) {
 
 			synchronized (getKey()) {
-				map.updateVisibleStringMap();
+				getMap().updateVisibleStringMap();
 				getKey().notifyAll();
 			}
 			// MapUpdate(x, y, newSymbol)
@@ -174,6 +182,14 @@ public class GameLogicController implements Runnable {
 		System.out.println("Ending game (but not really)");
 		actorList.forEach(x -> x.isRunning = false);
 		GameLogicController.isRunning = false;
+	}
+
+	public Map getMap() {
+		return map;
+	}
+
+	public void setMap(Map map) {
+		this.map = map;
 	}
 
 }

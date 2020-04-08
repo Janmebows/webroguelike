@@ -8,29 +8,19 @@ import org.springframework.stereotype.Component;
 @Entity
 public class PlayerCharacter extends Actor {
 
-//	@OneToOne(mappedBy = "playerCharacter")
-	// Account owner;
 	public volatile char nextInput = '\u0000';
 	public void setInput(char input) {
 		// if null character or blankspace
 		if (input == '\u0000' || input == ' ') {
 			return;
 		}
-		// System.out.println("playerCharacter " + characterName + " inputted " +
-		// input);
-
+		logger.trace("Player " + this.id + " inputted " + input);
 		Direction inputDirection = processInput(input);
 		if (inputDirection != Direction.NONE)
 			nextDirection = inputDirection;
 		return;
 	}
-//
-//	@Override
-//	public boolean move(Direction dir) {
-//		processInput(nextInput);
-//		nextInput = '\u0000';
-//		return super.move(dir);
-//	}
+
 
 	public Direction processInput(char input) {
 		// currently using wasd.

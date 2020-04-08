@@ -71,6 +71,7 @@ public class Map {
 	}
 
 	// called on backend once a tick to update the map the view will see
+	//specifically for the console game
 	public void updateVisibleMap() {
 		viewMap = new char[xMax][yMax];
 		for (int y = 0; y < yMax; ++y) {
@@ -78,6 +79,7 @@ public class Map {
 				viewMap[x][y] = getSymbol(x, y);
 			}
 		}
+		logger.trace(this.mapName +" was updated");
 	}
 	
 	public void updateVisibleStringMap() {
@@ -286,8 +288,10 @@ public class Map {
 	}
 
 	public boolean isBlocked(int x, int y) {
-		if (x < 0 || y < 0 || x >= xMax || y >= yMax)
+		if (x < 0 || y < 0 || x >= xMax || y >= yMax) {
+			logger.error("Something tried to escape bounds with [" + x + ", "+y + "]");
 			return true;
+		}
 		else
 			return map[x][y].isBlocking();
 	}
@@ -363,6 +367,7 @@ public class Map {
 		}
 		return validTiles;
 	}
+	
 	
 	class Coord{
 		public int x;
