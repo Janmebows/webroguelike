@@ -19,4 +19,31 @@ public interface PlayerCharacterRepository extends CrudRepository<PlayerCharacte
 	List<PlayerCharacter> findByCharacterNameContainingAndCharacterSymbolAndLevelLessThan(String characterName,
 			char characterSymbol, int level);	
 	
+	List<PlayerCharacter> findByCharacterNameContainingAndCharacterSymbolContainingAndLevelGreaterThan(String characterName,
+			char characterSymbol, int level);
+
+	List<PlayerCharacter> findByCharacterNameContainingAndCharacterSymbolContainingAndLevelLessThanAndKillCountLessThan(
+			String name, char symbol, int level, int killCount);
+
+	List<PlayerCharacter> findByCharacterNameContainingAndCharacterSymbolContainingAndLevelLessThanAndKillCountGreaterThan(
+			String name, char symbol, int level, int killCount);
+
+	List<PlayerCharacter> findByCharacterNameContainingAndCharacterSymbolContainingAndLevelGreaterThanAndKillCountLessThan(
+			String name, char symbol, int level, int killCount);
+
+	List<PlayerCharacter> findByCharacterNameContainingAndCharacterSymbolContainingAndLevelGreaterThanAndKillCountGreaterThan(
+			String name, char symbol, int level, int killCount);
+
+	List<PlayerCharacter> findByCharacterNameContainingAndLevelGreaterThanAndKillCountGreaterThan(String name,
+			int level, int killCount);
+
+	List<PlayerCharacter> findByCharacterNameContainingAndLevelGreaterThanAndKillCountLessThan(String name, int level,
+			int killCount);
+
+	List<PlayerCharacter> findByCharacterNameContainingAndLevelLessThanAndKillCountGreaterThan(String name, int level,
+			int killCount);
+
+	List<PlayerCharacter> findByCharacterNameContainingAndLevelLessThanAndKillCountLessThan(String name, int level,
+			int killCount);
+	
 }

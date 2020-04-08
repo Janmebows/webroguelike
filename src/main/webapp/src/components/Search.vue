@@ -39,7 +39,7 @@ export default {
     return {
       searchFilters: {
         name: "",
-        symbol: "ñ",
+        symbol: "",
         level: 0,
         killCount: 0,
         levelDirection: "",

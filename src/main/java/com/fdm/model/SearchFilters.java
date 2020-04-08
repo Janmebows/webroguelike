@@ -3,7 +3,7 @@ package com.fdm.model;
 public class SearchFilters {
 	
 	private String name;
-	private char symbol;
+	private String symbol;
 	private int level;
 	private int killCount;
 	private String levelDirection;
@@ -15,10 +15,10 @@ public class SearchFilters {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public char getSymbol() {
+	public String getSymbol() {
 		return symbol;
 	}
-	public void setSymbol(char symbol) {
+	public void setSymbol(String symbol) {
 		this.symbol = symbol;
 	}
 	public int getLevel() {
