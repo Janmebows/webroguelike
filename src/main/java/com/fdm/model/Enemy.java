@@ -21,6 +21,10 @@ public class Enemy extends Actor {
 		this.x = x;
 		this.y = y;
 		this.characterSymbol = '#';
+		this.colorred = 255;
+		this.colorgreen= 255;
+		this.colorblue = 255;
+		
 		logger.info("Summoned new enemy " + this.toString());
 	}
 

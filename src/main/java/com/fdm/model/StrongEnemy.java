@@ -12,7 +12,7 @@ public class StrongEnemy extends Enemy {
 		this.characterName = characterName.toUpperCase();
 		this.x = x;
 		this.y = y;
-		this.characterSymbol = 'ø';
+		this.characterSymbol = '+';
 		this.colorred = 255;
 		this.colorgreen = 0;
 		this.colorblue = 0;

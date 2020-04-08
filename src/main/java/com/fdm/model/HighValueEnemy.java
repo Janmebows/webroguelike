@@ -12,8 +12,8 @@ public class HighValueEnemy extends Enemy{
 		this.characterName = characterName.toUpperCase();
 		this.x = x;
 		this.y = y;
-		this.characterSymbol = '*';
-		this.colorred = 0;
+		this.characterSymbol = '$';
+		this.colorred = 255;
 		this.colorgreen = 255;
 		this.colorblue = 0;
 		this.value = 1000;

@@ -43,12 +43,12 @@ public class DataLoader implements ApplicationRunner {
 //		acctwo.setPlayerCharacter(actorFactory.makePlayerCharacter(acctwo.getUsername(),map));
 		accountRepo.save(acctwo);
 	//	accountRepo.save(acc);
-		PlayerCharacter plc = actorRepo.save(new PlayerCharacter("player1", 1, 1));
-		plc.setCharacterSymbol('ñ');
-		plc.setColor(255, 0, 0);
-		actorRepo.save(plc);
-
-		acc.setPlayerCharacter(plc);
+		// PlayerCharacter("player1", 1, 1));
+//		plc.setCharacterSymbol('ñ');
+//		plc.setColor(255, 0, 0);
+//		actorRepo.save(plc);
+//
+//		acc.setPlayerCharacter(plc);
 		accountRepo.save(acc);
 		map.addActors(actors);
 		map = mapRepo.save(map);

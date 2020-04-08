@@ -12,10 +12,10 @@ public class LowValueEnemy extends Enemy{
 		this.characterName = characterName;
 		this.x = x;
 		this.y = y;
-		this.characterSymbol = '☻';
-		this.colorred = 0;
-		this.colorgreen = 0;
-		this.colorblue = 255;
+		this.characterSymbol = '¢';
+		this.colorred = 164;
+		this.colorgreen = 102;
+		this.colorblue = 40;
 		this.value = 10;
 		logger.info("Summoned new low value enemy " + this.toString());
 	}
