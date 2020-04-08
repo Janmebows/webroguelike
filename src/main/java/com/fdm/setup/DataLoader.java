@@ -6,8 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
-
-import com.fdm.controller.GameController;
 import com.fdm.controller.GameLogicController;
 import com.fdm.dal.AccountRepository;
 import com.fdm.dal.ActorRepository;
@@ -16,7 +14,6 @@ import com.fdm.model.Account;
 import com.fdm.model.Actor;
 import com.fdm.model.ActorFactory;
 import com.fdm.model.Map;
-import com.fdm.model.PlayerCharacter;
 
 @Component
 public class DataLoader implements ApplicationRunner {

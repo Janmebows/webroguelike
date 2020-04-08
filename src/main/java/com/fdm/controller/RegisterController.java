@@ -1,9 +1,6 @@
 package com.fdm.controller;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,7 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fdm.dal.AccountRepository;
 import com.fdm.dal.PlayerCharacterRepository;
 import com.fdm.model.Account;
-import com.fdm.model.PlayerCharacter;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController

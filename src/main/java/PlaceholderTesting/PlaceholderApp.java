@@ -3,8 +3,6 @@ package PlaceholderTesting;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-
-import com.fdm.controller.GameController;
 import com.fdm.controller.GameLogicController;
 import com.fdm.model.Actor;
 import com.fdm.model.Enemy;
