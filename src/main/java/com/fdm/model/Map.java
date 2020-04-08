@@ -353,7 +353,7 @@ public class Map {
 
 	}
 
-	List<Coord> validTiles() {
+	public List<Coord> validTiles() {
 		List<Coord> validTiles = new ArrayList<Coord>();
 		for (int y = 0; y < yMax; ++y) {
 			for (int x = 0; x < xMax; ++x) {
@@ -364,14 +364,5 @@ public class Map {
 		return validTiles;
 	}
 	
-	class Coord{
-		public int x;
-		public int y;
-		Coord(int x, int y)
-		{
-			this.x = x;
-			this.y = y;
-		}
-	}
 
 }

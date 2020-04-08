@@ -42,21 +42,8 @@ public class GameController {
 	EnemyRepository enemyRepo;
 	@Autowired
 	MapRepository mapRepo;
-
-
 	Map map;
 	GameLogicController controller;
-
-	@GetMapping({ "/game" })
-	public String getIndex(HttpSession session) {
-		System.out.println("HIT HERE");
-		// add player to the map
-		if (session.getAttribute("account") != null) {
-			return "game";
-		}
-		return "/game";
-
-	}
 
 	// @MessageMapping("/input")
 	@PostMapping("/input")
@@ -88,10 +75,10 @@ public class GameController {
 	public Account connect(@RequestBody Account acc) {
 		Optional<Account> _account = accountRepository.findById(acc.getId());
 		if(_account.isEmpty()) {
+			System.out.println("hi");
 			return null;
 		}
 		acc = _account.get();
-		
 		PlayerCharacter pc = acc.getPlayerCharacter();
 		controller = GameLogicController.getInstance();
 		if (controller == null) {
@@ -100,7 +87,7 @@ public class GameController {
 			controller = new GameLogicController(map, ActorFactory.makeEnemies(map, 20));
 		}
 		if (pc == null || pc.getId() == 0) {
-			pc = ActorFactory.makePlayerCharacter(acc.getUsername(), controller.map);
+			pc = ActorFactory.makePlayerCharacter(acc.getUsername(), controller.getMap());
 			acc.setPlayerCharacter(pc);
 		} else {
 			pc = (PlayerCharacter) actorRepo.findById(pc.getId()).get();
@@ -121,9 +108,8 @@ public class GameController {
 	public String[][] postGame() {
 
 		controller = GameLogicController.getInstance();
-		if (controller.map != null)
-			return controller.map.getStringMap();
-
+		if (controller.getMap() != null)
+			return controller.getMap().getStringMap();
 		else
 			return null;
 	}
@@ -134,7 +120,8 @@ public class GameController {
 	@Scheduled(fixedDelay = GameLogicController.SERVER_TICK)
 	public void autoUpdateMap() {
 		controller = GameLogicController.getInstance();
-		if (controller.map != null)
-			template.convertAndSend("/topic/game", controller.map.getStringMap());
+		System.out.println(controller);
+		if (controller.getMap() != null)
+			template.convertAndSend("/topic/game", controller.getMap().getStringMap());
 	}
 }

@@ -14,7 +14,7 @@ import com.fdm.model.PlayerCharacter;
 public class GameLogicController implements Runnable {
 
 	public static final long SERVER_TICK = 500;
-	Map map;
+	private Map map;
 
 	// if we want multiple maps this shouldn't be static
 	public static boolean isRunning = false;
@@ -23,7 +23,7 @@ public class GameLogicController implements Runnable {
 
 	public GameLogicController(Map map, List<Actor> actorList) {
 		super();
-		this.map = map;
+		this.setMap(map);
 		GameLogicController.key = key;
 		GameLogicController.instance = this;
 		this.actorList = actorList;
@@ -36,7 +36,7 @@ public class GameLogicController implements Runnable {
 	private GameLogicController() {
 	}
 
-	static GameLogicController instance;
+	public static GameLogicController instance;
 
 	public static GameLogicController getInstance() {
 		if (instance == null)
@@ -71,8 +71,8 @@ public class GameLogicController implements Runnable {
 	}
 
 	public void addActor(Actor newActor) {
-		newActor.setMap(map);
-		map.addActor(newActor);
+		newActor.setMap(getMap());
+		getMap().addActor(newActor);
 		actorList.add(newActor);
 		Thread th = new Thread(newActor);
 		th.start();
@@ -80,10 +80,10 @@ public class GameLogicController implements Runnable {
 
 	public void removeActor(Actor actor) {
 		actor.isRunning = false;
-		map.remove(actor.getId());
+		getMap().remove(actor.getId());
 		actorList.removeIf(x -> x.getId() == actor.getId());
 		if(actor instanceof Enemy)
-			addActor(ActorFactory.makeEnemy(map));
+			addActor(ActorFactory.makeEnemy(getMap()));
 	}
 	
 
@@ -101,8 +101,8 @@ public class GameLogicController implements Runnable {
 //	}
 
 	public void runConsoleGame() {
-		map.updateVisibleMap();
-		map.printMap();
+		getMap().updateVisibleMap();
+		getMap().printMap();
 		for (Actor actor : actorList) {
 			Thread th = new Thread(actor);
 			th.start();
@@ -112,12 +112,12 @@ public class GameLogicController implements Runnable {
 			synchronized (getKey()) {
 				getKey().notifyAll();
 			}
-			map.printMap();
+			getMap().printMap();
 			// MapUpdate(x, y, newSymbol)
 
 			try {
 				Thread.sleep(SERVER_TICK / 2);
-				map.updateVisibleMap();
+				getMap().updateVisibleMap();
 				Thread.sleep(SERVER_TICK / 2);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
@@ -137,7 +137,7 @@ public class GameLogicController implements Runnable {
 		while (isRunning) {
 
 			synchronized (getKey()) {
-				map.updateVisibleStringMap();
+				getMap().updateVisibleStringMap();
 				getKey().notifyAll();
 			}
 			// MapUpdate(x, y, newSymbol)
@@ -174,6 +174,14 @@ public class GameLogicController implements Runnable {
 		System.out.println("Ending game (but not really)");
 		actorList.forEach(x -> x.isRunning = false);
 		GameLogicController.isRunning = false;
+	}
+
+	public Map getMap() {
+		return map;
+	}
+
+	public void setMap(Map map) {
+		this.map = map;
 	}
 
 }
