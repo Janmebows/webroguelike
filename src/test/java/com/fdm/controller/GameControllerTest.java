@@ -1,20 +1,15 @@
 package com.fdm.controller;
 
-import static org.junit.Assert.*;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
-
 import static org.mockito.Mockito.*;
-
 import com.fdm.dal.AccountRepository;
 import com.fdm.dal.EnemyRepository;
 import com.fdm.dal.MapRepository;
-
 
 public class GameControllerTest {
 	
