@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import com.fdm.controller.GameController;
+import org.apache.log4j.Logger;
+
 import com.fdm.controller.GameLogicController;
 import com.fdm.model.Actor;
 import com.fdm.model.Enemy;
@@ -14,6 +15,8 @@ import com.fdm.model.PlayerCharacter;
 public class PlaceholderApp {
 
 	public static void main(String[] args) {
+
+		Logger.getLogger("rootLogger").trace("Console application Started");
 		Map map = new Map("ProductionMap");
 		PlayerCharacter playerCharacter = new PlayerCharacter("jim", 5, 5);
 		playerCharacter.setCharacterSymbol('@');
@@ -49,4 +52,4 @@ public class PlaceholderApp {
 		}).start();
 	}
 
-} 
+}

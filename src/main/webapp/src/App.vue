@@ -3,7 +3,7 @@
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark" role="navigation">
       <div class="container">
         <!-- Hidden on mobile -->
-        <a class="navbar-item" href="/">
+        <a class="navbar-item" href="/game">
           <strong class="is-size-4">
             <img
               class="TechBay Logo"
@@ -13,11 +13,7 @@
             />
           </strong>
         </a>
-        <a class="navbar-brand" href="/">Office Heroes RPG</a>
-        <form class="form-inline my-2 my-lg-0">
-          <input class="form-control mr-sm-2" type="text" placeholder="Find Players" />
-          <button class="btn btn-secondary my-2 my-sm-0" type="button">Search</button>
-        </form>
+        <a class="navbar-brand" href="/home">Office Heroes RPG</a>
         <div v-show="navbarShow" class="navbar-collapse" id="navbarColor01" style>
           <ul class="navbar-nav mr-auto flex-right" v-if="authenticated">
             <li class="nav-item">
@@ -26,6 +22,9 @@
             </li>
             <li class="nav-item">
               <router-link class="nav-link" to="/chat">Chat</router-link>
+            </li>
+            <li class="nav-item">
+              <router-link class="nav-link" to="/search">Search</router-link>
             </li>
             <li class="nav-item">
               <router-link class="nav-link" to="/editaccount">Edit Account</router-link>

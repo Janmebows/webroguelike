@@ -45,5 +45,7 @@ public interface PlayerCharacterRepository extends CrudRepository<PlayerCharacte
 
 	List<PlayerCharacter> findByCharacterNameContainingAndLevelLessThanAndKillCountLessThan(String name, int level,
 			int killCount);
+
+	List<PlayerCharacter> findByCharacterNameContainingAndLevelGreaterThan(String name, int level);
 	
 }
