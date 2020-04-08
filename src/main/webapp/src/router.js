@@ -6,6 +6,8 @@ import Game from "./components/Game.vue";
 // import EditAccount from "./components/EditAccount.vue";
 import Chat from "./components/Chat.vue";
 import Search from "./components/Search.vue";
+import Leaderboard from "./components/Leaderboard.vue";
+
 
 Vue.use(Router);
 
@@ -53,6 +55,11 @@ export default new Router({
       path: "/chat",
       name: "chat",
       component: Chat
+    },
+    {
+      path: "/leaders",
+      name: "leaders",
+      component: Leaderboard
     }
   ]
 });
