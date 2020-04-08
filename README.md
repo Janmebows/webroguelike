@@ -2,13 +2,17 @@
 
 A roguelike but its on the web.
 
-On first run
-cd src/main/webapp/ && npm install -g npm@latest 
+If compiling from source
+Compile maven with clean install directives
 
-Then run 
+
+On first run, in terminal cd into the webapp folder
+Default:
+cd src/main/webapp/ 
+
+And run
+npm install -g npm@latest 
 npm i
-
-Then finally 
 npm run serve
 
 And run the jar file in another terminal 
