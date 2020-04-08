@@ -1,16 +1,60 @@
 <template>
-  <div class="col-md-6">
-    <form class="form-inline my-2 my-lg-0">
-      <input
-        class="form-control mr-sm-2"
-        type="text"
-        placeholder="Find Players"
-        id="searchInput"
-        name="searchInput"
-        v-model="searchFilters.name"
-      />
-      <button v-on:click="retrievePlayers" class="btn btn-secondary">Search</button>
-    </form>
+  <div class="container">
+    <div class="jumbotron">
+      <h4>Search</h4>
+      <form>
+        <label for="searchInput">Search for player name:</label>
+        <input
+          type="text"
+          placeholder="Find by Name"
+          class="form-control"
+          id="name"
+          v-model="searchFilters.name"
+          name="name"
+        />
+
+        <label for="levelDirection">Level must be:</label>
+        <div class="row">
+          <div class="col-md-3">
+            <select class="form-control" id="levelDirection">
+              <option>greaterThan</option>
+              <option>lessThan</option>
+            </select>
+          </div>
+          <div class="form-group col">
+            <input
+              type="number"
+              placeholder="Find by Level"
+              class="form-control"
+              id="level"
+              v-model="searchFilters.level"
+              name="level"
+            />
+          </div>
+        </div>
+
+        <label for="killDirection">Kills must be:</label>
+        <div class="row">
+          <div class="col-md-3">
+            <select class="form-control" id="killDirection">
+              <option>greaterThan</option>
+              <option>lessThan</option>
+            </select>
+          </div>
+          <div class="form-group col">
+            <input
+              type="number"
+              placeholder="Find by Kills"
+              class="form-control"
+              id="killCount"
+              v-model="searchFilters.killCount"
+              name="killCount"
+            />
+          </div>
+        </div>
+        <button @click.prevent="retrievePlayers" class="btn btn-secondary">Search</button>
+      </form>
+    </div>
     <div class="col-md-6">
       <h4>Players List</h4>
       <ul>
@@ -44,7 +88,7 @@ export default {
     return {
       searchFilters: {
         name: "",
-        level: 0,
+        level: -1,
         killCount: -1,
         levelDirection: "greaterThan",
         killDirection: "greaterThan"
@@ -53,7 +97,6 @@ export default {
     };
   },
   methods: {
-    /* eslint-disable no-console */
     retrievePlayers() {
       var data = {
         name: this.searchFilters.name,
@@ -65,7 +108,7 @@ export default {
       http
         .post("/search", data)
         .then(response => {
-          this.players = response.data; // JSON are parsed automatically.
+          this.players = response.data;
           console.log(response.data);
         })
         .catch(e => {
@@ -75,7 +118,6 @@ export default {
     refreshList() {
       this.retrievePlayers();
     }
-    /* eslint-enable no-console */
   },
   mounted() {
     this.retrievePlayers();
