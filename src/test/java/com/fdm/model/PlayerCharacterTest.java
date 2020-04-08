@@ -2,8 +2,6 @@ package com.fdm.model;
 
 import static org.junit.Assert.*;
 
-import java.awt.Color;
-
 import org.junit.Before;
 import org.junit.Test;
 
@@ -16,7 +14,7 @@ public class PlayerCharacterTest {
 	@Before
 	public void init() {
 		account = new Account("testAccount", "testPass");
-		playerChar = new PlayerCharacter("testChar", new Object());
+		playerChar = new PlayerCharacter("testChar",1,1);
 		map = new Map("MovementTestingMap");
 		playerChar.setMap(map);
 	}

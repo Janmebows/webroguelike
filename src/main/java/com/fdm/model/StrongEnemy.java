@@ -17,6 +17,7 @@ public class StrongEnemy extends Enemy {
 		this.colorgreen = 0;
 		this.colorblue = 0;
 		this.maxHP = 20;
+		this.currentHP = maxHP;
 		this.value = 100;
 		logger.info("Summoned new strong enemy " + this.toString());
 	}

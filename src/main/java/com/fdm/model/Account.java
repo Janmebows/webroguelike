@@ -1,12 +1,16 @@
 package com.fdm.model;
 
-import java.util.List;
-
 import javax.persistence.*;
-
 import org.springframework.stereotype.Component;
 
-
+/**
+ * The class for users to log in with Contains a username and password for
+ * authentication Has-a PlayerCharacter
+ * 
+ * @author KILA
+ * @version 1.0
+ *
+ */
 @Component
 @Entity
 @Table(name = "account")
@@ -15,17 +19,20 @@ public class Account {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
+	/**
+	 * The username
+	 */
 	private String username;
+
+	/**
+	 * The password
+	 */
 	private String password;
 
-	@Transient
-	private String confirmPassword;
-
-	public void setConfirmPassword(String confirmPassword) {
-		this.confirmPassword = confirmPassword;
-	}
-
-	@OneToOne(optional = true)//(mappedBy="owner")
+	/**
+	 * The playercharacter this account owns
+	 */
+	@OneToOne(optional = true) // (mappedBy="owner")
 	PlayerCharacter playerCharacter;
 
 	public PlayerCharacter getPlayerCharacter() {
@@ -40,19 +47,15 @@ public class Account {
 		super();
 	}
 
+	/**
+	 * Makes a new account
+	 * 
+	 * @param username
+	 * @param password
+	 */
 	public Account(String username, String password) {
 		this.username = username;
 		this.password = password;
-	}
-
-	public Account(String username, String password, String confirmPassword) {
-		this.username = username;
-		this.password = password;
-		this.confirmPassword = confirmPassword;
-	}
-
-	public String getConfirmPassword() {
-		return confirmPassword;
 	}
 
 	public int getId() {
