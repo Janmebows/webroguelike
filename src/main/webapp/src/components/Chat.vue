@@ -1,8 +1,6 @@
 <template>
-  <div id="main-content" class="container" >
-    <div class="row">
+  <div id="main-content" class=" jumbotron" >
       <h4>Chat</h4>
-    </div>
     <div class="row">
       <div class="col-md-12">
         <div class="form-group d-none" >
@@ -41,17 +39,17 @@
               placeholder="Write a message..."
             />
           </div>
-          <div class="col-md-4">
-              <br />
-              <button id="send" class="btn btn-default" type="submit" @click.prevent="send">Send</button>
+          <div class="col-md-4 d-flex align-items-end">
+           
+              <button id="send" class="btn btn-primary" type="submit" @click.prevent="send">Send</button>
             </div>
          
         </form>
-        <div class="col-md-12">
+      
           <table id="conversation" class="table table-striped">
             <thead>
               <tr>
-                <th>Messages</th>
+                <th></th>
               </tr>
             </thead>
             <tbody>
@@ -60,7 +58,7 @@
               </tr>
             </tbody>
           </table>
-        </div>
+      
       </div>
     </div>
   </div>

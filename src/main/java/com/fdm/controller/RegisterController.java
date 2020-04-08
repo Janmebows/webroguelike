@@ -63,9 +63,9 @@ public class RegisterController {
             return null;
         } else {
             Account _account = new Account(account.getUsername(), account.getPassword());
-            PlayerCharacter plc = new PlayerCharacter(_account.getUsername());
-            _account.setPlayerCharacter(plc);
-            pCharRepo.save(plc);
+//            PlayerCharacter plc = new PlayerCharacter(_account.getUsername());
+//            _account.setPlayerCharacter(plc);
+//            pCharRepo.save(plc);
             accountRepository.save(_account);
             return _account;
         }

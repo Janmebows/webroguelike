@@ -43,8 +43,6 @@ public class GameController {
 	@Autowired
 	MapRepository mapRepo;
 
-	@Autowired
-	ActorFactory af;
 
 	Map map;
 	GameLogicController controller;
@@ -75,7 +73,7 @@ public class GameController {
 
 		System.out.println(playerCharacter.nextInput);
 		System.out.println("got input from player " + actualPlayerCharacter.getCharacterName() + " id "
-				+ actualPlayerCharacter.getId());
+				+ actualPlayerCharacter.getId()+ " position " + actualPlayerCharacter.getX() + "," + actualPlayerCharacter.getY());
 		actorRepo.save(actualPlayerCharacter);
 	}
 
@@ -83,21 +81,27 @@ public class GameController {
 	public void disconnect(@RequestBody PlayerCharacter pc) {
 		controller = GameLogicController.getInstance();
 		controller.removeActor(pc);
+		System.out.println("Disconnected player " + pc);
 	}
 
 	@PostMapping("/joinGame")
 	public Account connect(@RequestBody Account acc) {
 		Optional<Account> _account = accountRepository.findById(acc.getId());
+		if(_account.isEmpty()) {
+			return null;
+		}
 		acc = _account.get();
+		
 		PlayerCharacter pc = acc.getPlayerCharacter();
 		controller = GameLogicController.getInstance();
 		if (controller == null) {
 			// start new game
 			map = new Map("20x20test");
-			controller = new GameLogicController(map, af.makeEnemies(map, 20));
+			controller = new GameLogicController(map, ActorFactory.makeEnemies(map, 20));
 		}
 		if (pc == null || pc.getId() == 0) {
-			pc = af.makePlayerCharacter(acc.getUsername(), controller.map);
+			pc = ActorFactory.makePlayerCharacter(acc.getUsername(), controller.map);
+			acc.setPlayerCharacter(pc);
 		} else {
 			pc = (PlayerCharacter) actorRepo.findById(pc.getId()).get();
 //			controller.addActor(pc);

@@ -2,10 +2,10 @@
   <div class="container">
     <div class="row">
       <div class="form-group" align>
-        <label for="connect">Start Game:</label>
+        <label for="connect">Start Game: </label>
         <button
           id="mapConnect"
-          class="btn btn-outline-info"
+          class="btn btn-primary"
           type="submit"
           :disabled="mapConnected == 1"
           @click.prevent="connect"
@@ -16,14 +16,16 @@
           type="submit"
           :disabled="mapConnected == 0"
           @click.prevent="disconnect"
-        >Close Connection</button>
+        >Quit Game</button>
       </div>
-      <div class="col-md-5" style="float:left">
+      <div class="col-md-6" style="float:left">
         <div id="map" align="center"></div>
         <div class align="center">
+          <div class="col-md-6">
           <button type="button" @click="go('w')" class="btn btn-outline-info">Up</button>
-          <button type="button" @click="go('s')" class="btn btn-outline-info">Down</button>
+          </div>
           <button type="button" @click="go('a')" class="btn btn-outline-info">Left</button>
+          <button type="button" @click="go('s')" class="btn btn-outline-info">Down</button>
           <button type="button" @click="go('d')" class="btn btn-outline-info">Right</button>
         </div>
       </div>
@@ -164,9 +166,21 @@ export default {
         });
     },
     disconnect() {
+      //       var data = {
+      //   playerCharacter: this.$parent.account.playerCharacter
+      // };
+          // console.log(data);
+
+      http
+      .post("/leaveGame",this.$parent.account.playerCharacter)
+      .catch(e => {
+          console.log("Post /disconnect Error, " + e);
+        });
       if (this.stompClient) {
         this.stompClient.disconnect();
       }
+
+
       this.mapConnected = 0;
     },
 
