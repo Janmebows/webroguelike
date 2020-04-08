@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Random;
 import org.apache.log4j.Logger;
 
-import com.fdm.model.Coord;
 
 /**
  * A factory for generating subclasses of {@link Actor}

@@ -109,7 +109,7 @@ public class GameLogicController implements Runnable {
 //		
 //		return true;
 //	}
-	
+
 	public void runGame() {
 		for (Actor actor : actorList) {
 			Thread th = new Thread(actor);

@@ -3,12 +3,14 @@ package com.fdm.model;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.junit.Before;
 import org.junit.Test;
 
+@SuppressWarnings("unchecked")
 public class MapTest {
 
 
@@ -23,6 +25,8 @@ public class MapTest {
 		mockActors = mock(List.class);
 		mockLogger = mock(Logger.class);
 		map = new Map("TestingMap");
+		map.actorList = mockActors;
+		map.logger = mockLogger;
 
 	}
 
@@ -99,4 +103,60 @@ public class MapTest {
 			System.out.println();
 		}
 	}
+	
+	@Test
+	public void getStringMap_makes_stringMap_for_null() {
+		Map map = new Map();
+		assertNotNull(map.getStringMap());
+	}
+	@Test
+	public void production_map_has_right_size() {
+		map.readMapFromFile();
+		assertEquals(40,map.getxMax());
+		assertEquals(20,map.getyMax());
+	}
+
+	@Test
+	public void validTiles_for_test_map_works() {
+		map.readMapFromFile("TestingMap");
+		
+		assertEquals(5,map.validTiles().size());
+		
+	}
+	
+	@Test
+	public void map_id_is_zero_until_saved() {
+		assertEquals(0,map.getId());
+	}
+	
+	@Test
+	public void read_map_logs_error_if_too_many_lines() {
+		map.readMapFromFile("TooBigY");
+		verify(mockLogger).error(anyString());
+	}
+
+	@Test
+	public void add_and_remove_actors_work() {
+		map.actorList = new ArrayList<Actor>();
+		map.addActors(map.actorList);
+		map.addActor(new Enemy("a",1,2));
+		
+		assertEquals(map.getActors().size(),1);
+		map.remove(0);		
+		assertEquals(map.getActors().size(),0);
+	}
+	
+	@Test
+	public void update_actors_works() {
+		map.actorList = new ArrayList<Actor>();
+		Actor enemy = new Enemy("a",1,2);
+		map.addActor(enemy);
+		assertEquals(map.getActors().size(),1);
+		map.remove(0);		
+		enemy.alive = false;
+		map.updateActors();
+		assertEquals(map.getActors().size(),0);
+		verify(mockLogger).trace(anyString());
+	}
+
 }

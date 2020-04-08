@@ -22,7 +22,7 @@ public class MessageController {
 	/**
 	 * @param message: Received message from front-end
 	 * @return OutputMessage
-	 * @throws Exception
+	 * @throws Exception for some reason
 	 */
 	@MessageMapping("/chat")
 	@SendTo("/topic/chat")

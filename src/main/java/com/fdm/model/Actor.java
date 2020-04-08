@@ -111,7 +111,7 @@ public abstract class Actor implements Runnable {
 	/**
 	 * The number of kills this actor has - used for leaderboards
 	 */
-	int killCount = 0 ;
+	private int killCount = 0 ;
 	
 	/**
 	 * method for this actor to take damage
@@ -147,10 +147,10 @@ public abstract class Actor implements Runnable {
 	 * When this actor killed another actor it will gain exp equal to the other's value and the kill count will be incremented
 	 * levelUps are called if the exp exceeds 100 after the kill
 	 * 
-	 * @param amount
+	 * @param amount - amount of exp to add
 	 */
 	public void addKillAndGainExp(int amount) {
-		this.killCount++;
+		this.setKillCount(this.getKillCount() + 1);
 		logger.info(this.characterName + " gained " + amount + " experience");
 		exp = exp + amount;
 		while (exp >= 100) {
@@ -369,5 +369,13 @@ public abstract class Actor implements Runnable {
 
 	public void setMap(Map map) {
 		this.map = map;
+	}
+
+	public int getKillCount() {
+		return killCount;
+	}
+
+	public void setKillCount(int killCount) {
+		this.killCount = killCount;
 	}
 }

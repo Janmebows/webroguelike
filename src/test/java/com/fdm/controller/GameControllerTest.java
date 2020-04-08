@@ -25,6 +25,7 @@ import com.fdm.model.Map;
 import com.fdm.model.Coord;
 import com.fdm.model.PlayerCharacter;
 
+@SuppressWarnings("static-access")
 public class GameControllerTest {
 	
 	@Mock

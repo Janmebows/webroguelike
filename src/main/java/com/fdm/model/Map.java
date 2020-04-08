@@ -56,7 +56,6 @@ public class Map {
 	private Tile[][] map;
 
 	protected transient static Logger logger = Logger.getLogger("MapLogger");
-	private transient volatile char[][] viewMap;
 
 	private transient volatile String[][] stringViewMap;
 
@@ -85,20 +84,6 @@ public class Map {
 		logger.info("Generated map, " + mapName);
 	}
 
-	// called on backend once a tick to update the map the view will see
-	//specifically for the console game
-	/**
-	 * Updates the console visible map which is a char[][]
-	 */
-	public void updateVisibleMap() {
-		viewMap = new char[xMax][yMax];
-		for (int y = 0; y < yMax; ++y) {
-			for (int x = 0; x < xMax; ++x) {
-				viewMap[x][y] = getSymbol(x, y);
-			}
-		}
-		logger.trace(this.mapName +" was updated");
-	}
 	
 	
 	/**
@@ -181,7 +166,7 @@ public class Map {
 	 * Reads the default map
 	 */
 	public void readMapFromFile() {
-		readMapFromFile("map");
+		readMapFromFile("ProductionMap");
 	}
 
 	/**
@@ -210,9 +195,8 @@ public class Map {
 			map = new Tile[xMax][yMax];
 			int yIndex = 0;
 			while ((line = reader.readLine()) != null) {
-				if (yIndex > yMax) {
-					logger.warn("Map file size does not match given dimensions");
-					System.out.println("Map file does not match leading dimensions");
+				if (yIndex >= yMax) {
+					logger.error("Map file size does not match given dimensions");
 					return;
 				}
 				for (int xIndex = 0; xIndex < xMax; ++xIndex) {
@@ -228,21 +212,10 @@ public class Map {
 
 	}
 
-	/**
-	 * Prints the char[][] in {@link #viewMap} to console
-	 */
-	public void printMap() {
-		for (int j = 0; j < yMax; ++j) {
-			for (int i = 0; i < xMax; ++i) {
-				System.out.print(viewMap[i][j]);
-			}
-			System.out.println();
-		}
-	}
 
 	/**
 	 * Add actor to map
-	 * @param actor
+	 * @param actor to add
 	 */
 	public void addActor(Actor actor) {
 		actorList.add(actor);
@@ -314,34 +287,8 @@ public class Map {
 	public Tile[][] getMap() {
 		return map;
 	}
-	
-    /**
-     * Get the current visible map
-     * Will generate the visible map if it doesn't exist
-     * @return the char[][] map for console use without formatting
-     */
-    public char[][] getMapCharacters() {
-    	if(viewMap == null) {
-    		 viewMap = new char[xMax][yMax];
-    		 updateVisibleMap();
-    	}
-        return viewMap;
-    }
 
-//	public char[] mapAsCharArray() {
-//		char[] out = new char[(xMax + 1) * yMax];
-//		for (int y = 0; y < yMax; ++y) {
-//			for (int x = 0; x < xMax; ++x) {
-//				out[y * (xMax + 1) + x] = getSymbol(x, y);
-//
-//			}
-//			out[y * (xMax + 1) + xMax] = '\n';
-//
-//		}
-//		return out;
-//
-//	}
-//	
+
 	/**
 	 * A synchronised method to get the symbol the map should show at coordinate [x,y]
 	 * It prioritises players, then enemies, then tiles
@@ -362,31 +309,6 @@ public class Map {
 
 			} else {
 				return "<p style=\"padding: 0; margin: 0;\">" + map[x][y].getChar() + "</p>";
-			}
-		}
-	}
-
-	/**
-	 * Console equivalent of {@link #getStringSymbol(x,y)}
-	 * Used to get the character at [x,y]
-	 * It prioritises players, then enemies, then tiles
-	 * @param x - the x coordinate
-	 * @param y - the y coordinate
-	 * @return the character at the coordinate.
-	 */
-	private char getSymbol(int x, int y) {
-		Optional<Actor> playerAt = actorList.parallelStream()
-				.filter(player -> player instanceof PlayerCharacter && player.isAtPosition(x, y)).findAny();
-		if (playerAt.isPresent())
-			return playerAt.get().characterSymbol;
-		else {
-			Optional<Actor> enemyAt = actorList.parallelStream()
-					.filter(enemy -> enemy instanceof Enemy && enemy.isAtPosition(x, y)).findAny();
-			if (enemyAt.isPresent()) {
-				return enemyAt.get().characterSymbol;
-
-			} else {
-				return map[x][y].getChar();
 			}
 		}
 	}

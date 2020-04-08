@@ -50,8 +50,8 @@ public class Account {
 	/**
 	 * Makes a new account
 	 * 
-	 * @param username
-	 * @param password
+	 * @param username - the account's username
+	 * @param password - the account's password
 	 */
 	public Account(String username, String password) {
 		this.username = username;

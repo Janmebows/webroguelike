@@ -60,9 +60,9 @@ public class PlayerCharacter extends Actor {
 
 	/**
 	 * Constructor
-	 * @param characterName
-	 * @param x
-	 * @param y
+	 * @param characterName name of the PC
+	 * @param x - x coordinate to spawn at
+	 * @param y - y coordinate to spawn at
 	 */
 	public PlayerCharacter(String characterName, int x, int y) {
 

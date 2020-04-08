@@ -4,6 +4,11 @@ import javax.persistence.Entity;
 
 import org.springframework.stereotype.Component;
 
+/**
+ * A subclass of {@link Enemy} a specific type of enemy with high HP
+ * @author KILA
+ * @version 1.0
+ */
 @Component
 @Entity
 public class StrongEnemy extends Enemy {
