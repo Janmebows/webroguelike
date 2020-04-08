@@ -4,20 +4,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.fdm.dal.ActorRepository;
 import com.fdm.model.Map.Coord;
 
-@Component
 public class ActorFactory {
-	@Autowired
-	ActorRepository actorRepo;
 	
-	Random rng = RandomHolder.getInstance().random;
-
-	public Enemy makeEnemy(Map map) {
+	static Random rng = RandomHolder.getInstance().random;
+	static Logger logger = Logger.getLogger("actorLogger");
+	public static Enemy makeEnemy(Map map) {
 		List<Coord> coords = map.validTiles();
 		Coord coord = coords.get(rng.nextInt(coords.size()));
 		int choice = rng.nextInt(12);
@@ -36,21 +34,19 @@ public class ActorFactory {
 			enemy = new Enemy(generateName(),coord.x,coord.y);
 			break;
 		}
-		enemy = actorRepo.save(enemy);
+		logger.info("Spawned new enemy "+ enemy);
 		return enemy;
 	}
 	
-	public static final transient char[] symbols = new char[] {'!','@','#','$','%','&','☺'};
-	public PlayerCharacter makePlayerCharacter(String name, Map map) {
+	public static  PlayerCharacter makePlayerCharacter(String name, Map map) {
 		List<Coord> coords = map.validTiles();
 		Coord coord = coords.get(rng.nextInt(coords.size()));
 		PlayerCharacter plc = new PlayerCharacter(name,coord.x,coord.y);
 		plc.setCharacterSymbol(name.charAt(0));
 		plc.setColor(rng.nextInt(256), rng.nextInt(256), rng.nextInt(256));
-		plc = actorRepo.save(plc);
 		return plc;
 	}
-	public List<Actor> makeEnemies(Map map, int count) {
+	public static  List<Actor> makeEnemies(Map map, int count) {
 		List<Actor> enemyList = new ArrayList<Actor>();
 		for (int i = 0; i < count; ++i) {
 			enemyList.add(makeEnemy(map));
@@ -65,7 +61,7 @@ public class ActorFactory {
 			"Devin Gates", "Sam Living", "Bryan Cross", "Ackley", "Citrine", "Hayley", "Aspen", "Amethyst", "Clearbay",
 			"Cloudrun", "Oakenrun", "Fogside", "Roseside", };
 
-	public String generateName() {
+	public static String generateName() {
 		return names[rng.nextInt(names.length)];
 	}
 }

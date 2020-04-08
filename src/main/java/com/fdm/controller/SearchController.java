@@ -32,13 +32,14 @@ public class SearchController {
 	@PostMapping("/search")
 	public List<PlayerCharacter> processSearch(@RequestBody SearchFilters searchInput) {
 		
-		System.out.println("processSearch init: "+ searchInput.getName()+ " " + searchInput.getLevel() + " " + searchInput.getKillCount());
+		System.out.println("processSearch init: "+ searchInput.getName()+ " " + searchInput.getLevel() + " " + searchInput.getKillCount()+ " " + searchInput.getKillDirection()+ " " + searchInput.getLevelDirection());
 
 		List<PlayerCharacter> foundPlayers = new ArrayList<PlayerCharacter>();
 		//name, level, killCount
 		
 		if(searchInput.getLevelDirection().equals("greaterThan") && searchInput.getKillDirection().equals("greaterThan")) {
-			foundPlayers = playerCharacterRepository.findByCharacterNameContainingAndLevelGreaterThanAndKillCountGreaterThan(searchInput.getName(), searchInput.getLevel(), searchInput.getKillCount());
+			foundPlayers = playerCharacterRepository.findByCharacterNameContainingAndLevelGreaterThan(searchInput.getName(), searchInput.getLevel());
+			System.out.println("Hello there"+foundPlayers);
 		} else if(searchInput.getLevelDirection().equals("greaterThan") && searchInput.getKillDirection().equals("lessThan")) {
 			foundPlayers = playerCharacterRepository.findByCharacterNameContainingAndLevelGreaterThanAndKillCountLessThan(searchInput.getName(), searchInput.getLevel(), searchInput.getKillCount());
 		} else if(searchInput.getLevelDirection().equals("lessThan") && searchInput.getKillDirection().equals("greaterThan")) {

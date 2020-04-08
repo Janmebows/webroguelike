@@ -52,7 +52,7 @@ public abstract class Actor implements Runnable {
 	int level = 1;
 	int exp = 0;
 	int value = 100;
-	int killCount =0 ;
+	int killCount = 0 ;
 	public void takeDamage(int damage, Actor attacker) {
 		logger.info(this.characterName + " took " + damage + " damage");
 		currentHP = currentHP - damage;
@@ -123,7 +123,7 @@ public abstract class Actor implements Runnable {
 			}
 		}
 		isRunning = false;
-//		GameLogicController.getInstance().checkIfOver();
+		GameLogicController.getInstance().removeActor(this);
 	}
 
 	public String getHtmlString() {
