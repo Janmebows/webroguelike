@@ -88,8 +88,8 @@ export default {
     return {
       searchFilters: {
         name: "",
-        level: -1,
-        killCount: -1,
+        level: 0,
+        killCount: 0,
         levelDirection: "greaterThan",
         killDirection: "greaterThan"
       },
