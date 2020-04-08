@@ -80,12 +80,47 @@ public class Map {
 	public Map(String mapName, List<Actor> actors) {
 		this.mapName = mapName;
 		this.actorList = actors;
-		readMapFromFile(mapName);
+//		readMapFromFile(mapName);
+		hackyGetMap();
 		logger.info("Generated map, " + mapName);
 	}
 
 	
 	
+	private void hackyGetMap() {
+		String str = 
+				  "████████████████████████████████████████"
+				+ "███..................................███"
+				+ "██....................................██"
+				+ "█..................██..................█"
+				+ "█......................................█"
+				+ "█......................................█"
+				+ "█......................................█"
+				+ "█................██████................█"
+				+ "█................██████................█"
+				+ "█.....█████........██.......█████......█"
+				+ "█................██████................█"
+				+ "█................██████................█"
+				+ "█......................................█"
+				+ "█......................................█"
+				+ "█......................................█"
+				+ "█..................██..................█"
+				+ "█......................................█"
+				+ "██....................................██"
+				+ "███..................................███"
+				+ "████████████████████████████████████████";
+
+		xMax = 40;
+		yMax = 20;
+		map = new Tile[xMax][yMax];
+		for (int yIndex = 0; yIndex < yMax; ++yIndex) {
+			for (int xIndex = 0; xIndex < xMax; ++xIndex) {
+				map[xIndex][yIndex] = Tile.tileFromChar(str.charAt(yIndex*xMax + xIndex));
+			}
+			}
+		
+	}
+
 	/**
 	 * Updates the web visible map which contains strings 
 	 * The strings include html tags to allow for styling
@@ -187,7 +222,7 @@ public class Map {
 		try (BufferedReader reader = new BufferedReader(new FileReader(fileLoc));) {
 			String line = reader.readLine();
 			// drop the leading BOM character
-			if (!Character.isDigit(line.charAt(0)))
+			while(!Character.isDigit(line.charAt(0)))
 				line = line.substring(1);
 			String[] xAndy = line.split(",");
 			xMax = Integer.parseInt(xAndy[0]);
