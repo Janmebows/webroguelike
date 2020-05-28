@@ -8,15 +8,36 @@ pipeline {
         stage ('Initialize') {
             steps {
                 bat '''
-                    echo "PATH = ${PATH}"
-                    echo "M2_HOME = ${M2_HOME}"
+                    echo "PATH = %PATH%"
+                    echo "M2_HOME = %M2_HOME"
                 ''' 
             }
         }
 
-        stage ('Build') {
+        stage ('Build-Maven') {
             steps {
-                echo 'This is a minimal pipeline.'
+                echo 'Building.'
+                try {
+                    sh 'mvn -B -DskipTests clean package'
+                }
+                catch{
+                    bat 'mvn -B -DskipTests clean package'
+                }
+            }
+        }
+        stage ('Test-Maven'){
+            steps{
+                try{
+                    sh 'mvn test'
+                }
+                catch{
+                    bat 'mvn test'
+                }
+                post{
+                    always{
+                        junit 'target/surefire-reports/*.xml' 
+                    }
+                }
             }
         }
     }
