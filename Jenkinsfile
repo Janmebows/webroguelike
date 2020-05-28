@@ -17,21 +17,25 @@ pipeline {
         stage ('Build-Maven') {
             steps {
                 echo 'Building.'
-                try {
-                    sh 'mvn -B -DskipTests clean package'
-                }
-                catch(Exception e){
-                    bat 'mvn -B -DskipTests clean package'
+                script{
+                    try {
+                        sh 'mvn -B -DskipTests clean package'
+                    }
+                    catch(Exception e){
+                        bat 'mvn -B -DskipTests clean package'
+                    }
                 }
             }
         }
         stage ('Test-Maven'){
             steps{
-                try{
-                    sh 'mvn test'
-                }
-                catch(Exception e){
-                    bat 'mvn test'
+                script{
+                    try{
+                        sh 'mvn test'
+                    }
+                    catch(Exception e){
+                        bat 'mvn test'
+                    }
                 }
                 post{
                     always{
