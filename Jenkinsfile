@@ -20,7 +20,7 @@ pipeline {
                 try {
                     sh 'mvn -B -DskipTests clean package'
                 }
-                catch{
+                catch(Exception e){
                     bat 'mvn -B -DskipTests clean package'
                 }
             }
@@ -30,7 +30,7 @@ pipeline {
                 try{
                     sh 'mvn test'
                 }
-                catch{
+                catch(Exception e){
                     bat 'mvn test'
                 }
                 post{
