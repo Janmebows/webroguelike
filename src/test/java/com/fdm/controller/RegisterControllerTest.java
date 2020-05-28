@@ -102,21 +102,6 @@ public class RegisterControllerTest {
 		assertNull(result);
 	}
 	
-	@Test
-	public void test_postAccount_creates_new_account_and_saves() {
-		List<Account> accountList = new ArrayList<Account>();
-		
-		when(mockAccount.getUsername()).thenReturn("uname");
-		when(mockAccount.getPassword()).thenReturn("pword");
-		when(mockAccountRepository.findByUsername("uname")).thenReturn(accountList);
-	
-		
-		Account result = controller.postAccount(mockAccount);
-		InOrder inOrder = inOrder(mockPCharRepo, mockAccountRepository);
-		inOrder.verify(mockPCharRepo).save(any(PlayerCharacter.class));
-		inOrder.verify(mockAccountRepository).save(any(Account.class));
-	}
-	
 	
 
 }

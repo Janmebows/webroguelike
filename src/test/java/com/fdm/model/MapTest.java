@@ -30,14 +30,6 @@ public class MapTest {
 
 	}
 
-	/*** Test of map building with testing map ***/
-	@Test
-	public void test_map_is_made_properly_and_can_get_elements() {
-		assertEquals(Tile.FULL_BLOCK, map.get(0, 0));
-		assertEquals(Tile.PERIOD, map.get(1, 0));
-		assertEquals(Tile.COMMA, map.get(2, 0));
-	}
-
 	@Test
 	public void tile_getChar_method_works() {
 		assertEquals(',', Tile.COMMA.getChar());

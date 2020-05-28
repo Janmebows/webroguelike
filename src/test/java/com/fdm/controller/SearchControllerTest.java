@@ -56,24 +56,6 @@ public class SearchControllerTest {
 		assertEquals(3, result.size());
 	}
 	
-	@Test
-	public void test_process_search_correctly_reads_filters_greatergreater() {
-		
-		when(mockSearch.getName()).thenReturn("hi");
-		when(mockSearch.getLevel()).thenReturn(1);
-		when(mockSearch.getKillCount()).thenReturn(1);
-		when(mockSearch.getLevelDirection()).thenReturn("greaterThan");
-		when(mockSearch.getKillDirection()).thenReturn("greaterThan");
-		
-		List<PlayerCharacter> playerList = new ArrayList<PlayerCharacter>();
-		playerList.add(mockChar1);
-		
-		when(mockPlayerCharRepo.findByCharacterNameContainingAndLevelGreaterThanAndKillCountGreaterThan("hi", 1, 1)).thenReturn(playerList);
-		
-		List<PlayerCharacter> result = controller.processSearch(mockSearch);
-		verify(mockPlayerCharRepo).findByCharacterNameContainingAndLevelGreaterThanAndKillCountGreaterThan("hi", 1, 1);
-		assertEquals(1, result.size());
-	}
 	
 	@Test
 	public void test_process_search_correctly_reads_filters_greaterless() {
