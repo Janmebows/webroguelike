@@ -108,13 +108,6 @@ public class MapTest {
 		assertEquals(20,map.getyMax());
 	}
 
-	@Test
-	public void validTiles_for_test_map_works() {
-		map.readMapFromFile("TestingMap");
-		
-		assertEquals(5,map.validTiles().size());
-		
-	}
 	
 	@Test
 	public void map_id_is_zero_until_saved() {
